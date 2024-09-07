@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import CheckoutHeader from "../Components/Checkout/CheckoutHeader.jsx";
 import CheckoutProducts from "../Components/Checkout/CheckoutProducts.jsx";
 import OrderDetailsLeft from "../Components/Checkout/OrderDetailsLeft.jsx";
@@ -13,7 +14,21 @@ export default function Checkout() {
     decrementQuantity,
   } = useCart();
 
-  // console.log(cart);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const shippingCost = 200;
+
+  useEffect(() => {
+    const calculatedSubtotal = cart.reduce(
+      (total, item) => total + item.currentPrice * item.quantity,
+      0
+    );
+    setSubtotal(calculatedSubtotal);
+    setTotal(calculatedSubtotal + shippingCost);
+  }, [cart]);
+
+  console.log(cart);
+
   return (
     <>
       <CheckoutHeader />
@@ -37,20 +52,18 @@ export default function Checkout() {
                   <div className="mt-4 flex justify-between">
                     <span>Subtotal</span>
                     <span className="font-semibold">
-                      {cart.reduce(
-                        (total, item) =>
-                          total + item.currentPrice * item.quantity,
-                        0
-                      )}
+                      ${subtotal.toFixed(2)}
                     </span>
                   </div>
                   <div className="mt-2 flex justify-between">
                     <span>Shipping</span>
-                    <span className="font-semibold">$24.90</span>
+                    <span className="font-semibold">
+                      ${shippingCost.toFixed(2)}
+                    </span>
                   </div>
                   <div className="mt-2 flex justify-between text-lg font-semibold">
                     <span>Total</span>
-                    <span>$276.00</span>
+                    <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
                 <ButtonPrimary className="mt-8 w-full lg:hidden">
@@ -59,7 +72,7 @@ export default function Checkout() {
               </div>
             </div>
           </div>
-          <div className="mt-4 border-t border-neutral-300 pt-4  dark:border-neutral-600 lg:hidden">
+          <div className="mt-4 border-t border-neutral-300 pt-4 dark:border-neutral-600 lg:hidden">
             <p className="text-sm text-neutral-500">
               All rights reserved Stock Mordern
             </p>

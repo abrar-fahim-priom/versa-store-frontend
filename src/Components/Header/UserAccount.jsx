@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { RiUser6Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 // You can replace this with your button component or use a regular button
 const ButtonPrimary = ({ href, children }) => (
@@ -32,12 +33,16 @@ const UserAccount = () => {
         >
           <Menu.Items className="divide-gray-100 z-20 absolute right-0 mt-2 w-52 origin-top-right divide-y rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none dark:bg-neutral-900">
             <div className="flex flex-col p-6">
-              <ButtonPrimary href="/account/login">
-                <RiUser6Line size={18} />
-                <span>Log In</span>
-              </ButtonPrimary>
+              <Link to={`/login`}>
+                <ButtonPrimary>
+                  <RiUser6Line size={18} />
+                  <span>Log In</span>
+                </ButtonPrimary>
+              </Link>
               <a href="/account/signup" className="mt-2 text-center">
-                <span>Create Account</span>
+                <Link to={`/register`}>
+                  <span>Create Account</span>
+                </Link>
               </a>
             </div>
           </Menu.Items>
