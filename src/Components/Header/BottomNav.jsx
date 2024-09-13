@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // import PhoneBar from "./PhoneBar";
 
 const BottomNav = () => {
@@ -8,9 +9,10 @@ const BottomNav = () => {
     { id: 2, label: "Mobile", href: "#" },
     { id: 3, label: "Laptop", href: "#" },
     { id: 4, label: "Tablet", href: "#" },
-    { id: 4, label: "Headphones", href: "#" },
-    { id: 4, label: "Speakers", href: "#" },
-    { id: 4, label: "Smart Watch", href: "#" },
+    { id: 5, label: "Headphones", href: "#" },
+    { id: 6, label: "Speakers", href: "#" },
+    { id: 7, label: "Smart Watch", href: "#" },
+    { id: 8, label: "Gaming", href: "/categories/gaming" },
   ];
 
   // Placeholder dropdown menu options
@@ -36,12 +38,12 @@ const BottomNav = () => {
               <ul className="absolute left-0 hidden z-10 min-w-full bg-white border border-blue-500 px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
                 {dropDownMenuOptions.map((linkItem) => (
                   <li key={linkItem.label}>
-                    <a
-                      href={linkItem.href}
+                    <Link
+                      to={linkItem.href}
                       className="inline-block w-full dark:text-white px-3 py-2 font-medium hover:text-primary"
                     >
                       {linkItem.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
