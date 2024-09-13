@@ -1,7 +1,7 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import Darkmode from "../ui/darkmode";
+import Darkmode from "../ui/Darkmode";
 
 const NavMobile = ({ onClickClose }) => {
   return (

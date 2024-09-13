@@ -1,8 +1,7 @@
-import React from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import versaStoreLogo from "../../assets/versaStore-logo.png";
-import Darkmode from "../ui/darkmode";
+import Darkmode from "../ui/Darkmode";
 import CartSideBar from "./CartSideBar";
 import CatalogBar from "./CatalogBar";
 import MenuBar from "./MenuBar";
