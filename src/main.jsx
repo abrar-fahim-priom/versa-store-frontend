@@ -8,19 +8,22 @@ import Login from "./pages/Login.jsx";
 import Registration from "./pages/Registration.jsx";
 import SingleProduct from "./pages/SingleProduct.jsx";
 import CartProvider from "./providers/CartProvider.jsx";
+import { DarkModeProvider } from "./providers/DarkModeProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/products/:slug" element={<SingleProduct />} />
-        </Routes>
-      </Router>
+      <DarkModeProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/products/:slug" element={<SingleProduct />} />
+          </Routes>
+        </Router>
+      </DarkModeProvider>
     </CartProvider>
   </StrictMode>
 );

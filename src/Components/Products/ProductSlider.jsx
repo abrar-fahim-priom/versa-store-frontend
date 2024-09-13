@@ -29,7 +29,7 @@ const ProductSlider = ({ title, subText }) => {
   }, []);
 
   return (
-    <div className="mb-16">
+    <div className="mb-16 dark:text-white">
       <div ref={glideRef} className="glide">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>

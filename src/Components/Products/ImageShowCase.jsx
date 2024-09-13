@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Lens } from "../ui/Lens";
 
 const ImageShowCase = ({ shots }) => {
+  const [hovering, setHovering] = useState(false);
   if (!shots || shots.length === 0) {
     return <div>No images available</div>;
   }
@@ -37,11 +39,13 @@ const ImageShowCase = ({ shots }) => {
       {/* Right side - Active Image */}
       <div className="order-1 col-span-6 lg:order-2 lg:col-span-5">
         <div className="relative overflow-hidden rounded-2xl lg:h-[520px] xl:h-auto xl:w-full">
-          <img
-            src={shots[activeImageIndex]}
-            alt={`Active image`}
-            className="w-full h-full object-contain object-center"
-          />
+          <Lens hovering={hovering} setHovering={setHovering}>
+            <img
+              src={shots[activeImageIndex]}
+              alt={`Active image`}
+              className="w-full h-full object-contain object-center"
+            />
+          </Lens>
         </div>
       </div>
     </div>

@@ -31,8 +31,8 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
             </div>
           </div>
           <div className="px-5 py-4">
-            <span className="text-xs">STOCKMART</span>
-            <h3 className="line-clamp-2 text-ellipsis font-bold">
+            <span className="text-xs text-blue-500">STOCKMART</span>
+            <h3 className="line-clamp-2 text-black dark:text-white text-ellipsis font-semibold">
               {product.name}
             </h3>
             {product.onSale ? (

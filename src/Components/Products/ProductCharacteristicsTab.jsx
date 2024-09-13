@@ -4,7 +4,7 @@ import { productCharacterData } from "../../data/content";
 const ProductCharacteristicsTab = () => {
   return (
     <div className="">
-      <details className="group">
+      <details className="group dark:text-white">
         <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 rounded-lg py-5">
           <div className="space-x-6 group-open:text-primary dark:group-open:text-white">
             <span>Characteristics</span>

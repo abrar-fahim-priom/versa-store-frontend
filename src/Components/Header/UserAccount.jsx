@@ -19,7 +19,7 @@ const UserAccount = () => {
       <Menu as="div" className="relative inline-block">
         <Menu.Button className="flex items-center gap-1 text-sm">
           <span className="flex items-center justify-center">
-            <RiUser6Line size={18} />
+            <RiUser6Line className="dark:text-white text-black" size={18} />
           </span>
         </Menu.Button>
         <Transition
@@ -35,7 +35,7 @@ const UserAccount = () => {
             <div className="flex flex-col p-6">
               <Link to={`/login`}>
                 <ButtonPrimary>
-                  <RiUser6Line size={18} />
+                  <RiUser6Line color="white" size={18} />
                   <span>Log In</span>
                 </ButtonPrimary>
               </Link>

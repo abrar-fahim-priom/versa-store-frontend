@@ -1,7 +1,6 @@
 import BestSeller from "../Components/BestSeller/BestSeller.jsx";
 import NavBar from "../Components/Header/NavBar";
 import HeroSection from "../Components/HeroSection.jsx";
-import { CardHoverEffectDemo } from "../Components/ui/CardHoverEffectDemo";
 
 export default function Homepage() {
   return (
@@ -10,7 +9,6 @@ export default function Homepage() {
         <NavBar />
         <HeroSection />
         <BestSeller />
-        <CardHoverEffectDemo />
       </div>
     </>
   );

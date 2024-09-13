@@ -1,5 +1,6 @@
 import React from "react";
 import { products } from "../../data/content.jsx";
+import ButtonSecondary from "../../shared/Button/ButtonSecondary.jsx";
 import ProductCard from "../Products/ProductCard";
 
 const BestSeller = () => {
@@ -10,8 +11,10 @@ const BestSeller = () => {
           <ul className="grid grid-cols-6 gap-2 lg:grid-rows-2">
             <li className="col-span-6 md:col-span-4 xl:col-span-2">
               <div className="h-full rounded-md bg-white p-6 dark:bg-neutral-800 lg:p-12">
-                <span className="mb-2 text-xs">FEATURED ITEMS</span>
-                <h2 className="mb-4 text-2xl font-bold leading-tight tracking-tight lg:text-[28px]">
+                <span className="mb-2 text-xs text-blue-500">
+                  FEATURED ITEMS
+                </span>
+                <h2 className="mb-4 dark:text-white text-2xl font-bold leading-tight tracking-tight lg:text-[28px]">
                   Top 10 Bestsellers of This Week
                 </h2>
                 <p className="mb-8 text-neutral-500 dark:text-neutral-300">
@@ -20,12 +23,12 @@ const BestSeller = () => {
                   curated selection features the hottest gadgets and devices
                   flying off the shelves.
                 </p>
-                <button
+                <ButtonSecondary
                   className="btn-primary"
                   onClick={() => (window.location.href = "/collections")}
                 >
                   Shop More
-                </button>
+                </ButtonSecondary>
               </div>
             </li>
             {products.slice(0, 10).map((product) => (

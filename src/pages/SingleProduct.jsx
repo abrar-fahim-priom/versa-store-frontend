@@ -69,13 +69,14 @@ export default function SingleProduct() {
   return (
     <>
       <NavBar />
-      <div className="bg-neutral-100">
+      <div className="bg-neutral-100 z-50 dark:bg-gray">
         <div className="grid container grid-cols-12 gap-4 z-50 dark:bg-gray lg:gap-6">
           <div className="col-span-12 md:col-span-6 lg:col-span-8">
             <ImageShowCase shots={product?.shots} />
             <div className="hidden md:block">
               <ProductTabs />
               <ProductSlider
+                className=""
                 title="Similar Items You Might Like"
                 subText="Based on what customers bought"
               />
@@ -84,8 +85,10 @@ export default function SingleProduct() {
           </div>
 
           <div className="col-span-12 md:col-span-6 lg:col-span-4">
-            <span className="mb-2 text-xs">STOCKMART</span>
-            <h1 className="mb-0 text-3xl font-bold">{product?.name}</h1>
+            <span className="mb-2 text-xs text-blue-500">STOCKMART</span>
+            <h1 className="mb-0 text-3xl dark:text-white font-bold">
+              {product?.name}
+            </h1>
 
             <div className="mb-5 space-y-1">
               <h1 className="text-2xl font-semibold">
@@ -94,7 +97,7 @@ export default function SingleProduct() {
                   ${product?.previousPrice}
                 </span>
               </h1>
-              <p className="text-sm">Tax included.</p>
+              <p className="text-sm dark:text-white">Tax included.</p>
             </div>
 
             {initialProduct?.variant && initialProduct.variant.length > 0 && (
@@ -107,7 +110,7 @@ export default function SingleProduct() {
                     }
                     className={
                       selectedVariant === initialProduct.defaultType
-                        ? "bg-blue-100"
+                        ? "bg-blue-100 dark:bg-blue-500"
                         : ""
                     }
                   >
@@ -118,7 +121,9 @@ export default function SingleProduct() {
                       key={v._id}
                       onClick={() => handleVariantChange(v.type)}
                       className={
-                        selectedVariant === v.type ? "bg-blue-100" : ""
+                        selectedVariant === v.type
+                          ? "bg-blue-100 dark:bg-blue-500"
+                          : ""
                       }
                     >
                       {v.type}
@@ -135,7 +140,7 @@ export default function SingleProduct() {
             </div>
 
             <div className="">
-              <h4 className="text-sm">Quantity:</h4>
+              <h4 className="text-sm dark:text-white">Quantity:</h4>
               <div className="flex gap-2">
                 <QuantityInput
                   min={1}
@@ -157,7 +162,7 @@ export default function SingleProduct() {
               <div className="p-1 text-green-700">
                 <FaCheck />
               </div>
-              <div>
+              <div className="dark:text-white">
                 <p>Pickup available at shop location</p>
                 <p className="mb-1">Usually ready in 24 hours</p>
                 <p className="text-sm">View store information</p>
@@ -167,7 +172,7 @@ export default function SingleProduct() {
             <div className="divide-y divide-neutral-300 dark:divide-neutral-400">
               <div className="flex gap-4 py-4">
                 <div>
-                  <BsLightningCharge />
+                  <BsLightningCharge className="dark:text-white" />
                 </div>
                 <div>
                   <h3 className="text-sm text-red-600">2 in Stock Now</h3>
@@ -179,10 +184,10 @@ export default function SingleProduct() {
               </div>
               <div className="flex gap-4 py-4">
                 <div>
-                  <LuTruck />
+                  <LuTruck className="dark:text-white" />
                 </div>
                 <div>
-                  <h3 className="flex items-start gap-2 text-sm font-semibold">
+                  <h3 className="flex items-start dark:text-white gap-2 text-sm font-semibold">
                     <span className="inline-block">Next Day Delivery</span>{" "}
                     <LuInfo className="inline-block" size={12} />
                   </h3>
@@ -208,7 +213,9 @@ export default function SingleProduct() {
 
             <div className="mb-8 flex items-center justify-between gap-4 rounded-md border-2 border-blue-600 px-9 py-4 dark:border-neutral-400">
               <div>
-                <h3 className="text-sm font-semibold">Packaging Note:</h3>
+                <h3 className="text-sm font-semibold dark:text-white">
+                  Packaging Note:
+                </h3>
                 <p className="text-neutral-500 dark:text-neutral-300">
                   Research and development value proposition graphical user
                   interface investor. Startup business plan user experience

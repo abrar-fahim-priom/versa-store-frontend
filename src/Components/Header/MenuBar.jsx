@@ -16,7 +16,7 @@ const MenuBar = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="size-7"
+          className="size-7 dark:text-white "
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -30,7 +30,7 @@ const MenuBar = () => {
 
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-neutral-900/60 z-40 transition-opacity ${
+        className={`fixed inset-0 dark:text-white bg-neutral-900/60 z-40 transition-opacity ${
           isVisible ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={handleCloseMenu}

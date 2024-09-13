@@ -22,18 +22,18 @@ const CartSideBar = () => {
       <div className="nc-InputNumber border-2 rounded-md border-primary/15 dark:border-neutral-500 flex items-center justify-between space-x-5">
         <button
           type="button"
-          className="flex h-8 w-8 items-center justify-center text-xl"
+          className="flex h-8 w-8 text-black dark:text-white items-center justify-center text-xl"
           onClick={() => decrementQuantity(slug)}
           disabled={quantity <= 1}
         >
           -
         </button>
-        <span className="block w-6 select-none text-center leading-none">
+        <span className="block text-black dark:text-white w-6 select-none text-center leading-none">
           {quantity}
         </span>
         <button
           type="button"
-          className="flex h-8 w-8 items-center justify-center text-xl"
+          className="flex text-black dark:text-white h-8 w-8 items-center justify-center text-xl"
           onClick={() => incrementQuantity(slug)}
         >
           +
@@ -52,7 +52,7 @@ const CartSideBar = () => {
         <span className="absolute -top-1/4 left-3/4 inline-block aspect-square size-4 rounded-full bg-primary text-[10px] text-white">
           {cart.length}
         </span>
-        <CiShoppingCart size={24} />
+        <CiShoppingCart className="text-black dark:text-white" size={24} />
       </button>
 
       <div
@@ -70,18 +70,18 @@ const CartSideBar = () => {
         <div className="relative h-full rounded-md flex flex-col">
           <div className="hiddenScrollbar h-full overflow-y-auto p-5 flex-grow">
             <div className="flex items-center justify-between">
-              <h3 className="text-4xl font-semibold">
+              <h3 className="text-4xl text-black dark:text-white font-semibold">
                 Cart{" "}
                 <span className="text-sm font-normal">{cart.length} items</span>
               </h3>
               <button type="button" onClick={handleCloseMenu} className="p-2">
-                <MdClose className="text-2xl" />
+                <MdClose className="text-2xl text-black dark:text-white" />
               </button>
             </div>
             <div className="divide-y divide-neutral-300">
               {cart.map((item) => (
                 <div key={item.slug} className="flex gap-5 py-5 last:pb-0">
-                  <div className="relative size-16 shrink-0 overflow-hidden rounded-xl">
+                  <div className="relative  size-16 shrink-0 overflow-hidden rounded-xl">
                     <img
                       src={item.coverImage}
                       alt={item.name}
@@ -97,7 +97,7 @@ const CartSideBar = () => {
                   <div className="ml-4 flex flex-1 flex-col gap-1">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="line-clamp-1 text-ellipsis font-medium">
+                        <h3 className="line-clamp-1 text-black dark:text-white text-ellipsis font-medium">
                           <Link
                             onClick={handleCloseMenu}
                             to={`/products/${item.slug}`}
@@ -105,7 +105,7 @@ const CartSideBar = () => {
                             {item.name}
                           </Link>
                         </h3>
-                        <span className="font-medium">
+                        <span className="font-medium text-black dark:text-white">
                           ${item.currentPrice}
                         </span>
                       </div>
@@ -113,7 +113,9 @@ const CartSideBar = () => {
                     </div>
                     <div className="flex w-full items-end justify-between text-sm">
                       <div>
-                        <span className="text-gray">storage: 128GB</span>
+                        <span className="text-gray dark:text-white">
+                          storage: 128GB
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <button
@@ -134,7 +136,7 @@ const CartSideBar = () => {
           {/* Subtotal and buttons at the bottom of the cart items */}
           <div className="p-5 bg-white dark:bg-neutral-800 shadow-md">
             <div className="bg-neutral-100 p-6 dark:bg-neutral-800">
-              <span className="flex justify-between font-medium">
+              <span className="flex justify-between text-black dark:text-white font-medium">
                 <span>Subtotal</span>
                 <span>
                   $
@@ -158,7 +160,7 @@ const CartSideBar = () => {
               </Link>
               <Link
                 onClick={handleCloseMenu}
-                className="w-fit text-center bg-gray-100 p-3 rounded-md"
+                className="w-fit text-black dark:text-white text-center bg-gray-100 p-3 rounded-md"
                 to="/cart"
               >
                 View cart

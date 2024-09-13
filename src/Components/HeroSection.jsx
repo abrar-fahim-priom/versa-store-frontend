@@ -18,7 +18,7 @@ export default function HeroSection() {
               <img
                 src={FirstImage}
                 alt="First Banner"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-100 dark:opacity-60"
+                className="w-full h-full object-cover object-center transition-transform duration-700 transform group-hover:scale-100 scale-105 dark:opacity-60"
               />
             </div>
             <div className="relative z-10">
@@ -27,7 +27,7 @@ export default function HeroSection() {
                 IN STOCK NOW
               </span>
               <h2 className="mb-2 text-4xl font-bold leading-tight md:mt-16 md:w-[80%] lg:mt-10">
-                Title Goes Here
+                Buy Smartphones !
               </h2>
               <p className="mb-4 w-4/5 text-neutral-500 dark:text-white md:w-1/2">
                 Find your perfect phone - sleek and stylish or budget-friendly.
@@ -49,16 +49,16 @@ export default function HeroSection() {
               <img
                 src={SecondImage}
                 alt="Second Banner"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-100 dark:opacity-60"
+                className="w-full h-full object-cover object-center transition-transform duration-700 transform group-hover:scale-100 scale-105 dark:opacity-60"
               />
             </div>
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-auto inline-block text-xs">
-                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase dark:bg-neutral-950">
+                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase ">
                   Gaming
                 </span>
               </span>
-              <h3 className="w-2/3 font-semibold leading-tight tracking-tight">
+              <h3 className="w-2/3 font-semibold dark:text-white leading-tight tracking-tight">
                 Discover ideal gaming solutions
               </h3>
             </div>
@@ -73,16 +73,16 @@ export default function HeroSection() {
               <img
                 src={ThirdImage}
                 alt="Third Banner"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-100 dark:opacity-60"
+                className="w-full h-full object-cover object-center transition-transform duration-700 transform group-hover:scale-100 scale-105 dark:opacity-60"
               />
             </div>
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-auto inline-block text-xs">
-                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase dark:bg-neutral-950">
+                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase ">
                   Headphones
                 </span>
               </span>
-              <h3 className="w-2/3 font-bold leading-tight tracking-tight">
+              <h3 className="w-2/3 font-semibold dark:text-white leading-tight tracking-tight">
                 Hear the Difference
               </h3>
             </div>
@@ -97,16 +97,16 @@ export default function HeroSection() {
               <img
                 src={FourthImage}
                 alt="Fourth Banner"
-                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-100 dark:opacity-60"
+                className="w-full h-full object-cover object-center transition-transform duration-700 transform group-hover:scale-100 scale-105 dark:opacity-60"
               />
             </div>
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-auto inline-block text-xs">
-                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase dark:bg-neutral-950">
+                <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase ">
                   Smart Watches
                 </span>
               </span>
-              <h3 className="w-2/3 font-bold leading-tight tracking-tight">
+              <h3 className="w-2/3 font-semibold dark:text-white leading-tight tracking-tight">
                 Experience the Latest Technology
               </h3>
             </div>

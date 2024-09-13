@@ -33,12 +33,12 @@ const BottomNav = () => {
               <button className="font-semibold text-neutral-700 dark:text-neutral-200">
                 {navLinks[1].label}
               </button>
-              <ul className="absolute left-0 hidden z-10 min-w-full bg-white px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
+              <ul className="absolute left-0 hidden z-10 min-w-full bg-white border border-blue-500 px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
                 {dropDownMenuOptions.map((linkItem) => (
                   <li key={linkItem.label}>
                     <a
                       href={linkItem.href}
-                      className="inline-block w-full px-3 py-2 font-medium hover:text-primary"
+                      className="inline-block w-full dark:text-white px-3 py-2 font-medium hover:text-primary"
                     >
                       {linkItem.label}
                     </a>
@@ -63,7 +63,7 @@ const BottomNav = () => {
             <p className="text-neutral-500 dark:text-neutral-200">
               Need help? Call Us:{" "}
               <span className="font-semibold text-black dark:text-white">
-                +84 1234 555 77
+                +8801717856707
               </span>
             </p>
           </div>

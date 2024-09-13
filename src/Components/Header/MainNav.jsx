@@ -16,14 +16,12 @@ const navLinks = [
   { id: "4", href: "/contact", name: "Contact" },
 ];
 
-// Dummy components
-
 const Input = ({ type, className, placeholder }) => (
   <input type={type} className={className} placeholder={placeholder} />
 );
 
 const Logo = () => (
-  <Link className="flex cursor-pointer items-center gap-1" href="/">
+  <Link className="flex cursor-pointer items-center gap-1" to="/">
     <img src={versaStoreLogo} className="w-10" alt="" />
     <span className={`text-2xl font-bold dark:text-white`}>VersaStore</span>
   </Link>
@@ -42,10 +40,10 @@ const MainNav = () => {
           <div className="hidden w-full max-w-[300px] items-center gap-2 rounded border-2 border-primary/15 bg-white pr-2 transition-all duration-300 hover:border-primary dark:border-white/15 dark:bg-neutral-950 xl:flex">
             <Input
               type="text"
-              className="flex-grow w-full border-transparent placeholder:text-neutral-500 focus:border-transparent py-2 px-3"
+              className="flex-grow w-full border-transparent dark:bg-gray placeholder:text-neutral-500 focus:border-transparent py-2 px-3"
               placeholder="What are you looking for ..."
             />
-            <RiSearch2Line className="text-2xl text-neutral-500" />
+            <RiSearch2Line className="text-2xl dark:text-neutral-500 text-neutral-500" />
           </div>
         </div>
 

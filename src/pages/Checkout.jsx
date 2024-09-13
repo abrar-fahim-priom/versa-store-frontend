@@ -32,15 +32,15 @@ export default function Checkout() {
   return (
     <>
       <CheckoutHeader />
-      <div className="nc-CheckoutPage relative">
-        <div className="absolute left-0 top-0 -z-10 size-full border-neutral-200 bg-white p-4 dark:border-neutral-600 dark:bg-neutral-900 lg:w-1/2 lg:border-r" />
+      <div className="nc-CheckoutPage dark:bg-gray dark:text-white relative">
+        <div className="absolute left-0 top-0 -z-10 dark:text-white size-full border-neutral-200 bg-white p-4 dark:border-neutral-600 dark:bg-neutral-900 lg:w-1/2 lg:border-r" />
         <main className="container pb-8 lg:pb-28 ">
           <div className="flex flex-col lg:flex-row">
             <div className="w-full pt-4 lg:basis-1/2 lg:p-9">
               {<OrderDetailsLeft />}
             </div>
 
-            <div className="relative w-full lg:basis-1/2">
+            <div className="relative dark:bg-gray dark:text-white w-full lg:basis-1/2">
               <div className="sticky top-0 pt-4 lg:p-9">
                 <div className="space-y-2">
                   {cart.map((item) => (

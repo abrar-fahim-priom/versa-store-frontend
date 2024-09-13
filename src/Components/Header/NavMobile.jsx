@@ -1,6 +1,7 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
+import Darkmode from "../ui/darkmode";
 
 const NavMobile = ({ onClickClose }) => {
   return (
@@ -11,15 +12,18 @@ const NavMobile = ({ onClickClose }) => {
           className="absolute right-2 top-2 p-1 cursor-pointer"
           onClick={onClickClose}
         >
-          <MdClose />
+          <MdClose className="dark:text-white" />
         </span>
       </div>
       <ul className="flex flex-col space-y-5 py-6 divide-y divide-neutral-300 dark:divide-neutral-600 border-b border-neutral-300 dark:border-neutral-600">
         <li>
+          <div className="xl:hidden pr-2 ">
+            <Darkmode />
+          </div>
           <a
             href="/home"
             onClick={onClickClose}
-            className="capitalize pt-4 block"
+            className="capitalize dark:text-white pt-4 block"
           >
             Home
           </a>
@@ -28,7 +32,7 @@ const NavMobile = ({ onClickClose }) => {
           <a
             href="/about"
             onClick={onClickClose}
-            className="capitalize pt-4 block"
+            className="capitalize dark:text-white pt-4 block"
           >
             About Us
           </a>
@@ -37,7 +41,7 @@ const NavMobile = ({ onClickClose }) => {
           <a
             href="/services"
             onClick={onClickClose}
-            className="capitalize pt-4 block"
+            className="capitalize dark:text-white pt-4 block"
           >
             Services
           </a>
@@ -46,7 +50,7 @@ const NavMobile = ({ onClickClose }) => {
           <a
             href="/contact"
             onClick={onClickClose}
-            className="capitalize pt-4 block"
+            className="capitalize dark:text-white pt-4 block"
           >
             Contact
           </a>
@@ -55,38 +59,38 @@ const NavMobile = ({ onClickClose }) => {
 
       <ul className="flex flex-col space-y-5 py-6 divide-y divide-neutral-300 dark:divide-neutral-600 border-b border-neutral-300 dark:border-neutral-600">
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Mobile
           </a>
         </li>
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Laptop
           </a>
         </li>
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Tablet
           </a>
         </li>
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Headphone
           </a>
         </li>
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Speaker
           </a>
         </li>
         <li>
-          <a className="capitalize text-zinc-800 pt-4 font-semibold block">
+          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
             Smart Watch
           </a>
         </li>
       </ul>
 
-      <div className="py-10">
+      <div className="py-10 dark:text-white">
         <ButtonPrimary className="w-full">Log in</ButtonPrimary>
         <p className="mt-4 text-center">
           No account yet?{" "}

@@ -50,7 +50,7 @@ const OrderDetailsLeft = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="space-y-9">
+      <div className="space-y-9 dark:text-white">
         {/* Contact Info section */}
         <div id="ContactInfo" className="scroll-mt-24">
           <div className="z-0">
