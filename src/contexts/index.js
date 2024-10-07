@@ -4,4 +4,6 @@ import { createContext } from "react";
 const CartContext = createContext();
 const DarkModeContext = createContext();
 
-export { CartContext, DarkModeContext };
+const AuthContext = createContext();
+
+export { AuthContext, CartContext, DarkModeContext };

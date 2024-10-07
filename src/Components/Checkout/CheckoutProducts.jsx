@@ -8,7 +8,6 @@ const CheckoutProducts = ({ item }) => {
     <div key={name} className="flex gap-2">
       <div className="relative size-16 overflow-hidden rounded-xl">
         <img
-          fill
           src={coverImage}
           alt={name}
           className="size-full object-contain object-center"

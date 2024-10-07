@@ -1,3 +1,4 @@
+import useAuth from "../hooks/useAuth.js";
 import FirstImage from "../images/Group_103-1.webp";
 import ThirdImage from "../images/Group_105.webp";
 import FourthImage from "../images/Group_106.webp";
@@ -5,6 +6,8 @@ import SecondImage from "../images/Group_157.webp";
 import ShopNowButton from "../shared/Button/ShopNowButton.jsx";
 
 export default function HeroSection() {
+  const { auth } = useAuth();
+  console.log(auth);
   return (
     <section>
       <div className="container relative pb-8 xl:pb-24">

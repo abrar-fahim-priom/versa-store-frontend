@@ -1,28 +1,31 @@
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const SidebarFilters = ({ products, onFilterChange }) => {
+  // console.log(products);
+  const priceRange = useMemo(() => {
+    const prices = products.map((p) => p.currentPrice);
+    return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
+  }, [products]);
+
   const [filters, setFilters] = useState({
     brands: [],
-    priceRange: [0, 1000],
+    priceRange: priceRange,
     stockStatus: [],
     discount: [],
     rating: [],
   });
 
-  // Extract unique values for each filter
-  const uniqueValues = {
-    brands: [...new Set(products.map((p) => p.brand))],
-    stockStatus: ["In Stock", "Out of Stock"],
-    discount: ["On Sale", "Regular Price"],
-    rating: [1, 2, 3, 4, 5],
-  };
-
-  const priceRange = [
-    Math.min(...products.map((p) => p.currentPrice)),
-    Math.max(...products.map((p) => p.currentPrice)),
-  ];
+  const uniqueValues = useMemo(
+    () => ({
+      brands: [...new Set(products.map((p) => p.brand))],
+      stockStatus: ["In Stock", "Out of Stock"],
+      discount: ["On Sale", "Regular Price"],
+      rating: [1, 2, 3, 4, 5],
+    }),
+    [products]
+  );
 
   useEffect(() => {
     onFilterChange(filters);
@@ -31,12 +34,32 @@ const SidebarFilters = ({ products, onFilterChange }) => {
   const handleFilterChange = (filterType, value) => {
     setFilters((prev) => ({
       ...prev,
-      [filterType]: Array.isArray(prev[filterType])
-        ? prev[filterType].includes(value)
-          ? prev[filterType].filter((item) => item !== value)
-          : [...prev[filterType], value]
-        : value,
+      [filterType]: value,
     }));
+  };
+
+  const handlePriceChange = (value, index = null) => {
+    let newPriceRange;
+    if (index !== null) {
+      // Handle input field change
+      newPriceRange = [...filters.priceRange];
+      newPriceRange[index] = Math.max(
+        priceRange[0],
+        Math.min(priceRange[1], Number(value))
+      );
+      if (index === 0) {
+        newPriceRange[0] = Math.min(newPriceRange[0], newPriceRange[1]);
+      } else {
+        newPriceRange[1] = Math.max(newPriceRange[0], newPriceRange[1]);
+      }
+    } else {
+      // Handle slider change
+      newPriceRange = [
+        Math.max(priceRange[0], value[0]),
+        Math.min(priceRange[1], value[1]),
+      ];
+    }
+    handleFilterChange("priceRange", newPriceRange);
   };
 
   const renderCheckboxGroup = (title, items, filterType) => (
@@ -50,7 +73,12 @@ const SidebarFilters = ({ products, onFilterChange }) => {
               className="size-5 rounded border-2 border-neutral-300"
               type="checkbox"
               checked={filters[filterType].includes(item)}
-              onChange={() => handleFilterChange(filterType, item)}
+              onChange={() => {
+                const updatedFilter = filters[filterType].includes(item)
+                  ? filters[filterType].filter((i) => i !== item)
+                  : [...filters[filterType], item];
+                handleFilterChange(filterType, updatedFilter);
+              }}
             />
             <label htmlFor={`${filterType}-${item}`} className="text-sm">
               {item}
@@ -69,11 +97,26 @@ const SidebarFilters = ({ products, onFilterChange }) => {
         min={priceRange[0]}
         max={priceRange[1]}
         value={filters.priceRange}
-        onChange={(value) => handleFilterChange("priceRange", value)}
+        onChange={(value) => handlePriceChange(value)}
+        allowCross={false}
       />
-      <div className="flex justify-between mt-2 text-sm">
-        <span>${filters.priceRange[0]}</span>
-        <span>${filters.priceRange[1]}</span>
+      <div className="flex justify-between mt-4 gap-4">
+        <input
+          type="number"
+          className="w-1/2 px-2 py-1 border rounded"
+          value={filters.priceRange[0]}
+          onChange={(e) => handlePriceChange(e.target.value, 0)}
+          min={priceRange[0]}
+          max={priceRange[1]}
+        />
+        <input
+          type="number"
+          className="w-1/2 px-2 py-1 border rounded"
+          value={filters.priceRange[1]}
+          onChange={(e) => handlePriceChange(e.target.value, 1)}
+          min={priceRange[0]}
+          max={priceRange[1]}
+        />
       </div>
     </div>
   );

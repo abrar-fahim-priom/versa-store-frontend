@@ -8,6 +8,17 @@ import { products } from "../data/content";
 const Categories = () => {
   const [filteredProducts, setFilteredProducts] = useState(products);
 
+  const GamingCategoriesData = {
+    _id: "66e4442c4789de26196ffe8c",
+    name: "gaming",
+    image:
+      "https://res.cloudinary.com/hostingimagesservice/image/upload/v1726235691/versaShop/image-1726235687800_ixszni.webp",
+    imageKey: "versaShop/image-1726235687800_ixszni",
+    createdAt: "2024-09-13T13:54:52.413Z",
+    updatedAt: "2024-09-13T13:54:52.413Z",
+    __v: 0,
+  };
+
   const handleFilterChange = (filters) => {
     const filtered = products.filter((product) => {
       const matchesBrand =
@@ -42,7 +53,7 @@ const Categories = () => {
   return (
     <div className="bg-neutral-100 min-h-screen dark:bg-gray-900">
       <NavBar />
-      <CategoriesHeader />
+      <CategoriesHeader CategoriesData={GamingCategoriesData} />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-12 gap-6">
           <div className="hidden lg:block md:col-span-5 lg:col-span-3">

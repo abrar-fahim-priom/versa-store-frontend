@@ -2,6 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, className, showPrevPrice = false }) => {
+  const productImage =
+    product.coverImage ||
+    product.image ||
+    (product.images && product.images[0]?.url);
+
   return (
     <Link
       to={`/products/${product.slug}`}
@@ -17,7 +22,7 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
           )}
           <div className="relative aspect-square bg-white">
             <img
-              src={product.coverImage}
+              src={productImage}
               alt={`${name} cover photo`}
               className="object-contain absolute inset-0 h-full w-full"
               loading="lazy"

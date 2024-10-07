@@ -44,6 +44,12 @@ const UserAccount = () => {
                   <span>Create Account</span>
                 </Link>
               </a>
+
+              <Link to={`/profile`}>
+                <ButtonPrimary className="bg-green-400">
+                  <span>Profile</span>
+                </ButtonPrimary>
+              </Link>
             </div>
           </Menu.Items>
         </Transition>
