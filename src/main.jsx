@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import App from "./App.jsx";
 import Admin from "./Components/Account/Admin.jsx";
+import GuestRoute from "./Components/Account/GuestRoute.jsx";
 import PrivateRoutes from "./Components/Account/PrivateRoutes.jsx";
 import ProfileInfo from "./Components/Account/ProfileInfo.jsx";
 import ProfilePage from "./Components/Account/ProfilePage.jsx";
@@ -24,11 +25,26 @@ createRoot(document.getElementById("root")).render(
         <DarkModeProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
+              <Route
+                path="/login"
+                element={
+                  <GuestRoute>
+                    <Login />
+                  </GuestRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <GuestRoute>
+                    {" "}
+                    <Registration />{" "}
+                  </GuestRoute>
+                }
+              />
 
               <Route element={<PrivateRoutes />}>
+                <Route index element={<App />} />
                 <Route path="profile" element={<ProfilePage />}>
                   <Route index element={<ProfileInfo />} />
                   <Route path="shop" element={<Shop />} />

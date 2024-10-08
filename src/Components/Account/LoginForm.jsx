@@ -42,7 +42,7 @@ const LoginForm = () => {
       const { accessToken, refreshToken } = tokens;
       if (success) {
         setAuth({ user, accessToken, refreshToken });
-        setEncryptedCookie("_at", accessToken, 1 / 24); // 24 hours expiration date
+        setEncryptedCookie("_at", accessToken, 3 / 1440); // 24 hours expiration date
         setEncryptedCookie("_rt", refreshToken, 1); // 1 day
         navigate("/");
       } else {

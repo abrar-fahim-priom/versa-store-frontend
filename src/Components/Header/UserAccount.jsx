@@ -1,7 +1,11 @@
 import { Menu, Transition } from "@headlessui/react";
+import Cookies from "js-cookie";
 import React, { Fragment } from "react";
-import { RiUser6Line } from "react-icons/ri";
+import { RiLogoutBoxRLine, RiUser6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth"; // Add this import
+
+import { useNavigate } from "react-router-dom";
 
 // You can replace this with your button component or use a regular button
 const ButtonPrimary = ({ href, children }) => (
@@ -14,13 +18,26 @@ const ButtonPrimary = ({ href, children }) => (
 );
 
 const UserAccount = () => {
+  const { auth, setAuth } = useAuth(); // Add this line to get the user
+  console.log(auth);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    Cookies.remove("_at");
+    Cookies.remove("_rt");
+    setAuth(null);
+    navigate("/");
+  };
+
   return (
     <div className="pt-1 font-medium">
       <Menu as="div" className="relative inline-block">
-        <Menu.Button className="flex items-center gap-1 text-sm">
+        <Menu.Button className="flex items-center gap-2 text-sm">
           <span className="flex items-center justify-center">
             <RiUser6Line className="dark:text-white text-black" size={18} />
           </span>
+          {auth && <span>{auth?.user?.fullName}</span>}{" "}
+          {/* Add this line to display the user's name */}
         </Menu.Button>
         <Transition
           as={Fragment}
@@ -50,6 +67,15 @@ const UserAccount = () => {
                   <span>Profile</span>
                 </ButtonPrimary>
               </Link>
+              {auth && (
+                <button
+                  onClick={logout}
+                  className="mt-2 flex items-center justify-center gap-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-500"
+                >
+                  <RiLogoutBoxRLine size={18} />
+                  <span>Logout</span>
+                </button>
+              )}
             </div>
           </Menu.Items>
         </Transition>

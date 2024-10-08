@@ -7,7 +7,7 @@ import ShopNowButton from "../shared/Button/ShopNowButton.jsx";
 
 export default function HeroSection() {
   const { auth } = useAuth();
-  console.log(auth);
+  // console.log(auth);
   return (
     <section>
       <div className="container relative pb-8 xl:pb-24">
