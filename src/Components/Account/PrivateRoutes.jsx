@@ -5,9 +5,6 @@ import useAuth from "../../hooks/useAuth";
 export default function PrivateRoutes() {
   const { auth, loading } = useAuth();
 
-  console.log("Auth state:", auth);
-  console.log("Loading state:", loading);
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">

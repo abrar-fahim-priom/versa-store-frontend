@@ -1,12 +1,14 @@
 import BestSeller from "../Components/BestSeller/BestSeller.jsx";
 import NavBar from "../Components/Header/NavBar";
 import HeroSection from "../Components/HeroSection.jsx";
+import TestProfileButton from "./TestProfileButton.jsx";
 
 export default function Homepage() {
   return (
     <>
       <div className="bg-neutral-100 z-50 dark:bg-gray">
         <NavBar />
+        <TestProfileButton />
         <HeroSection />
         <BestSeller />
 

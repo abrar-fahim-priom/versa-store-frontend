@@ -19,7 +19,7 @@ const ButtonPrimary = ({ href, children }) => (
 
 const UserAccount = () => {
   const { auth, setAuth } = useAuth(); // Add this line to get the user
-  console.log(auth);
+
   const navigate = useNavigate();
 
   const logout = () => {

@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import App from "./App.jsx";
 import Admin from "./Components/Account/Admin.jsx";
@@ -17,51 +18,54 @@ import SingleProduct from "./pages/SingleProduct.jsx";
 import AuthProvider from "./providers/AuthProvider.jsx";
 import CartProvider from "./providers/CartProvider.jsx";
 import { DarkModeProvider } from "./providers/DarkModeProvider.jsx";
+import { store } from "./store/index.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <CartProvider>
-        <DarkModeProvider>
-          <Router>
-            <Routes>
-              <Route
-                path="/login"
-                element={
-                  <GuestRoute>
-                    <Login />
-                  </GuestRoute>
-                }
-              />
-              <Route
-                path="/register"
-                element={
-                  <GuestRoute>
-                    {" "}
-                    <Registration />{" "}
-                  </GuestRoute>
-                }
-              />
+    <Provider store={store}>
+      <AuthProvider>
+        <CartProvider>
+          <DarkModeProvider>
+            <Router>
+              <Routes>
+                <Route
+                  path="/login"
+                  element={
+                    <GuestRoute>
+                      <Login />
+                    </GuestRoute>
+                  }
+                />
+                <Route
+                  path="/register"
+                  element={
+                    <GuestRoute>
+                      {" "}
+                      <Registration />{" "}
+                    </GuestRoute>
+                  }
+                />
 
-              <Route element={<PrivateRoutes />}>
-                <Route index element={<App />} />
-                <Route path="profile" element={<ProfilePage />}>
-                  <Route index element={<ProfileInfo />} />
-                  <Route path="shop" element={<Shop />} />
-                  <Route path="admin" element={<Admin />} />
+                <Route element={<PrivateRoutes />}>
+                  <Route index element={<App />} />
+                  <Route path="profile" element={<ProfilePage />}>
+                    <Route index element={<ProfileInfo />} />
+                    <Route path="shop" element={<Shop />} />
+                    <Route path="admin" element={<Admin />} />
+                  </Route>
                 </Route>
-              </Route>
 
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/products/:slug" element={<SingleProduct />} />
-              <Route
-                path="/categories/:category_name"
-                element={<Categories />}
-              />
-            </Routes>
-          </Router>
-        </DarkModeProvider>
-      </CartProvider>
-    </AuthProvider>
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/products/:slug" element={<SingleProduct />} />
+                <Route
+                  path="/categories/:category_name"
+                  element={<Categories />}
+                />
+              </Routes>
+            </Router>
+          </DarkModeProvider>
+        </CartProvider>
+      </AuthProvider>
+    </Provider>
   </StrictMode>
 );
