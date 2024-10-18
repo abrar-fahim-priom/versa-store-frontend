@@ -11,7 +11,9 @@ export default function ProfilePage() {
     error,
     isLoading,
     refetch,
-  } = useGetUserProfileQuery();
+  } = useGetUserProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   console.log("User Profile Data:", userProfile);
   if (error) console.error("Error fetching user profile:", error);
@@ -70,7 +72,15 @@ export default function ProfilePage() {
           )}
         </ul>
       </nav>
-      <Outlet context={{ userProfile, isLoading, error, refetch }} />
+      <Outlet
+        context={{
+          userProfile: userProfile || null,
+          isLoading,
+          error: error || null,
+          refetch: refetch || null,
+        }}
+        key={userProfile?.profile?._id || "loading"}
+      />
     </div>
   );
 }

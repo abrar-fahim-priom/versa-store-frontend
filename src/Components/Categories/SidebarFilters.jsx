@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 const SidebarFilters = ({ products, onFilterChange }) => {
   // console.log(products);
   const priceRange = useMemo(() => {
-    const prices = products.map((p) => p.currentPrice);
+    const prices = products.map((p) => p.price);
     return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
   }, [products]);
 

@@ -13,5 +13,6 @@ export const useApiWithAuth = () => {
     });
   }, [api]);
 
-  return apiSlice;
+  // Return both apiSlice and api
+  return { apiSlice, api };
 };

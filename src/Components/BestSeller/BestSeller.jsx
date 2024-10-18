@@ -1,9 +1,29 @@
 import React from "react";
-import { products } from "../../data/content.jsx";
+import { useNavigate } from "react-router-dom";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary.jsx";
+import { useGetPopularProductsQuery } from "../../store/api/productApi";
 import ProductCard from "../Products/ProductCard";
 
 const BestSeller = () => {
+  const navigate = useNavigate();
+  const {
+    data: popularProductsData,
+    isLoading,
+    isError,
+    error,
+  } = useGetPopularProductsQuery();
+
+  if (isLoading) {
+    return <div>Loading best sellers...</div>;
+  }
+
+  if (isError) {
+    console.error("Error fetching popular products:", error);
+    return <div>Error loading best sellers. Please try again later.</div>;
+  }
+
+  const popularProducts = popularProductsData?.products || [];
+
   return (
     <section>
       <div className="container pb-8 xl:pb-24">
@@ -25,23 +45,24 @@ const BestSeller = () => {
                 </p>
                 <ButtonSecondary
                   className="btn-primary"
-                  onClick={() => (window.location.href = "/collections")}
+                  onClick={() => navigate("/collections")}
                 >
                   Shop More
                 </ButtonSecondary>
               </div>
             </li>
-            {products.slice(0, 10).map((product) => (
-              <li
-                key={product.slug}
-                className="col-span-6 md:col-span-2 xl:col-span-1"
-              >
-                <ProductCard
-                  className="w-full hover:border-indigo-400 hover:rounded hover:border h-full"
-                  product={product}
-                />
-              </li>
-            ))}
+            {popularProducts &&
+              popularProducts.slice(0, 10).map((product) => (
+                <li
+                  key={product._id}
+                  className="col-span-6 md:col-span-2 xl:col-span-1"
+                >
+                  <ProductCard
+                    className="w-full hover:border-indigo-400 hover:rounded hover:border h-full"
+                    product={product}
+                  />
+                </li>
+              ))}
           </ul>
         </div>
       </div>

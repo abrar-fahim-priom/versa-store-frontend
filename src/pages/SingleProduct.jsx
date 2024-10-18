@@ -55,7 +55,7 @@ export default function SingleProduct() {
       if (newVariant) {
         newProduct = {
           ...initialProduct,
-          currentPrice: newVariant.currentPrice,
+          price: newVariant.price,
           previousPrice: newVariant.previousPrice,
           description: newVariant.description,
           type: newVariant.type,
@@ -70,7 +70,7 @@ export default function SingleProduct() {
 
   const productImages = product.shots?.length
     ? product.shots // Use shots if available
-    : product.images?.map((image) => image.url); // Fallback to images array
+    : product.images?.map((image) => image.url) || [product.coverImage]; // Fallback to images array or coverImage
 
   return (
     <>
@@ -90,9 +90,7 @@ export default function SingleProduct() {
 
               <div className="mb-5 space-y-1">
                 <h1 className="text-2xl font-semibold">
-                  <span className="text-green-700">
-                    ${product?.currentPrice}
-                  </span>{" "}
+                  <span className="text-green-700">${product?.price}</span>{" "}
                   <span className="text-neutral-500 line-through">
                     ${product?.previousPrice}
                   </span>
@@ -139,7 +137,7 @@ export default function SingleProduct() {
                 </p>
               </div>
 
-              <div className="">
+              <div className="mb-6">
                 <h4 className="text-sm dark:text-white">Quantity:</h4>
                 <div className="flex gap-2">
                   <QuantityInput

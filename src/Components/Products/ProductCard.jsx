@@ -2,20 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, className, showPrevPrice = false }) => {
-  const productImage =
-    product.coverImage ||
-    product.image ||
-    (product.images && product.images[0]?.url);
+  const productImage = product.images && product.images[0]?.url;
 
   return (
     <Link
-      to={`/products/${product.slug}`}
+      to={`/products/${product._id}`}
       state={{ product }}
       className={`group inline-block h-full overflow-hidden rounded-md bg-white dark:bg-neutral-900 ${className}`}
     >
       <div className="">
         <div className="relative overflow-hidden">
-          {product.onSale && (
+          {product.discount > 0 && (
             <span className="absolute left-2 top-2 z-10 rounded-sm bg-green-700 px-2 text-sm font-bold text-white">
               Sale
             </span>
@@ -23,7 +20,7 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
           <div className="relative aspect-square bg-white">
             <img
               src={productImage}
-              alt={`${name} cover photo`}
+              alt={`${product.name} cover photo`}
               className="object-contain absolute inset-0 h-full w-full"
               loading="lazy"
             />
@@ -39,18 +36,18 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
           <h3 className="line-clamp-2 text-black dark:text-white text-ellipsis font-semibold">
             {product.name}
           </h3>
-          {product.onSale ? (
+          {product.discount > 0 ? (
             <p>
               <span className="font-bold text-lg text-green-700">
-                ${product.currentPrice}.00
+                ${(product.price * (1 - product.discount / 100)).toFixed(2)}
               </span>{" "}
               <span className="text-sm font-semibold text-neutral-500 line-through">
-                ${product.previousPrice}.00
+                ${product.price.toFixed(2)}
               </span>
             </p>
           ) : (
             <p className="font-bold text-green-700 text-lg">
-              ${product.currentPrice}.00
+              ${product.price.toFixed(2)}
             </p>
           )}
         </div>
