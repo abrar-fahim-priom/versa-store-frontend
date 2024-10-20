@@ -26,6 +26,15 @@ export const productApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Product"],
     }),
+
+    editProduct: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        data: formData,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
+    }),
     // New endpoint for fetching vendor-specific products
     getVendorProducts: builder.query({
       query: (vendorId) => ({
@@ -49,6 +58,7 @@ export const {
   useGetCategoriesQuery,
   useGetProductsQuery,
   useGetProductByIdQuery,
+  useEditProductMutation,
   useCreateProductMutation,
   useGetVendorProductsQuery,
   useGetPopularProductsQuery, // Export the new hook

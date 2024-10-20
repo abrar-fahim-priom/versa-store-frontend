@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import { useOutletContext } from "react-router-dom";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary";
@@ -6,6 +6,7 @@ import { useGetVendorProductsQuery } from "../../store/api/productApi";
 import CategoriesHeader from "../Categories/CategoriesHeader";
 import SidebarFilters from "../Categories/SidebarFilters";
 import ProductCard from "../Products/ProductCard";
+import ProductEditForm from "../Products/ProductEditForm";
 import ProductForm from "../Products/ProductForm";
 
 export default function Shop() {
@@ -17,6 +18,7 @@ export default function Shop() {
     isLoading,
     isError,
     error,
+    refetch,
   } = useGetVendorProductsQuery(vendorId, {
     skip: !vendorId, // Skip the query if vendorId is not available
   });
@@ -29,6 +31,7 @@ export default function Shop() {
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [activeMenu, setActiveMenu] = useState(null);
   const [productAddField, setProductAddField] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const handleFilterChange = useCallback(
     (filters) => {
@@ -79,11 +82,22 @@ export default function Shop() {
 
   // Edit and Delete handlers
   const handleEditProduct = (productId) => {
-    console.log(`Edit product with ID: ${productId}`);
+    const productToEdit = filteredProducts.find((p) => p._id === productId);
+    setEditingProduct(productToEdit);
+    setProductAddField(false);
   };
 
   const handleDeleteProduct = (productId) => {
     console.log(`Delete product with ID: ${productId}`);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingProduct(null);
+  };
+
+  const handleEditSuccess = () => {
+    setEditingProduct(null);
+    refetch(); // Assuming you have a refetch function from the useGetVendorProductsQuery hook
   };
 
   useEffect(() => {
@@ -110,6 +124,12 @@ export default function Shop() {
       <div className="container mx-auto px-4 py-8">
         {productAddField ? (
           <ProductForm />
+        ) : editingProduct ? (
+          <ProductEditForm
+            product={editingProduct}
+            onCancel={handleCancelEdit}
+            onSubmitSuccess={handleEditSuccess}
+          />
         ) : (
           <div className="grid grid-cols-12 gap-6">
             <div className="hidden lg:block md:col-span-5 lg:col-span-3">
