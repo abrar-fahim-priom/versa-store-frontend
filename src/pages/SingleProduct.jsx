@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
 import { BsLightningCharge } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { HiMiniArrowUturnLeft } from "react-icons/hi2";
 import { LuInfo, LuTruck } from "react-icons/lu";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavBar from "../Components/Header/NavBar";
 import Banner from "../Components/Products/Banner";
 import ImageShowCase from "../Components/Products/ImageShowCase";
@@ -11,66 +12,76 @@ import ProductReviewSection from "../Components/Products/ProductReviewSection.js
 import ProductSlider from "../Components/Products/ProductSlider";
 import ProductTabs from "../Components/Products/ProductTabs";
 import QuantityInput from "../Components/ui/QuantityInput";
+import useAuth from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart.js";
 import ButtonPrimary from "../shared/Button/ButtonPrimary";
 import ButtonSecondary from "../shared/Button/ButtonSecondary";
+import { useGetSingleProductQuery } from "../store/api/productApi";
 
 export default function SingleProduct() {
-  const location = useLocation();
-  const { product: initialProduct } = location.state || {};
+  const { id } = useParams();
+  const { data, isLoading, error } = useGetSingleProductQuery(id);
   const { addToCart } = useCart();
+  const { auth } = useAuth();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(
-    initialProduct?.defaultType || ""
-  );
-  const [product, setProduct] = useState(initialProduct);
-  console.log(product);
+  const [selectedVariant, setSelectedVariant] = useState("");
+  const [currentProduct, setCurrentProduct] = useState(null);
+
+  useEffect(() => {
+    if (data?.product) {
+      setCurrentProduct(data.product);
+      setSelectedVariant(data.product.defaultType || "");
+    }
+  }, [data]);
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity);
   };
 
   const handleAddToCart = () => {
-    if (product && quantity > 0) {
+    if (!auth) {
+      setIsAlertOpen(true);
+      return;
+    }
+    if (currentProduct && quantity > 0) {
       const cartProduct = {
-        ...product,
+        ...currentProduct,
         selectedType: selectedVariant,
       };
       addToCart(cartProduct, quantity);
       console.log(
-        `Added ${quantity} of ${product.name} (${selectedVariant}) to cart.`
+        `Added ${quantity} of ${currentProduct.name} (${selectedVariant}) to cart.`
       );
     }
   };
 
   const handleVariantChange = (variantType) => {
-    let newProduct;
-    if (variantType === initialProduct.defaultType) {
-      newProduct = { ...initialProduct };
+    setSelectedVariant(variantType);
+    if (variantType === data.product.defaultType) {
+      setCurrentProduct(data.product);
     } else {
-      const newVariant = initialProduct.variant.find(
+      const selectedVariantData = data.product.variant.find(
         (v) => v.type === variantType
       );
-      if (newVariant) {
-        newProduct = {
-          ...initialProduct,
-          price: newVariant.price,
-          previousPrice: newVariant.previousPrice,
-          description: newVariant.description,
-          type: newVariant.type,
-        };
-      } else {
-        newProduct = { ...initialProduct };
+      if (selectedVariantData) {
+        setCurrentProduct({
+          ...data.product,
+          price: selectedVariantData.price,
+          description: selectedVariantData.description,
+        });
       }
     }
-    setSelectedVariant(variantType);
-    setProduct(newProduct);
   };
 
-  const productImages = product.shots?.length
-    ? product.shots // Use shots if available
-    : product.images?.map((image) => image.url) || [product.coverImage]; // Fallback to images array or coverImage
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!currentProduct) return <div>Product not found</div>;
+
+  const productImages = currentProduct.images.map((image) => image.url);
+  const discountedPrice =
+    currentProduct.price * (1 - currentProduct.discount / 100);
 
   return (
     <>
@@ -85,36 +96,40 @@ export default function SingleProduct() {
             <div className="lg:col-span-4">
               <span className="mb-2 text-xs text-blue-500">STOCKMART</span>
               <h1 className="mb-0 text-3xl dark:text-white font-bold">
-                {product?.name}
+                {currentProduct.name}
               </h1>
 
               <div className="mb-5 space-y-1">
                 <h1 className="text-2xl font-semibold">
-                  <span className="text-green-700">${product?.price}</span>{" "}
-                  <span className="text-neutral-500 line-through">
-                    ${product?.previousPrice}
-                  </span>
+                  <span className="text-green-700">
+                    ${discountedPrice.toFixed(2)}
+                  </span>{" "}
+                  {currentProduct.discount > 0 && (
+                    <span className="text-neutral-500 line-through">
+                      ${currentProduct.price.toFixed(2)}
+                    </span>
+                  )}
                 </h1>
                 <p className="text-sm dark:text-white">Tax included.</p>
               </div>
 
-              {initialProduct?.variant && initialProduct.variant.length > 0 && (
+              {currentProduct.variant && currentProduct.variant.length > 0 && (
                 <div className="mb-4">
                   <h4 className="text-sm mb-2">Select Type:</h4>
                   <div className="flex flex-wrap gap-2">
                     <ButtonSecondary
                       onClick={() =>
-                        handleVariantChange(initialProduct.defaultType)
+                        handleVariantChange(currentProduct.defaultType)
                       }
                       className={
-                        selectedVariant === initialProduct.defaultType
+                        selectedVariant === currentProduct.defaultType
                           ? "bg-blue-100 dark:bg-blue-500"
                           : ""
                       }
                     >
-                      {initialProduct.defaultType}
+                      {currentProduct.defaultType}
                     </ButtonSecondary>
-                    {initialProduct.variant.map((v) => (
+                    {currentProduct.variant.map((v) => (
                       <ButtonSecondary
                         key={v._id}
                         onClick={() => handleVariantChange(v.type)}
@@ -133,7 +148,7 @@ export default function SingleProduct() {
 
               <div className="mb-6">
                 <p className="text-neutral-500 dark:text-neutral-300">
-                  {product?.description}
+                  {currentProduct.description}
                 </p>
               </div>
 
@@ -142,7 +157,7 @@ export default function SingleProduct() {
                 <div className="flex gap-2">
                   <QuantityInput
                     min={1}
-                    max={10}
+                    max={currentProduct.stock}
                     defaultValue={1}
                     onChange={handleQuantityChange}
                   />
@@ -173,7 +188,9 @@ export default function SingleProduct() {
                     <BsLightningCharge className="dark:text-white" />
                   </div>
                   <div>
-                    <h3 className="text-sm text-red-600">2 in Stock Now</h3>
+                    <h3 className="text-sm text-red-600">
+                      {currentProduct.stock} in Stock Now
+                    </h3>
                     <p className="mt-1 text-neutral-500 dark:text-neutral-300">
                       Upgrade your tech collection with the latest must-have
                       item, available now in limited quantities.
@@ -249,6 +266,63 @@ export default function SingleProduct() {
           </div>
         </div>
       </div>
+      <Transition appear show={isAlertOpen} as={React.Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsAlertOpen(false)}
+        >
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Login Required
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                      Please login to add items to your cart.
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={() => setIsAlertOpen(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 }

@@ -1,8 +1,13 @@
+import { Dialog } from "@headlessui/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
-import { useOutletContext } from "react-router-dom";
+import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary";
-import { useGetVendorProductsQuery } from "../../store/api/productApi";
+import {
+  useDeleteProductMutation,
+  useGetVendorProductsQuery,
+} from "../../store/api/productApi";
+import { useGetUserProfileQuery } from "../../store/api/userApi";
 import CategoriesHeader from "../Categories/CategoriesHeader";
 import SidebarFilters from "../Categories/SidebarFilters";
 import ProductCard from "../Products/ProductCard";
@@ -10,14 +15,22 @@ import ProductEditForm from "../Products/ProductEditForm";
 import ProductForm from "../Products/ProductForm";
 
 export default function Shop() {
-  const { userProfile } = useOutletContext();
+  useApiWithAuth();
+  const {
+    data: userProfile,
+    error: userProfileError,
+    isLoading: userProfileLoading,
+  } = useGetUserProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
   const vendorId = userProfile?.profile?._id;
 
   const {
     data: vendorProductsData,
-    isLoading,
-    isError,
-    error,
+    isLoading: productsLoading,
+    isError: productsError,
+    error: productsErrorData,
     refetch,
   } = useGetVendorProductsQuery(vendorId, {
     skip: !vendorId, // Skip the query if vendorId is not available
@@ -32,6 +45,9 @@ export default function Shop() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [productAddField, setProductAddField] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleFilterChange = useCallback(
     (filters) => {
@@ -88,7 +104,23 @@ export default function Shop() {
   };
 
   const handleDeleteProduct = (productId) => {
-    console.log(`Delete product with ID: ${productId}`);
+    const productToDelete = filteredProducts.find((p) => p._id === productId);
+    setProductToDelete(productToDelete);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (productToDelete) {
+      try {
+        await deleteProduct(productToDelete._id).unwrap();
+        refetch(); // Refetch the products list after deletion
+        setIsDeleteDialogOpen(false);
+        setProductToDelete(null);
+      } catch (error) {
+        console.error("Failed to delete product:", error);
+        // Handle error (e.g., show an error message to the user)
+      }
+    }
   };
 
   const handleCancelEdit = () => {
@@ -104,12 +136,16 @@ export default function Shop() {
     setFilteredProducts(initialProducts);
   }, [initialProducts]);
 
-  if (isLoading) {
+  if (userProfileLoading || productsLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isError) {
-    return <div>Error: {error.message}</div>;
+  if (userProfileError) {
+    return <div>Error loading user profile: {userProfileError.message}</div>;
+  }
+
+  if (productsError) {
+    return <div>Error loading products: {productsErrorData.message}</div>;
   }
 
   return (
@@ -186,6 +222,45 @@ export default function Shop() {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-sm rounded bg-white p-6 dark:bg-gray-800">
+            <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
+              Delete Product
+            </Dialog.Title>
+            <Dialog.Description className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this product? This action cannot
+              be undone.
+            </Dialog.Description>
+
+            <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
+              Product: {productToDelete?.name}
+            </p>
+
+            <div className="mt-6 flex justify-end space-x-4">
+              <button
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
+                onClick={() => setIsDeleteDialogOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                onClick={confirmDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 }

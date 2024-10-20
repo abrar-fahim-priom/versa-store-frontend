@@ -1,60 +1,88 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CartContext } from "../contexts/index.js";
+import useAuth from "../hooks/useAuth";
 
-// Cart Provider Component
 const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState(() => {
-    // Initialize cart from localStorage
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const { auth } = useAuth();
 
-  // Update localStorage when cart changes
+  const getCartFromStorage = useCallback(() => {
+    const userId = auth?.user?._id;
+    if (!userId) return [];
+    const storedCart = JSON.parse(
+      localStorage.getItem(`cart_${userId}`) || "[]"
+    );
+    return storedCart;
+  }, [auth]);
+
+  const [cart, setCart] = useState(getCartFromStorage);
+
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    if (auth) {
+      const storedCart = getCartFromStorage();
+      setCart(storedCart);
+    } else {
+      setCart([]);
+    }
+  }, [auth, getCartFromStorage]);
 
-  // Add item to cart
-  const addToCart = (product, quantity = 1) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find(
-        (item) => item.slug === product.slug
-      );
-      if (existingProduct) {
-        return prevCart.map((item) =>
-          item.slug === product.slug
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity }];
+  const saveCart = useCallback(
+    (newCart) => {
+      const userId = auth?.user?._id;
+      if (userId) {
+        localStorage.setItem(`cart_${userId}`, JSON.stringify(newCart));
       }
-    });
-  };
+    },
+    [auth]
+  );
 
-  // Remove item from cart
-  const removeFromCart = (slug) => {
-    setCart((prevCart) => prevCart.filter((item) => item.slug !== slug));
-  };
+  const updateCart = useCallback(
+    (newCart) => {
+      setCart(newCart);
+      saveCart(newCart);
+    },
+    [saveCart]
+  );
 
-  // Increment quantity
-  const incrementQuantity = (slug) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.slug === slug ? { ...item, quantity: item.quantity + 1 } : item
-      )
+  const addToCart = (product, quantity = 1) => {
+    const newCart = [...cart];
+    const existingProductIndex = newCart.findIndex(
+      (item) =>
+        item._id === product._id && item.selectedType === product.selectedType
     );
+
+    if (existingProductIndex !== -1) {
+      newCart[existingProductIndex].quantity += quantity;
+    } else {
+      newCart.push({ ...product, quantity });
+    }
+    updateCart(newCart);
   };
 
-  // Decrement quantity
-  const decrementQuantity = (slug) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.slug === slug && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
+  const removeFromCart = (_id, selectedType) => {
+    const newCart = cart.filter(
+      (item) => !(item._id === _id && item.selectedType === selectedType)
     );
+    updateCart(newCart);
+  };
+
+  const incrementQuantity = (_id, selectedType) => {
+    const newCart = cart.map((item) =>
+      item._id === _id && item.selectedType === selectedType
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+    updateCart(newCart);
+  };
+
+  const decrementQuantity = (_id, selectedType) => {
+    const newCart = cart.map((item) =>
+      item._id === _id &&
+      item.selectedType === selectedType &&
+      item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    updateCart(newCart);
   };
 
   return (

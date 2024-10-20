@@ -5,6 +5,7 @@ import { RiLogoutBoxRLine, RiUser6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { useCart } from "../../hooks/useCart";
 import { userApi } from "../../store/api/userApi";
 
 // Modified ButtonPrimary component
@@ -21,6 +22,7 @@ const UserAccount = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { switchCart } = useCart();
 
   const logout = () => {
     Cookies.remove("_at");

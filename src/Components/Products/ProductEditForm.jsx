@@ -10,8 +10,11 @@ import {
   FaPalette,
   FaPercent,
   FaTags,
+  FaTrash,
 } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
 import {
+  useDeleteProductImageMutation,
   useEditProductMutation,
   useGetCategoriesQuery,
 } from "../../store/api/productApi";
@@ -31,19 +34,22 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
   const fileInputRef = useRef(null);
   const [query, setQuery] = useState("");
 
+  const [deleteProductImage] = useDeleteProductImageMutation();
+
   const {
     register,
     handleSubmit,
     control,
     watch,
     reset,
+    setValue,
     formState: { errors, dirtyFields },
   } = useForm({
     defaultValues: product
       ? {
           ...product,
           category:
-            categories.find((cat) => cat._id === product.category) || null,
+            categories.find((cat) => cat._id === product.category._id) || null,
         }
       : {},
   });
@@ -54,7 +60,7 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
   });
 
   const watchVariants = watch("variants") || [];
-  const watchType = watch("type");
+  const watchType = watch("defaultType");
 
   useEffect(() => {
     if (product && categories.length > 0) {
@@ -79,7 +85,18 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
     setPreviewImages((prev) => [...prev, ...files].slice(0, 5));
   };
 
-  const removeImage = (index) => {
+  const removeImage = async (index) => {
+    const image = previewImages[index];
+    if (typeof image === "string" || image.url) {
+      // This is an existing image, so we need to remove it from the server
+      try {
+        const imageId = image._id || image.split("/").pop();
+        await deleteProductImage({ productId: product._id, imageId }).unwrap();
+        console.log("Image deleted successfully");
+      } catch (err) {
+        console.error("Failed to delete image:", err);
+      }
+    }
     setPreviewImages((prev) => prev.filter((_, i) => i !== index));
   };
 
@@ -314,9 +331,12 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
                     type="button"
                     onClick={() => removeImage(index)}
                     className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                    data-tooltip-id={`remove-image-${index}`}
+                    data-tooltip-content="Remove image"
                   >
-                    ×
+                    <FaTrash className="w-3 h-3" />
                   </button>
+                  <Tooltip id={`remove-image-${index}`} />
                 </div>
               ))}
             </div>
@@ -354,12 +374,18 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
             </div>
           </Field>
 
-          {/* Type */}
-          <Field label="Type" error={errors.defaultType} htmlFor="defaultType">
+          {/* Default Type */}
+          <Field
+            label="Default Type"
+            error={errors.defaultType}
+            htmlFor="defaultType"
+          >
             <div className="relative">
               <FaPalette className={iconClasses} />
               <input
-                {...register("defaultType", { required: "Type is required" })}
+                {...register("defaultType", {
+                  required: "Default Type is required",
+                })}
                 type="text"
                 id="defaultType"
                 className={inputClasses}
@@ -447,41 +473,37 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
             </button>
           </div>
 
-          {/* Default Type */}
-          {watchVariants.length > 0 && (
-            <Field label="Select Default Type" error={errors.defaultType}>
-              <div className="space-y-2">
-                <div>
+          {/* Select Default Type */}
+          <Field label="Select Default Type" error={errors.defaultType}>
+            <div className="space-y-2">
+              <div>
+                <input
+                  type="radio"
+                  id="mainType"
+                  value={watchType}
+                  {...register("defaultType", {
+                    required: "Default type is required",
+                  })}
+                  className="mr-2"
+                />
+                <label htmlFor="mainType">{watchType}</label>
+              </div>
+              {watchVariants.map((variant, index) => (
+                <div key={index}>
                   <input
                     type="radio"
-                    id="mainType"
-                    value={watchType}
+                    id={`variantType${index}`}
+                    value={variant.type}
                     {...register("defaultType", {
                       required: "Default type is required",
                     })}
                     className="mr-2"
                   />
-                  <label htmlFor="mainType">{watchType}</label>
+                  <label htmlFor={`variantType${index}`}>{variant.type}</label>
                 </div>
-                {watchVariants.map((variant, index) => (
-                  <div key={index}>
-                    <input
-                      type="radio"
-                      id={`variantType${index}`}
-                      value={variant.type}
-                      {...register("defaultType", {
-                        required: "Default type is required",
-                      })}
-                      className="mr-2"
-                    />
-                    <label htmlFor={`variantType${index}`}>
-                      {variant.type}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </Field>
-          )}
+              ))}
+            </div>
+          </Field>
         </>
       ) : (
         <div>Loading product data...</div>

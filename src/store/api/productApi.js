@@ -51,6 +51,29 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+    deleteProductImage: builder.mutation({
+      query: ({ productId, imageId }) => ({
+        url: `/products/${productId}/images/${imageId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { productId }) => [
+        { type: "Product", id: productId },
+      ],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    getSingleProduct: builder.query({
+      query: (id) => ({
+        url: `/products/single/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Product", id }],
+    }),
   }),
 });
 
@@ -61,5 +84,8 @@ export const {
   useEditProductMutation,
   useCreateProductMutation,
   useGetVendorProductsQuery,
-  useGetPopularProductsQuery, // Export the new hook
+  useGetPopularProductsQuery,
+  useDeleteProductImageMutation,
+  useDeleteProductMutation,
+  useGetSingleProductQuery,
 } = productApi;

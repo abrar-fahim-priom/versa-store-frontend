@@ -7,7 +7,6 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
   return (
     <Link
       to={`/products/${product._id}`}
-      state={{ product }}
       className={`group inline-block h-full overflow-hidden rounded-md bg-white dark:bg-neutral-900 ${className}`}
     >
       <div className="">

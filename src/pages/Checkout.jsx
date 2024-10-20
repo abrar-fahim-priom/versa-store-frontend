@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CheckoutHeader from "../Components/Checkout/CheckoutHeader.jsx";
-// import CheckoutProducts from "../Components/Checkout/CheckoutProducts.jsx";
+import CheckoutProducts from "../Components/Checkout/CheckoutProducts.jsx";
 import OrderDetailsLeft from "../Components/Checkout/OrderDetailsLeft.jsx";
 import { useCart } from "../hooks/useCart.js";
 import ButtonPrimary from "../shared/Button/ButtonPrimary.jsx";
@@ -21,10 +21,10 @@ export default function Checkout() {
   console.log(cart);
 
   useEffect(() => {
-    const calculatedSubtotal = cart.reduce(
-      (total, item) => total + item.currentPrice * item.quantity,
-      0
-    );
+    const calculatedSubtotal = cart.reduce((total, item) => {
+      const itemPrice = item.price * (1 - item.discount / 100);
+      return total + itemPrice * item.quantity;
+    }, 0);
     setSubtotal(calculatedSubtotal);
     setTotal(calculatedSubtotal + shippingCost);
   }, [cart]);
@@ -43,9 +43,9 @@ export default function Checkout() {
             <div className="relative dark:bg-gray dark:text-white w-full lg:basis-1/2">
               <div className="sticky top-0 pt-4 lg:p-9">
                 <div className="space-y-2">
-                  {/* {cart.map((item) => (
-                    <CheckoutProducts key={item.name} item={item} />
-                  ))} */}
+                  {cart.map((item) => (
+                    <CheckoutProducts key={item._id} item={item} />
+                  ))}
                 </div>
 
                 <div className="mt-10 border-t border-neutral-300 pt-6 text-sm dark:border-neutral-600">
