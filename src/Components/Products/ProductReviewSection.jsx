@@ -1,71 +1,95 @@
 import React, { useState } from "react";
-import { FaStar, FaUser } from "react-icons/fa";
+import { FaStar, FaTimes, FaUser } from "react-icons/fa";
+import { useApiWithAuth } from "../../hooks/useApiWithAuth";
+import useAuth from "../../hooks/useAuth";
+import {
+  useDeleteProductReviewMutation,
+  useGetProductReviewsQuery,
+  usePostProductReviewMutation,
+} from "../../store/api/productApi";
 
-const ProductReviewSection = () => {
+const StarRating = ({ rating, size, onRatingChange }) => (
+  <div
+    className={`flex items-center ${
+      size === "sm" ? "text-sm" : size === "lg" ? "text-3xl" : "text-base"
+    }`}
+  >
+    {[1, 2, 3, 4, 5].map((star) => (
+      <FaStar
+        key={star}
+        className={`cursor-pointer ${
+          star <= rating ? "text-yellow-400" : "text-slate-300"
+        }`}
+        onClick={() => onRatingChange(Number(star))}
+      />
+    ))}
+  </div>
+);
+
+const ProductReviewSection = ({ productId }) => {
+  const { auth } = useAuth();
+  const loggedInUserId = auth?.user?._id;
+  const {
+    data: reviewsData,
+    error: reviewsError,
+    isLoading: reviewsLoading,
+    refetch,
+  } = useGetProductReviewsQuery(productId);
+  const [postProductReview] = usePostProductReviewMutation();
+  const [deleteProductReview] = useDeleteProductReviewMutation(); // Add delete mutation
+
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
-  const [reviews, setReviews] = useState([
-    {
-      _id: "66db32da0f77063e8f3c8d15",
-      rating: 5,
-      review:
-        "Very good device to ruin my social life. Like it 100%, and also recommended",
-      userId: {
-        _id: "66dacdbe0b8226d306337c43",
-        fullName: "Sharif Md. Minhazur Rahaman",
-        image: "https://randomuser.me/api/portraits/lego/5.jpg",
-      },
-      createdAt: "2024-09-06T16:50:35.003Z",
-    },
-    {
-      _id: "66db344137252198267551a5",
-      rating: 4,
-      review:
-        "Good, but not the best. Loved the steel finishing. Performance is low when using memory intensive works",
-      userId: {
-        _id: "66d1b061805629e9cc686317",
-        fullName: "Sharif Md. Minhaz",
-        image:
-          "https://res.cloudinary.com/hostingimagesservice/image/upload/v1725180126/versaShop/image-1725180123597_sfdiqp.png",
-      },
-      createdAt: "2024-09-06T16:56:33.123Z",
-    },
-  ]);
+  useApiWithAuth();
 
-  const handleSubmitReview = () => {
-    const newReview = {
-      _id: Date.now().toString(),
-      rating,
-      review: reviewText,
-      userId: {
-        _id: Date.now().toString(),
-        fullName: "John Doe",
-        image: "/api/placeholder/32/32",
-      },
-      createdAt: new Date().toISOString(),
-    };
-    setReviews([newReview, ...reviews]);
-    setRating(0);
-    setReviewText("");
+  const handleSubmitReview = async () => {
+    try {
+      const response = await postProductReview({
+        productId,
+        reviewData: {
+          rating: Number(rating),
+          review: reviewText,
+        },
+      });
+
+      if (response?.data?.success) {
+        alert("Review submitted successfully!");
+        await refetch();
+        setRating(0);
+        setReviewText("");
+      } else {
+        alert(response?.data?.message || "Failed to submit review");
+      }
+    } catch (error) {
+      alert(
+        error?.data?.message || "Failed to submit review. Please try again."
+      );
+    }
   };
 
-  const StarRating = ({ rating, size, onRatingChange }) => (
-    <div
-      className={`flex items-center ${
-        size === "sm" ? "text-sm" : size === "lg" ? "text-3xl" : "text-base"
-      }`}
-    >
-      {[1, 2, 3, 4, 5].map((star) => (
-        <FaStar
-          key={star}
-          className={`cursor-pointer ${
-            star <= rating ? "text-yellow-400" : "text-slate-300"
-          }`}
-          onClick={() => onRatingChange(star)}
-        />
-      ))}
-    </div>
-  );
+  const handleDeleteReview = async (reviewId) => {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+
+    try {
+      const response = await deleteProductReview(reviewId);
+
+      if (response?.data?.success) {
+        alert("Review deleted successfully!");
+        await refetch(); // Refresh the reviews list
+      } else {
+        alert(response?.data?.message || "Failed to delete review");
+      }
+    } catch (error) {
+      alert(
+        error?.data?.message || "Failed to delete review. Please try again."
+      );
+    }
+  };
+
+  if (reviewsLoading) return <div>Loading reviews...</div>;
+  if (reviewsError) return <div>Error loading reviews</div>;
+
+  const reviews = reviewsData?.reviews || [];
 
   return (
     <div className="py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto">
@@ -74,7 +98,6 @@ const ProductReviewSection = () => {
           Reviews
         </h2>
 
-        {/* Review Input Section */}
         <div className="w-full bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h3 className="text-2xl font-medium text-gray-800 dark:text-white mb-4">
             Write a Review
@@ -95,14 +118,25 @@ const ProductReviewSection = () => {
           </button>
         </div>
 
-        {/* Review Display Section */}
         {reviews.map((review) => (
           <div
             key={review._id}
-            className="w-full  dark:bg-gray-800 py-3 rounded-lg "
+            className="w-full dark:bg-gray-800 py-3 rounded-lg"
           >
+            {loggedInUserId === review.userId?._id && (
+              <button
+                onClick={() => handleDeleteReview(review._id)}
+                className="ml-auto text-gray-400 bg-red-300 rounded-md text-xs text-white hover:text-red-500"
+                aria-label="Delete review"
+              >
+                <div className="flex flex-row gap-2 items-center">
+                  <FaTimes />
+                  Delete Review
+                </div>
+              </button>
+            )}
             <div className="flex items-center space-x-4 mb-4">
-              {review.userId.image ? (
+              {review.userId?.image ? (
                 <img
                   src={review.userId.image}
                   alt="User avatar"
@@ -112,22 +146,13 @@ const ProductReviewSection = () => {
                 <FaUser className="w-10 h-10 text-gray-400" />
               )}
               <div>
-                <p className="font-medium text-gray-800 dark:text-white">
-                  {review.userId.fullName}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-white">
-                  {new Date(review.createdAt).toLocaleDateString()}
-                </p>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  {review.userId?.name || "Anonymous"}
+                </h3>
+                <StarRating rating={review.rating} size="sm" />
               </div>
             </div>
-            <StarRating
-              rating={review.rating}
-              size="sm"
-              onRatingChange={() => {}}
-            />
-            <p className="mt-2 text-gray-600 dark:text-white">
-              {review.review}
-            </p>
+            <p className="text-gray-600 dark:text-gray-400">{review.review}</p>
           </div>
         ))}
       </div>

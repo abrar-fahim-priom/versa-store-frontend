@@ -1,63 +1,70 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useGetCategoriesQuery } from "../../store/api/productApi";
+
 // import PhoneBar from "./PhoneBar";
 
 const BottomNav = () => {
-  // Placeholder navigation links
-  const navLinks = [
-    { id: 1, label: "Home", href: "#" },
-    { id: 2, label: "Mobile", href: "#" },
-    { id: 3, label: "Laptop", href: "#" },
-    { id: 4, label: "Tablet", href: "#" },
-    { id: 5, label: "Headphones", href: "#" },
-    { id: 6, label: "Speakers", href: "#" },
-    { id: 7, label: "Smart Watch", href: "#" },
-    { id: 8, label: "Gaming", href: "/categories/gaming" },
-  ];
+  const {
+    data: categoriesData,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
 
-  // Placeholder dropdown menu options
+  // Placeholder dropdown menu options (you might want to replace this with actual data)
   const dropDownMenuOptions = [
     { href: "#", label: "Samsung" },
     { href: "#", label: "Apple" },
-
     { href: "#", label: "Xiaomi" },
   ];
+
+  if (categoriesLoading) {
+    return (
+      <div className="container relative">
+        <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600 xl:block">
+          <div className="flex items-center justify-center">
+            <div className="loader">Loading...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (categoriesError) {
+    return <div>Error loading categories</div>;
+  }
+
+  const categories = categoriesData?.categories || [];
 
   return (
     <div className="container relative">
       <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600 xl:block">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-base font-semibold">
-            {/* <PhoneBar /> */}
-
-            {/* Example dropdown menu for 'Mobile' */}
-            <div className="relative group">
-              <button className="font-semibold text-neutral-700 dark:text-neutral-200">
-                {navLinks[1].label}
-              </button>
-              <ul className="absolute left-0 hidden z-10 min-w-full bg-white border border-blue-500 px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
-                {dropDownMenuOptions.map((linkItem) => (
-                  <li key={linkItem.label}>
-                    <Link
-                      to={linkItem.href}
-                      className="inline-block w-full dark:text-white px-3 py-2 font-medium hover:text-primary"
-                    >
-                      {linkItem.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Other navigation links */}
-            {navLinks.slice(2).map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                className="ml-6 font-semibold text-neutral-700 dark:text-neutral-200 hover:text-primary"
-              >
-                {item.label}
-              </a>
+            {categories.map((category) => (
+              <div key={category._id} className="relative group ml-6">
+                <Link
+                  to={`/categories/${category.name}`}
+                  className="font-semibold text-neutral-700 dark:text-neutral-200 hover:text-primary"
+                >
+                  {category.name.charAt(0).toUpperCase() +
+                    category.name.slice(1)}
+                </Link>
+                {category.name === "mobile" && (
+                  <ul className="absolute left-0 hidden z-10 min-w-full bg-white border border-blue-500 px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
+                    {dropDownMenuOptions.map((linkItem) => (
+                      <li key={linkItem.label}>
+                        <Link
+                          to={linkItem.href}
+                          className="inline-block w-full dark:text-white px-3 py-2 font-medium hover:text-primary"
+                        >
+                          {linkItem.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             ))}
           </div>
 

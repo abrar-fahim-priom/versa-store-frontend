@@ -14,7 +14,6 @@ export const productApi = apiSlice.injectEndpoints({
       query: (id) => ({ url: `/products/${id}`, method: "GET" }),
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
-    // New mutation for posting a product
     createProduct: builder.mutation({
       query: (formData) => {
         console.log("createProduct received:", formData);
@@ -26,7 +25,6 @@ export const productApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Product"],
     }),
-
     editProduct: builder.mutation({
       query: ({ id, formData }) => ({
         url: `/products/${id}`,
@@ -35,7 +33,6 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
     }),
-    // New endpoint for fetching vendor-specific products
     getVendorProducts: builder.query({
       query: (vendorId) => ({
         url: `/products/vendor/${vendorId}`,
@@ -43,7 +40,6 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
-    // New endpoint for fetching popular products
     getPopularProducts: builder.query({
       query: () => ({
         url: "/products/popular",
@@ -74,6 +70,30 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+    getProductReviews: builder.query({
+      query: (productId) => ({
+        url: `/review/${productId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+    }),
+    postProductReview: builder.mutation({
+      query: ({ productId, reviewData }) => ({
+        url: `/review/${productId}`,
+        method: "POST",
+        data: reviewData,
+        headers: { "Content-Type": "application/json" },
+      }),
+      invalidatesTags: ["Review"],
+    }),
+    // New mutation for deleting a review
+    deleteProductReview: builder.mutation({
+      query: (reviewId) => ({
+        url: `/review/${reviewId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Review"],
+    }),
   }),
 });
 
@@ -88,4 +108,7 @@ export const {
   useDeleteProductImageMutation,
   useDeleteProductMutation,
   useGetSingleProductQuery,
+  useGetProductReviewsQuery,
+  usePostProductReviewMutation,
+  useDeleteProductReviewMutation, // Export the delete mutation
 } = productApi;

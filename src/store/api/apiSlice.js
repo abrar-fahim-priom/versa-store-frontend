@@ -2,8 +2,14 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { api } from "../../lib/axios/index.js";
 
 const axiosBaseQuery = () => async (args) => {
-  const { url, method, data, params } = args;
-  console.log("axiosBaseQuery received:", { url, method, data, params });
+  const { url, method, data, params, headers } = args;
+  console.log("axiosBaseQuery received:", {
+    url,
+    method,
+    data,
+    params,
+    headers,
+  });
 
   try {
     const config = {
@@ -11,10 +17,12 @@ const axiosBaseQuery = () => async (args) => {
       method,
       params,
       data,
-      headers:
-        data instanceof FormData
+      headers: {
+        ...(data instanceof FormData
           ? { "Content-Type": "multipart/form-data" }
-          : {},
+          : { "Content-Type": "application/json" }),
+        ...headers,
+      },
     };
     console.log("Axios config:", config);
     const result = await api(config);

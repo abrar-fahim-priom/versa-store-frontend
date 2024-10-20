@@ -256,7 +256,7 @@ export default function SingleProduct() {
 
             <div className="lg:col-span-12">
               <ProductTabs />
-              <ProductReviewSection />
+              <ProductReviewSection productId={currentProduct?._id} />
               <ProductSlider
                 title="Similar Items You Might Like"
                 subText="Based on what customers bought"
