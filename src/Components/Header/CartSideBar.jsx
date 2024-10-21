@@ -20,15 +20,6 @@ const CartSideBar = () => {
     }
   }, [auth, cart]);
 
-  console.log(
-    "CartSideBar rendered, auth:",
-    auth,
-    "cart:",
-    cart,
-    "isLoading:",
-    isLoading
-  );
-
   const handleOpenMenu = () => {
     if (!auth) {
       setIsAlertOpen(true);

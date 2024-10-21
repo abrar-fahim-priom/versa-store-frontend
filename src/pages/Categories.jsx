@@ -4,7 +4,10 @@ import CategoriesHeader from "../Components/Categories/CategoriesHeader";
 import SidebarFilters from "../Components/Categories/SidebarFilters";
 import NavBar from "../Components/Header/NavBar";
 import ProductCard from "../Components/Products/ProductCard";
-import { useGetProductsQuery } from "../store/api/productApi.js";
+import {
+  useGetProductsQuery,
+  useGetSingleCategoryQuery,
+} from "../store/api/productApi.js";
 
 const Categories = () => {
   const { categoryId } = useParams();
@@ -15,7 +18,15 @@ const Categories = () => {
   });
 
   const { data, isLoading, error } = useGetProductsQuery(queryParams);
+
+  const {
+    data: SingleCategoryData,
+    isLoading: SingleCategoryLoading,
+    error: SingleCategoryError,
+  } = useGetSingleCategoryQuery(categoryId);
   const [filteredProducts, setFilteredProducts] = useState([]);
+
+  // console.log(SingleCategoryData);
 
   useEffect(() => {
     setQueryParams((prev) => ({ ...prev, category: categoryId }));
@@ -77,7 +88,11 @@ const Categories = () => {
     <div className="bg-neutral-100 min-h-screen dark:bg-gray-900">
       <NavBar />
       <CategoriesHeader
-        CategoriesData={{ name: "Category", image: "image_url_placeholder" }}
+        CategoriesData={{
+          SingleCategoryData,
+          SingleCategoryLoading,
+          SingleCategoryError,
+        }}
       />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-12 gap-6">
@@ -113,12 +128,14 @@ const Categories = () => {
               >
                 Previous
               </button>
-              <button
-                className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600"
-                onClick={() => handlePageChange(queryParams.page + 1)}
-              >
-                Next
-              </button>
+              {filteredProducts.length > 0 && (
+                <button
+                  className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600"
+                  onClick={() => handlePageChange(queryParams.page + 1)}
+                >
+                  Next
+                </button>
+              )}
             </div>
           </div>
         </div>

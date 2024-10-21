@@ -4,16 +4,27 @@ export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
       query: () => ({ url: "/categories", method: "GET" }),
+      providesTags: ["Categories"],
+    }),
+
+    getSingleCategory: builder.query({
+      query: (cateogoryId) => ({
+        url: `/categories/find/${cateogoryId}`,
+        method: "GET",
+      }),
       providesTags: ["Category"],
     }),
+
     getProducts: builder.query({
       query: (params) => ({ url: "/products", method: "GET", params }),
       providesTags: ["Product"],
     }),
+
     getProductById: builder.query({
       query: (id) => ({ url: `/products/${id}`, method: "GET" }),
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+
     createProduct: builder.mutation({
       query: (formData) => {
         console.log("createProduct received:", formData);
@@ -25,6 +36,7 @@ export const productApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["Product"],
     }),
+
     editProduct: builder.mutation({
       query: ({ id, formData }) => ({
         url: `/products/${id}`,
@@ -33,6 +45,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
     }),
+
     getVendorProducts: builder.query({
       query: (vendorId) => ({
         url: `/products/vendor/${vendorId}`,
@@ -40,6 +53,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+
     getPopularProducts: builder.query({
       query: () => ({
         url: "/products/popular",
@@ -47,6 +61,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+
     deleteProductImage: builder.mutation({
       query: ({ productId, imageId }) => ({
         url: `/products/${productId}/images/${imageId}`,
@@ -56,6 +71,7 @@ export const productApi = apiSlice.injectEndpoints({
         { type: "Product", id: productId },
       ],
     }),
+
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `/products/${id}`,
@@ -63,6 +79,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+
     getSingleProduct: builder.query({
       query: (id) => ({
         url: `/products/single/${id}`,
@@ -70,6 +87,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+
     getProductReviews: builder.query({
       query: (productId) => ({
         url: `/review/${productId}`,
@@ -77,6 +95,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Review"],
     }),
+
     postProductReview: builder.mutation({
       query: ({ productId, reviewData }) => ({
         url: `/review/${productId}`,
@@ -86,6 +105,7 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Review"],
     }),
+
     // New mutation for deleting a review
     deleteProductReview: builder.mutation({
       query: (reviewId) => ({
@@ -98,6 +118,7 @@ export const productApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetSingleCategoryQuery,
   useGetCategoriesQuery,
   useGetProductsQuery,
   useGetProductByIdQuery,
