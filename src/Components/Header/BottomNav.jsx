@@ -38,13 +38,13 @@ const BottomNav = () => {
 
   return (
     <div className="container relative">
-      <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600 xl:block">
+      <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600 md:block xl:block">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-base font-semibold">
             {categories.map((category) => (
               <div key={category._id} className="relative group ml-6">
                 <Link
-                  to={`/categories/${category.name}`}
+                  to={`/categories/${category._id}`}
                   className="font-semibold text-neutral-700 dark:text-neutral-200 hover:text-primary"
                 >
                   {category.name.charAt(0).toUpperCase() +

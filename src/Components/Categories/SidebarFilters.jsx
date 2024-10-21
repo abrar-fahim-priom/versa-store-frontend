@@ -3,19 +3,20 @@ import "rc-slider/assets/index.css";
 import React, { useEffect, useMemo, useState } from "react";
 
 const SidebarFilters = ({ products, onFilterChange }) => {
-  // console.log(products);
-  const priceRange = useMemo(() => {
-    const prices = products.map((p) => p.price);
-    return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
-  }, [products]);
-
   const [filters, setFilters] = useState({
     brands: [],
-    priceRange: priceRange,
+    priceRange: [0, 0],
     stockStatus: [],
     discount: [],
     rating: [],
   });
+
+  // Calculate the price range based on the products
+  const priceRange = useMemo(() => {
+    if (!products.length) return [0, 0];
+    const prices = products.map((p) => p.price);
+    return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
+  }, [products]);
 
   const uniqueValues = useMemo(
     () => ({
@@ -26,6 +27,14 @@ const SidebarFilters = ({ products, onFilterChange }) => {
     }),
     [products]
   );
+
+  // Update the filters' price range when the products change
+  useEffect(() => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      priceRange: priceRange,
+    }));
+  }, [priceRange]);
 
   useEffect(() => {
     onFilterChange(filters);
@@ -41,7 +50,6 @@ const SidebarFilters = ({ products, onFilterChange }) => {
   const handlePriceChange = (value, index = null) => {
     let newPriceRange;
     if (index !== null) {
-      // Handle input field change
       newPriceRange = [...filters.priceRange];
       newPriceRange[index] = Math.max(
         priceRange[0],
@@ -53,7 +61,6 @@ const SidebarFilters = ({ products, onFilterChange }) => {
         newPriceRange[1] = Math.max(newPriceRange[0], newPriceRange[1]);
       }
     } else {
-      // Handle slider change
       newPriceRange = [
         Math.max(priceRange[0], value[0]),
         Math.min(priceRange[1], value[1]),

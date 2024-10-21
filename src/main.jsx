@@ -58,7 +58,7 @@ createRoot(document.getElementById("root")).render(
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/products/:id" element={<SingleProduct />} />
                 <Route
-                  path="/categories/:category_name"
+                  path="/categories/:categoryId"
                   element={<Categories />}
                 />
               </Routes>

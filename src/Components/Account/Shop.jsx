@@ -63,13 +63,15 @@ export default function Shop() {
           // Add other filter conditions as needed
           const matchesStockStatus =
             filters.stockStatus.length === 0 ||
-            (filters.stockStatus.includes("In Stock") && product.inStock) ||
-            (filters.stockStatus.includes("Out of Stock") && !product.inStock);
+            (filters.stockStatus.includes("In Stock") && product.stock > 0) ||
+            (filters.stockStatus.includes("Out of Stock") &&
+              product.stock === 0);
 
           const matchesDiscount =
             filters.discount.length === 0 ||
-            (filters.discount.includes("On Sale") && product.isOnSale) ||
-            (filters.discount.includes("Regular Price") && !product.isOnSale);
+            (filters.discount.includes("On Sale") && product.discount > 0) ||
+            (filters.discount.includes("Regular Price") &&
+              product.discount === 0);
 
           const matchesRating =
             filters.rating.length === 0 ||
