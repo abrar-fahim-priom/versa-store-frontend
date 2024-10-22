@@ -11,6 +11,7 @@ import ImageShowCase from "../Components/Products/ImageShowCase";
 import ProductReviewSection from "../Components/Products/ProductReviewSection.jsx";
 import ProductSlider from "../Components/Products/ProductSlider";
 import ProductTabs from "../Components/Products/ProductTabs";
+import FavoriteToggle from "../Components/ui/FavoriteToggle.jsx";
 import QuantityInput from "../Components/ui/QuantityInput";
 import useAuth from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart.js";
@@ -95,6 +96,7 @@ export default function SingleProduct() {
 
             <div className="lg:col-span-4">
               <span className="mb-2 text-xs text-blue-500">STOCKMART</span>
+              <FavoriteToggle productId={currentProduct._id} />
               <h1 className="mb-0 text-3xl dark:text-white font-bold">
                 {currentProduct.name}
               </h1>

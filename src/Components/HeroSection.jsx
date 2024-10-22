@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
 import FirstImage from "../images/Group_103-1.webp";
 import ThirdImage from "../images/Group_105.webp";
@@ -10,11 +11,11 @@ export default function HeroSection() {
   // console.log(auth);
   return (
     <section>
-      <div className="container relative pb-8 xl:pb-24">
+      <div className="container relative mt-5 pb-8 xl:pb-24">
         <div className="grid grid-cols-4 gap-2 lg:grid-rows-2">
           {/* First Banner */}
-          <a
-            href="#"
+          <NavLink
+            to="/categories/670564515858fa34536cdef8"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -41,11 +42,11 @@ export default function HeroSection() {
                 </button>
               </div>
             </div>
-          </a>
+          </NavLink>
 
           {/* Second Banner */}
-          <a
-            href="/collections/gaming"
+          <NavLink
+            to="/categories/670565845858fa34536cdf07"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -65,11 +66,11 @@ export default function HeroSection() {
                 Discover ideal gaming solutions
               </h3>
             </div>
-          </a>
+          </NavLink>
 
           {/* Third Banner */}
-          <a
-            href="/collections/headphones"
+          <NavLink
+            to="/categories/670565665858fa34536cdf04"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -89,11 +90,11 @@ export default function HeroSection() {
                 Hear the Difference
               </h3>
             </div>
-          </a>
+          </NavLink>
 
           {/* Fourth Banner */}
-          <a
-            href="/collections/smart-watches"
+          <NavLink
+            to="/categories/670565355858fa34536cdefe"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -113,7 +114,7 @@ export default function HeroSection() {
                 Experience the Latest Technology
               </h3>
             </div>
-          </a>
+          </NavLink>
         </div>
       </div>
     </section>
