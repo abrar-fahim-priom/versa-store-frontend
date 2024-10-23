@@ -4,10 +4,9 @@ import { IoCashSharp } from "react-icons/io5";
 import { PiCreditCard } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { BangladeshData } from "../../data/BangladeshData";
-import ButtonPrimary from "../../shared/Button/ButtonPrimary";
 import Field from "../Common/Field";
 
-const OrderDetailsLeft = () => {
+const OrderDetailsLeft = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
@@ -43,13 +42,12 @@ const OrderDetailsLeft = () => {
     }
   }, [selectedDivision, selectedZilla, setValue]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission
-  };
+  const ErrorMessage = ({ message }) => (
+    <p className="mt-1 text-sm text-red-500">{message}</p>
+  );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form id="checkout-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-9 dark:text-white">
         {/* Contact Info section */}
         <div id="ContactInfo" className="scroll-mt-24">
@@ -70,6 +68,10 @@ const OrderDetailsLeft = () => {
                 <input
                   {...register("phone", {
                     required: "Phone is required",
+                    pattern: {
+                      value: /^\+?[0-9]{10,}$/,
+                      message: "Please enter a valid phone number",
+                    },
                   })}
                   type="tel"
                   id="phone"
@@ -95,6 +97,10 @@ const OrderDetailsLeft = () => {
                 <input
                   {...register("orderName", {
                     required: "Order name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Order name must be at least 3 characters",
+                    },
                   })}
                   type="text"
                   id="orderName"
@@ -128,7 +134,9 @@ const OrderDetailsLeft = () => {
               {/* Zilla dropdown */}
               <Field label="" error={errors.zilla} htmlFor="zilla">
                 <select
-                  {...register("zilla", { required: "Zilla is required" })}
+                  {...register("zilla", {
+                    required: "Zilla is required",
+                  })}
                   id="zilla"
                   className={`w-full p-3 bg-[#030317] border ${
                     errors.zilla ? "border-red-500" : "border-neutral-300"
@@ -170,6 +178,10 @@ const OrderDetailsLeft = () => {
                   <input
                     {...register("address", {
                       required: "Address is required",
+                      minLength: {
+                        value: 5,
+                        message: "Address must be at least 5 characters",
+                      },
                     })}
                     type="text"
                     id="address"
@@ -183,6 +195,10 @@ const OrderDetailsLeft = () => {
                   <input
                     {...register("zipCode", {
                       required: "ZIP Code is required",
+                      pattern: {
+                        value: /^\d{4,6}$/,
+                        message: "Please enter a valid ZIP code",
+                      },
                     })}
                     type="text"
                     id="zipCode"
@@ -270,12 +286,19 @@ const OrderDetailsLeft = () => {
         </div>
 
         <div className="hidden pt-6 lg:block">
-          <ButtonPrimary type="submit" className="w-full">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white px-3 py-2 rounded-lg"
+          >
             Pay Now
-          </ButtonPrimary>
+          </button>
         </div>
 
-        <div className="hidden border-t border-neutral-300 pt-4 dark:border-neutral-600 lg:block"></div>
+        <div className="hidden border-t border-neutral-300 pt-4 dark:border-neutral-600 lg:block">
+          <p className="text-sm text-neutral-500">
+            All rights reserved Stock Mordern
+          </p>
+        </div>
       </div>
     </form>
   );

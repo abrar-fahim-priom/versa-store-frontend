@@ -3,18 +3,38 @@
 import { Popover, Transition } from "@headlessui/react";
 import React, { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useToggleBookmarkMutation } from "../../store/api/productApi";
 
-export default function FavoriteToggle({ productId }) {
+export default function FavoriteToggle({ auth, productId }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    setShowTooltip(true);
-    // Here you would typically call an API to update the favorite status
-    console.log(`Product ${productId} favorite status: ${!isFavorite}`);
+  const [toggleBookmark, { isLoading }] = useToggleBookmarkMutation();
 
-    // Hide tooltip after 2 seconds
+  const handleToggleFavorite = async () => {
+    if (!auth) {
+      setTooltipMessage("Please log in to add bookmark");
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 2000);
+      return;
+    }
+
+    try {
+      await toggleBookmark(productId).unwrap();
+      // Toggle local state after successful API call
+      setIsFavorite(!isFavorite);
+      setTooltipMessage(
+        !isFavorite
+          ? "Product added to bookmark"
+          : "Product removed from bookmark"
+      );
+      setShowTooltip(true);
+    } catch (error) {
+      setTooltipMessage("Error updating bookmark");
+      setShowTooltip(true);
+    }
+
     setTimeout(() => setShowTooltip(false), 2000);
   };
 
@@ -24,8 +44,11 @@ export default function FavoriteToggle({ productId }) {
         <>
           <Popover.Button
             as="button"
-            onClick={toggleFavorite}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={handleToggleFavorite}
+            disabled={isLoading}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 ${
+              isLoading ? "opacity-50 blur-[0.5px] cursor-not-allowed" : ""
+            }`}
           >
             {isFavorite ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
             {isFavorite ? "Bookmarked" : "Add to Bookmark"}
@@ -42,11 +65,9 @@ export default function FavoriteToggle({ productId }) {
           >
             <Popover.Panel
               static
-              className="absolute z-10 px-4 py-2 mt-3 text-sm bg-black font-medium text-white transform -translate-x-1/2 bg-gray-900 rounded-md shadow-sm left-1/2"
+              className="absolute z-10 px-4 py-2 mt-3 text-sm font-medium bg-blue-400 text-white transform -translate-x-1/2 rounded-md shadow-sm left-1/2"
             >
-              {isFavorite
-                ? "Product added to bookmark"
-                : "Product removed from bookmark"}
+              {tooltipMessage}
             </Popover.Panel>
           </Transition>
         </>

@@ -3,7 +3,6 @@ import CheckoutHeader from "../Components/Checkout/CheckoutHeader.jsx";
 import CheckoutProducts from "../Components/Checkout/CheckoutProducts.jsx";
 import OrderDetailsLeft from "../Components/Checkout/OrderDetailsLeft.jsx";
 import { useCart } from "../hooks/useCart.js";
-import ButtonPrimary from "../shared/Button/ButtonPrimary.jsx";
 
 export default function Checkout() {
   const {
@@ -29,6 +28,11 @@ export default function Checkout() {
     setTotal(calculatedSubtotal + shippingCost);
   }, [cart]);
 
+  const handleSubmit = (data) => {
+    console.log("Form submitted with data:", data);
+    // Add your form submission logic here
+  };
+
   return (
     <>
       <CheckoutHeader />
@@ -37,7 +41,7 @@ export default function Checkout() {
         <main className="container pb-8 lg:pb-28 ">
           <div className="flex flex-col lg:flex-row">
             <div className="w-full pt-4 lg:basis-1/2 lg:p-9">
-              {<OrderDetailsLeft />}
+              <OrderDetailsLeft onSubmit={handleSubmit} />
             </div>
 
             <div className="relative dark:bg-gray dark:text-white w-full lg:basis-1/2">
@@ -66,9 +70,14 @@ export default function Checkout() {
                     <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
-                <ButtonPrimary className="mt-8 w-full lg:hidden">
+
+                <button
+                  type="submit"
+                  form="checkout-form" // Add this to connect with the form
+                  className="w-full lg:hidden mt-8 bg-blue-600 text-white px-3 py-2 rounded-lg"
+                >
                   Pay Now
-                </ButtonPrimary>
+                </button>
               </div>
             </div>
           </div>

@@ -84,6 +84,8 @@ export default function SingleProduct() {
   const discountedPrice =
     currentProduct.price * (1 - currentProduct.discount / 100);
 
+  console.log(currentProduct);
+
   return (
     <>
       <NavBar />
@@ -94,9 +96,11 @@ export default function SingleProduct() {
               <ImageShowCase shots={productImages} />
             </div>
 
-            <div className="lg:col-span-4">
-              <span className="mb-2 text-xs text-blue-500">STOCKMART</span>
-              <FavoriteToggle productId={currentProduct._id} />
+            <div className="lg:col-span-4 mt-2">
+              <span className="mb-2  text-s text-blue-500">
+                {currentProduct?.addedBy?.shopName}
+              </span>
+              <FavoriteToggle auth={auth} productId={currentProduct._id} />
               <h1 className="mb-0 text-3xl dark:text-white font-bold">
                 {currentProduct.name}
               </h1>
@@ -268,6 +272,7 @@ export default function SingleProduct() {
           </div>
         </div>
       </div>
+
       <Transition appear show={isAlertOpen} as={React.Fragment}>
         <Dialog
           as="div"

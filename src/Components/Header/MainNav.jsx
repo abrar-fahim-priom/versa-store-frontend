@@ -12,9 +12,9 @@ import UserAccount from "./UserAccount";
 // Dummy data for navigation links
 const navLinks = [
   { id: "1", href: "/home", name: "Home" },
-  { id: "2", href: "/about", name: "About" },
-  { id: "3", href: "/services", name: "Services" },
-  { id: "4", href: "/contact", name: "Contact" },
+  { id: "2", href: "/orders", name: "My Orders" },
+
+  { id: "3", href: "/contact", name: "Contact" },
 ];
 
 const Input = ({ type, className, placeholder }) => (

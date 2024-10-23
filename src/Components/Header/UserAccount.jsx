@@ -35,11 +35,17 @@ const UserAccount = () => {
   return (
     <div className="pt-1 font-medium">
       <Menu as="div" className="relative inline-block">
-        <Menu.Button className="flex items-center gap-2 text-sm">
+        <Menu.Button className="flex bg-blue-500 rounded-full px-2 py-1 items-center gap-2 text-sm">
           <span className="flex items-center justify-center">
             <RiUser6Line className="dark:text-white text-black" size={18} />
           </span>
-          {auth && <span>{auth?.user?.fullName}</span>}
+          {auth ? (
+            <span className="dark:text-white text-black">
+              {auth?.user?.fullName}{" "}
+            </span>
+          ) : (
+            <span className="dark:text-white text-black"> Profile </span>
+          )}
         </Menu.Button>
         <Transition
           as={Fragment}

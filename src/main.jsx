@@ -47,13 +47,14 @@ createRoot(document.getElementById("root")).render(
                 />
 
                 <Route element={<PrivateRoutes />}>
-                  <Route index element={<App />} />
                   <Route path="profile" element={<ProfilePage />}>
                     <Route index element={<ProfileInfo />} />
                     <Route path="shop" element={<Shop />} />
                     <Route path="admin" element={<Admin />} />
                   </Route>
                 </Route>
+
+                <Route index element={<App />} />
 
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/products/:id" element={<SingleProduct />} />

@@ -114,10 +114,22 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Review"],
     }),
+
+    toggleBookmark: builder.mutation({
+      query: (productId) => ({
+        url: `/products/bookmark/${productId}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (result, error, productId) => [
+        { type: "Product", id: productId },
+        "Bookmarks",
+      ],
+    }),
   }),
 });
 
 export const {
+  useToggleBookmarkMutation,
   useGetSingleCategoryQuery,
   useGetCategoriesQuery,
   useGetProductsQuery,
@@ -131,5 +143,5 @@ export const {
   useGetSingleProductQuery,
   useGetProductReviewsQuery,
   usePostProductReviewMutation,
-  useDeleteProductReviewMutation, // Export the delete mutation
+  useDeleteProductReviewMutation,
 } = productApi;
