@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const CheckoutProducts = ({ item }) => {
-  console.log(item);
   const { name, images, price, discount, _id, selectedType, quantity } = item;
 
   // Calculate the current price after discount

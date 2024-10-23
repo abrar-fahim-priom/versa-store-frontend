@@ -42,12 +42,24 @@ const OrderDetailsLeft = ({ onSubmit }) => {
     }
   }, [selectedDivision, selectedZilla, setValue]);
 
-  const ErrorMessage = ({ message }) => (
-    <p className="mt-1 text-sm text-red-500">{message}</p>
-  );
+  const handleFormSubmit = (data) => {
+    // Format the data according to the expected structure
+    const formattedData = {
+      fullName: data.orderName,
+      phoneNumber: data.phone,
+      division: data.division,
+      district: data.zilla,
+      subDistrict: data.upazilla,
+      houseNo: data.address,
+      postCode: data.zipCode,
+      paymentMethod: data.paymentMethod === "COD" ? "cash" : "online",
+    };
+
+    onSubmit(formattedData);
+  };
 
   return (
-    <form id="checkout-form" onSubmit={handleSubmit(onSubmit)}>
+    <form id="checkout-form" onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="space-y-9 dark:text-white">
         {/* Contact Info section */}
         <div id="ContactInfo" className="scroll-mt-24">
@@ -57,7 +69,7 @@ const OrderDetailsLeft = ({ onSubmit }) => {
                 <h3 className="text-xl font-semibold">Contact</h3>
                 <span>
                   <Link
-                    to="/account/login"
+                    to="/auth/login"
                     className="text-sm text-primary underline"
                   >
                     Log In
