@@ -4,7 +4,7 @@ import { BsLightningCharge } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { HiMiniArrowUturnLeft } from "react-icons/hi2";
 import { LuInfo, LuTruck } from "react-icons/lu";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../Components/Header/NavBar";
 import Banner from "../Components/Products/Banner";
 import ImageShowCase from "../Components/Products/ImageShowCase";
@@ -20,9 +20,10 @@ import ButtonSecondary from "../shared/Button/ButtonSecondary";
 import { useGetSingleProductQuery } from "../store/api/productApi";
 
 export default function SingleProduct() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading, error } = useGetSingleProductQuery(id);
-  const { addToCart } = useCart();
+  const { addToCart, clearCart } = useCart();
   const { auth } = useAuth();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
@@ -55,6 +56,22 @@ export default function SingleProduct() {
       console.log(
         `Added ${quantity} of ${currentProduct.name} (${selectedVariant}) to cart.`
       );
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (!auth) {
+      setIsAlertOpen(true);
+      return;
+    }
+    if (currentProduct && quantity > 0) {
+      clearCart();
+      const cartProduct = {
+        ...currentProduct,
+        selectedType: selectedVariant,
+      };
+      addToCart(cartProduct, quantity);
+      navigate("/checkout");
     }
   };
 
@@ -174,7 +191,9 @@ export default function SingleProduct() {
               </div>
 
               <div className="mb-5 mt-2 flex items-center gap-5">
-                <ButtonPrimary className="">Buy Now</ButtonPrimary>
+                <ButtonPrimary onClick={handleBuyNow} className="">
+                  Buy Now
+                </ButtonPrimary>
               </div>
 
               <div className="mb-6 flex">

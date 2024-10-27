@@ -85,6 +85,11 @@ const CartProvider = ({ children }) => {
     updateCart(newCart);
   };
 
+  // New function to clear the entire cart
+  const clearCart = useCallback(() => {
+    updateCart([]);
+  }, [updateCart]);
+
   return (
     <CartContext.Provider
       value={{
@@ -93,6 +98,7 @@ const CartProvider = ({ children }) => {
         removeFromCart,
         incrementQuantity,
         decrementQuantity,
+        clearCart, // Added to the context
       }}
     >
       {children}

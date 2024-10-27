@@ -1,7 +1,7 @@
-import { CiShoppingCart } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
 import Logo from "../../assets/versaStore-logo.png";
+import CartSideBar from "../Header/CartSideBar";
 
 const CheckoutHeader = () => {
   return (
@@ -16,7 +16,7 @@ const CheckoutHeader = () => {
             </span>
           </Link>
           <div>
-            <CiShoppingCart className="dark:text-white" size={24} />
+            <CartSideBar />
           </div>
         </div>
       </div>

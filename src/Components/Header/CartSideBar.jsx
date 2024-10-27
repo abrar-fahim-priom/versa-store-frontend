@@ -202,13 +202,6 @@ const CartSideBar = () => {
                   >
                     Checkout
                   </Link>
-                  <Link
-                    onClick={handleCloseMenu}
-                    className="w-fit text-black dark:text-white text-center bg-gray-100 p-3 rounded-md"
-                    to="/cart"
-                  >
-                    View cart
-                  </Link>
                 </div>
               </div>
             </div>

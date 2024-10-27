@@ -1,4 +1,8 @@
+"use client";
+
+import { Popover, Transition } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CheckoutHeader from "../Components/Checkout/CheckoutHeader.jsx";
 import CheckoutProducts from "../Components/Checkout/CheckoutProducts.jsx";
 import OrderDetailsLeft from "../Components/Checkout/OrderDetailsLeft.jsx";
@@ -15,12 +19,17 @@ export default function Checkout() {
     removeFromCart,
     incrementQuantity,
     decrementQuantity,
+    clearCart,
   } = useCart();
+
+  const navigate = useNavigate();
 
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   useApiWithAuth();
   const [createOrder] = useCreateOrderMutation();
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
   useEffect(() => {
     const calculatedSubtotal = cart.reduce((total, item) => {
@@ -57,10 +66,46 @@ export default function Checkout() {
     try {
       const orderData = formatOrderData(formData);
       const response = await createOrder(orderData).unwrap();
-      console.log("Order created successfully:", response);
+      console.log("Order response:", response);
+
+      // Check if the response includes a payment URL (online payment)
+      if (response?.url) {
+        setTooltipMessage(
+          "Order created successfully! Redirecting to payment..."
+        );
+        setShowTooltip(true);
+        clearCart();
+
+        // Delay before redirecting to the payment URL
+        setTimeout(() => {
+          window.location.href = response.url;
+        }, 1500);
+      } else if (response?.orderMethod === "cash") {
+        // Handle the cash payment scenario
+        clearCart();
+        setTooltipMessage("Order created successfully with cash payment!");
+        setShowTooltip(true);
+
+        // Redirect to the home page after showing the success message
+        setTimeout(() => {
+          setShowTooltip(false);
+          navigate("/");
+        }, 1500);
+      } else {
+        // Fallback case if neither payment method is specified
+        setTooltipMessage(
+          "Order created successfully, please check your email for details."
+        );
+        setShowTooltip(true);
+      }
     } catch (error) {
       console.error("Error submitting order:", error);
+      setTooltipMessage("Error creating order. Please try again.");
+      setShowTooltip(true);
     }
+
+    // Hide tooltip after 2 seconds
+    setTimeout(() => setShowTooltip(false), 2000);
   };
 
   return (
@@ -100,6 +145,30 @@ export default function Checkout() {
                     <span>${total.toFixed(2)}</span>
                   </div>
                 </div>
+
+                {/* Tooltip using Popover and Transition */}
+                <Popover className="relative">
+                  <Transition
+                    show={showTooltip}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Popover.Panel
+                      static
+                      className="absolute z-10 w-64 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
+                    >
+                      <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div className="p-4 bg-white dark:bg-neutral-800 text-sm">
+                          {tooltipMessage}
+                        </div>
+                      </div>
+                    </Popover.Panel>
+                  </Transition>
+                </Popover>
 
                 <button
                   type="submit"
