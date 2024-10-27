@@ -68,7 +68,6 @@ export default function Checkout() {
       const response = await createOrder(orderData).unwrap();
       console.log("Order response:", response);
 
-      // Check if the response includes a payment URL (online payment)
       if (response?.url) {
         setTooltipMessage(
           "Order created successfully! Redirecting to payment..."
@@ -76,17 +75,14 @@ export default function Checkout() {
         setShowTooltip(true);
         clearCart();
 
-        // Delay before redirecting to the payment URL
         setTimeout(() => {
           window.location.href = response.url;
         }, 1500);
       } else if (response?.orderMethod === "cash") {
-        // Handle the cash payment scenario
         clearCart();
         setTooltipMessage("Order created successfully with cash payment!");
         setShowTooltip(true);
 
-        // Redirect to the home page after showing the success message
         setTimeout(() => {
           setShowTooltip(false);
           navigate("/");

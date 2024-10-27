@@ -1,16 +1,40 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useToggleBookmarkMutation } from "../../store/api/productApi";
 
+import { useApiWithAuth } from "../../hooks/useApiWithAuth";
+import { useGetUserProfileQuery } from "../../store/api/userApi.js";
+
 export default function FavoriteToggle({ auth, productId }) {
+  useApiWithAuth();
+
+  const {
+    data: userProfile,
+    error,
+    isLoading: isProfileLoading,
+    refetch,
+  } = useGetUserProfileQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState("");
 
   const [toggleBookmark, { isLoading }] = useToggleBookmarkMutation();
+
+  // Check if the product is already in the bookmarks
+  useEffect(() => {
+    if (userProfile?.profile?.bookmarks) {
+      const isBookmarked = userProfile.profile.bookmarks.some(
+        (bookmark) => bookmark._id === productId
+      );
+      setIsFavorite(isBookmarked);
+    }
+  }, [userProfile, productId]);
 
   const handleToggleFavorite = async () => {
     if (!auth) {

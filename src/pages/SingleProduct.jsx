@@ -64,6 +64,8 @@ export default function SingleProduct() {
       setIsAlertOpen(true);
       return;
     }
+    console.log("reached buy now");
+
     if (currentProduct && quantity > 0) {
       clearCart();
       const cartProduct = {
