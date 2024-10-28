@@ -1,54 +1,18 @@
 import { useEffect } from "react";
-import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
-import {
-  orderApi,
-  useAcceptOrderMutation,
-  useGetAllOrdersQuery,
-  useRejectOrderMutation,
-} from "../../store/api/orderApi";
+import { orderApi, useGetUserOrdersQuery } from "../../store/api/orderApi";
 
-export default function Admin() {
+export default function Orders() {
   const dispatch = useDispatch();
   useApiWithAuth();
-  const { data: ordersData, isLoading, refetch } = useGetAllOrdersQuery();
-  const [acceptOrder, { isLoading: isAccepting }] = useAcceptOrderMutation();
-  const [rejectOrder, { isLoading: isRejecting }] = useRejectOrderMutation();
+  const { data: ordersData, isLoading } = useGetUserOrdersQuery();
 
   useEffect(() => {
     return () => {
-      dispatch(orderApi.util.invalidateTags(["AllOrders"]));
+      dispatch(orderApi.util.invalidateTags(["Orders"]));
     };
   }, [dispatch]);
-
-  const handleAcceptOrder = async (orderId) => {
-    try {
-      const result = await acceptOrder(orderId);
-      if (result.data.success) {
-        toast.success("Order accepted successfully");
-        // Force refetch after successful acceptance
-        await refetch();
-        // Additional cache invalidation
-        dispatch(orderApi.util.invalidateTags(["AllOrders"]));
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || "Failed to accept order");
-    }
-  };
-
-  const handleRejectOrder = async (orderId) => {
-    try {
-      const result = await rejectOrder(orderId);
-      if (result.data.success) {
-        toast.success("Order rejected successfully");
-        // Force refetch after successful rejection
-        await refetch();
-      }
-    } catch (error) {
-      toast.error(error?.data?.message || "Failed to reject order");
-    }
-  };
 
   if (isLoading) {
     return (
@@ -62,7 +26,7 @@ export default function Admin() {
     <div className="p-6">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
-          All Active Orders
+          My Orders
         </h2>
 
         {ordersData?.orders?.length > 0 ? (
@@ -72,7 +36,7 @@ export default function Admin() {
                 key={order._id}
                 className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
               >
-                <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex flex-col lg:flex-row  gap-6">
                   {/* Order Details */}
                   <div className="lg:flex-1">
                     <div className="flex items-center justify-between pb-4 border-b">
@@ -91,70 +55,20 @@ export default function Admin() {
                           )}
                         </p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span
-                          className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize
-                          ${
-                            order.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : order.status === "accepted"
-                              ? "bg-green-100 text-green-800"
-                              : order.status === "rejected"
-                              ? "bg-red-100 text-red-800"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-
-                        {order.status === "pending" &&
-                          !isAccepting &&
-                          !isRejecting && (
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => handleAcceptOrder(order._id)}
-                                disabled={isAccepting}
-                                className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                onMouseEnter={() =>
-                                  toast("Accept this order", {
-                                    icon: "✅",
-                                    duration: 1000,
-                                    position: "top-center",
-                                    style: {
-                                      background: "#333",
-                                      color: "#fff",
-                                      fontSize: "14px",
-                                      padding: "8px 12px",
-                                    },
-                                  })
-                                }
-                              >
-                                {isAccepting ? "Accepting..." : "Accept"}
-                              </button>
-
-                              <button
-                                onClick={() => handleRejectOrder(order._id)}
-                                disabled={isRejecting}
-                                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                onMouseEnter={() =>
-                                  toast("Reject this order", {
-                                    icon: "❌",
-                                    duration: 1000,
-                                    position: "top-center",
-                                    style: {
-                                      background: "#333",
-                                      color: "#fff",
-                                      fontSize: "14px",
-                                      padding: "8px 12px",
-                                    },
-                                  })
-                                }
-                              >
-                                {isRejecting ? "Rejecting..." : "Reject"}
-                              </button>
-                            </div>
-                          )}
-                      </div>
+                      <span
+                        className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize
+                        ${
+                          order.status === "pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : order.status === "accepted"
+                            ? "bg-green-100 text-green-800"
+                            : order.status === "cancelled"
+                            ? "bg-red-100 text-red-800" // Use "bg-red-100" for consistency with "text-red-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {order.status}
+                      </span>
                     </div>
 
                     {/* Products List */}
@@ -180,7 +94,7 @@ export default function Admin() {
                   </div>
 
                   {/* Order Summary */}
-                  <div className="shrink-0">
+                  <div className=" shrink-0">
                     <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 space-y-6">
                       <div className="space-y-4">
                         <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
@@ -228,6 +142,13 @@ export default function Admin() {
                             ৳{order.totalPrice.toLocaleString()}
                           </span>
                         </div>
+                        {order.status === "pending" && (
+                          <a href={order.paymentUrl}>
+                            <button className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                              PAY NOW
+                            </button>
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -239,7 +160,7 @@ export default function Admin() {
           <div className="text-center text-gray-500 py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <p className="text-lg">No orders yet</p>
             <p className="text-sm mt-2">
-              All orders will appear here once any customer places order
+              Your orders will appear here once you make a purchase
             </p>
           </div>
         )}

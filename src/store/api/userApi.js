@@ -6,6 +6,7 @@ export const userApi = apiSlice.injectEndpoints({
       query: () => ({ url: "/auth/profile", method: "GET" }),
       providesTags: ["User"],
     }),
+
     updateUserProfile: builder.mutation({
       query: (userData) => ({
         url: "/auth/update",
@@ -17,4 +18,9 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUserProfileQuery, useUpdateUserProfileMutation } = userApi;
+export const {
+  useGetAllOrdersQuery,
+  useGetUserOrdersQuery,
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
+} = userApi;

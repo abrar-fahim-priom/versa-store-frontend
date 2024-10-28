@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import App from "./App.jsx";
 import Admin from "./Components/Account/Admin.jsx";
 import GuestRoute from "./Components/Account/GuestRoute.jsx";
+import Orders from "./Components/Account/Orders.jsx";
 import PrivateRoutes from "./Components/Account/PrivateRoutes.jsx";
 import ProfileInfo from "./Components/Account/ProfileInfo.jsx";
 import ProfilePage from "./Components/Account/ProfilePage.jsx";
@@ -51,6 +52,7 @@ createRoot(document.getElementById("root")).render(
                     <Route index element={<ProfileInfo />} />
                     <Route path="shop" element={<Shop />} />
                     <Route path="admin" element={<Admin />} />
+                    <Route path="orders" element={<Orders />} />
                   </Route>
                 </Route>
 

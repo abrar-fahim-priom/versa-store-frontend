@@ -54,6 +54,21 @@ export default function ProfilePage() {
               Shop
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/profile/orders"
+              className={({ isActive }) =>
+                `px-3 py-2 rounded-md ${
+                  isActive
+                    ? "bg-blue-500 text-white"
+                    : "text-gray-700 dark:text-white hover:bg-gray-200"
+                }`
+              }
+            >
+              Orders
+            </NavLink>
+          </li>
           {isAdmin && (
             <li>
               <NavLink

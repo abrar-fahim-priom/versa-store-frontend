@@ -1,6 +1,6 @@
 import React from "react";
 import { RiSearch2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import versaStoreLogo from "../../assets/versaStore-logo.png";
 import Darkmode from "../ui/Darkmode";
 
@@ -12,7 +12,7 @@ import UserAccount from "./UserAccount";
 // Dummy data for navigation links
 const navLinks = [
   { id: "1", href: "/home", name: "Home" },
-  { id: "2", href: "/orders", name: "My Orders" },
+  { id: "2", href: "/profile/orders", name: "My Orders" },
 
   { id: "3", href: "/contact", name: "Contact" },
 ];
@@ -56,7 +56,7 @@ const MainNav = () => {
                   key={navItem.id}
                   className="p-3 text-sm text-neutral-500 hover:font-semibold hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
                 >
-                  <Link to={navItem.href}>{navItem.name}</Link>
+                  <NavLink to={navItem.href}>{navItem.name}</NavLink>
                 </li>
               ))}
             </ul>
