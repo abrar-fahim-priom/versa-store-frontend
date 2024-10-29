@@ -30,9 +30,9 @@ const Logo = () => (
 
 const MainNav = () => {
   return (
-    <div className="container">
+    <div className="container ">
       <div className="flex items-center justify-between gap-6 py-3 lg:py-4">
-        <div className="xl:hidden">
+        <div className="xl:hidden flex flex-row items-center">
           <MenuBar />
         </div>
         <div className="relative flex items-center gap-5 xl:grow">

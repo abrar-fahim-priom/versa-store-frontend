@@ -10,6 +10,7 @@ import PrivateRoutes from "./Components/Account/PrivateRoutes.jsx";
 import ProfileInfo from "./Components/Account/ProfileInfo.jsx";
 import ProfilePage from "./Components/Account/ProfilePage.jsx";
 import Shop from "./Components/Account/Shop.jsx";
+import VendorShop from "./Components/Products/VendorShop.jsx";
 import "./index.css";
 import Categories from "./pages/Categories.jsx";
 import Checkout from "./pages/Checkout.jsx";
@@ -60,6 +61,7 @@ createRoot(document.getElementById("root")).render(
 
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/products/:id" element={<SingleProduct />} />
+                <Route path="/vendorShop/:id" element={<VendorShop />} />
                 <Route
                   path="/categories/:categoryId"
                   element={<Categories />}

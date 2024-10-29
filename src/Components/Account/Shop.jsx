@@ -8,11 +8,11 @@ import {
   useGetVendorProductsQuery,
 } from "../../store/api/productApi";
 import { useGetUserProfileQuery } from "../../store/api/userApi";
-import CategoriesHeader from "../Categories/CategoriesHeader";
 import SidebarFilters from "../Categories/SidebarFilters";
 import ProductCard from "../Products/ProductCard";
 import ProductEditForm from "../Products/ProductEditForm";
 import ProductForm from "../Products/ProductForm";
+import ShopHeader from "../Products/ShopHeader";
 
 export default function Shop() {
   useApiWithAuth();
@@ -25,6 +25,7 @@ export default function Shop() {
   });
 
   const vendorId = userProfile?.profile?._id;
+  // console.log(shopData);
 
   const {
     data: vendorProductsData,
@@ -35,6 +36,8 @@ export default function Shop() {
   } = useGetVendorProductsQuery(vendorId, {
     skip: !vendorId, // Skip the query if vendorId is not available
   });
+
+  console.log(vendorProductsData);
 
   const initialProducts = useMemo(
     () => vendorProductsData?.products || [],
@@ -151,11 +154,13 @@ export default function Shop() {
   }
 
   return (
-    <div className="bg-neutral-100 min-h-screen dark:bg-gray-900">
-      <CategoriesHeader CategoriesData={vendorProductsData} />
+    <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
+      <div className="flex justify-center">
+        <ShopHeader shopData={userProfile?.profile} />
+      </div>
 
       <div className="flex justify-center">
-        <ButtonSecondary onClick={handleAddProduct} className="w-32">
+        <ButtonSecondary onClick={handleAddProduct} className="w-32 mt-2">
           Add Product
         </ButtonSecondary>
       </div>

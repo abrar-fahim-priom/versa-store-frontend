@@ -1,6 +1,7 @@
 import React from "react";
 
-const ProductDescriptiontab = () => {
+const ProductDescriptiontab = ({ description }) => {
+  console.log(description);
   return (
     <div className="">
       <details className="group dark:text-white">
@@ -42,14 +43,7 @@ const ProductDescriptiontab = () => {
         <div className=" pb-4 text-sm ">
           <h4 className="text-lg font-medium">The Ultimate Technology</h4>
           <p className="text-neutral-500 dark:text-neutral-300">
-            {`Find a wide range of products to enhance your life. From headphones
-            and phones to speakers, smart watches, gaming equipment, and
-            laptops, we have everything you need to stay connected and
-            entertained.`}{" "}
-            <br />
-            {`Our headphones are designed for exceptional sound quality, comfort,
-            and style. Whether you prefer over-ear, on-ear, or in-ear
-            headphones, we have options to suit your needs and budget.`}
+            {description}
           </p>
         </div>
       </details>

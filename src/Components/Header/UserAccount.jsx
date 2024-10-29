@@ -37,14 +37,14 @@ const UserAccount = () => {
       <Menu as="div" className="relative inline-block">
         <Menu.Button className="flex bg-blue-500 rounded-full px-2 py-1 items-center gap-2 text-sm">
           <span className="flex items-center justify-center">
-            <RiUser6Line className="dark:text-white text-black" size={18} />
+            <RiUser6Line className="dark:text-white text-white" size={18} />
           </span>
           {auth ? (
-            <span className="dark:text-white text-black">
+            <span className="dark:text-white text-white">
               {auth?.user?.fullName}{" "}
             </span>
           ) : (
-            <span className="dark:text-white text-black"> Profile </span>
+            <span className="dark:text-white text-white"> User Settings </span>
           )}
         </Menu.Button>
         <Transition

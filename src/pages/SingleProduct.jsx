@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
+
 import { BsLightningCharge } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { HiMiniArrowUturnLeft } from "react-icons/hi2";
@@ -37,6 +38,11 @@ export default function SingleProduct() {
       setSelectedVariant(data.product.defaultType || "");
     }
   }, [data]);
+
+  useEffect(() => {
+    // Scroll to the top whenever the product ID changes
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity);
@@ -95,6 +101,12 @@ export default function SingleProduct() {
     }
   };
 
+  const handleVendorClick = () => {
+    if (currentProduct?.addedBy?._id) {
+      navigate(`/vendorShop/${currentProduct.addedBy._id}`);
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!currentProduct) return <div>Product not found</div>;
@@ -116,9 +128,12 @@ export default function SingleProduct() {
             </div>
 
             <div className="lg:col-span-4 mt-2">
-              <span className="mb-2  text-s text-blue-500">
+              <button
+                onClick={handleVendorClick}
+                className="mb-2  text-s text-blue-500 bg-white rounded-md"
+              >
                 {currentProduct?.addedBy?.shopName}
-              </span>
+              </button>
               <FavoriteToggle auth={auth} productId={currentProduct._id} />
               <h1 className="mb-0 text-3xl dark:text-white font-bold">
                 {currentProduct.name}
@@ -175,6 +190,18 @@ export default function SingleProduct() {
                 <p className="text-neutral-500 dark:text-neutral-300">
                   {currentProduct.description}
                 </p>
+                <p className="text-neutral-500 dark:text-neutral-300">
+                  {currentProduct?.addedBy?.shopName}
+                </p>
+                <p className="text-neutral-500 dark:text-neutral-300">
+                  {currentProduct?.addedBy?.shopAddress}
+                </p>
+                <p className="text-neutral-500 dark:text-neutral-300">
+                  {currentProduct?.addedBy?.phone}
+                </p>
+                <p className="text-neutral-500 dark:text-neutral-300">
+                  {currentProduct?.addedBy?.shopType}
+                </p>
               </div>
 
               <div className="mb-6">
@@ -219,8 +246,8 @@ export default function SingleProduct() {
                       {currentProduct.stock} in Stock Now
                     </h3>
                     <p className="mt-1 text-neutral-500 dark:text-neutral-300">
-                      Upgrade your tech collection with the latest must-have
-                      item, available now in limited quantities.
+                      Upgrade your collection with the latest must-have item,
+                      available now in limited quantities.
                     </p>
                   </div>
                 </div>
@@ -252,39 +279,13 @@ export default function SingleProduct() {
                   </div>
                 </div>
               </div>
-
-              <div className="mb-8 flex items-center justify-between gap-4 rounded-md border-2 border-blue-600 px-9 py-4 dark:border-neutral-400">
-                <div>
-                  <h3 className="text-sm font-semibold dark:text-white">
-                    Packaging Note:
-                  </h3>
-                  <p className="text-neutral-500 dark:text-neutral-300">
-                    Research and development value proposition graphical user
-                    interface investor. Startup business plan user experience
-                  </p>
-                </div>
-                <div className="text-primary">
-                  <LuInfo />
-                </div>
-              </div>
-
-              <div className="mb-8 rounded-md bg-primary px-10 py-4 text-white">
-                <div>
-                  <span className="mb-5 inline-block">VersaStore</span>
-                  <h3 className="font-semibold">
-                    Discount & Free shipping on Your first purchase.
-                  </h3>
-                  <button href="/" className="text-yellow-500">
-                    {` First-Timer's Deal`}
-                  </button>
-                </div>
-              </div>
             </div>
 
             <div className="lg:col-span-12">
-              <ProductTabs />
+              <ProductTabs description={currentProduct.description} />
               <ProductReviewSection productId={currentProduct?._id} />
               <ProductSlider
+                currentCategory={currentProduct?.category?._id}
                 title="Similar Items You Might Like"
                 subText="Based on what customers bought"
               />

@@ -1,7 +1,8 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
+
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
-import Darkmode from "../ui/Darkmode";
+import BottomNavMobile from "./BottomNavMobile";
 
 const NavMobile = ({ onClickClose }) => {
   return (
@@ -15,78 +16,10 @@ const NavMobile = ({ onClickClose }) => {
           <MdClose className="dark:text-white" />
         </span>
       </div>
-      <ul className="flex flex-col space-y-5 py-6 divide-y divide-neutral-300 dark:divide-neutral-600 border-b border-neutral-300 dark:border-neutral-600">
-        <li>
-          <div className="xl:hidden pr-2 ">
-            <Darkmode />
-          </div>
-          <a
-            href="/home"
-            onClick={onClickClose}
-            className="capitalize dark:text-white pt-4 block"
-          >
-            Home
-          </a>
-        </li>
-        <li>
-          <a
-            href="/about"
-            onClick={onClickClose}
-            className="capitalize dark:text-white pt-4 block"
-          >
-            About Us
-          </a>
-        </li>
-        <li>
-          <a
-            href="/services"
-            onClick={onClickClose}
-            className="capitalize dark:text-white pt-4 block"
-          >
-            Services
-          </a>
-        </li>
-        <li>
-          <a
-            href="/contact"
-            onClick={onClickClose}
-            className="capitalize dark:text-white pt-4 block"
-          >
-            Contact
-          </a>
-        </li>
-      </ul>
 
       <ul className="flex flex-col space-y-5 py-6 divide-y divide-neutral-300 dark:divide-neutral-600 border-b border-neutral-300 dark:border-neutral-600">
         <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Mobile
-          </a>
-        </li>
-        <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Laptop
-          </a>
-        </li>
-        <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Tablet
-          </a>
-        </li>
-        <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Headphone
-          </a>
-        </li>
-        <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Speaker
-          </a>
-        </li>
-        <li>
-          <a className="capitalize text-zinc-800 dark:text-white pt-4 font-semibold block">
-            Smart Watch
-          </a>
+          <BottomNavMobile />
         </li>
       </ul>
 

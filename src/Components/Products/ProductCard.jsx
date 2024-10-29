@@ -7,7 +7,7 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
   return (
     <Link
       to={`/products/${product._id}`}
-      className={`group inline-block h-full overflow-hidden rounded-md bg-white dark:bg-neutral-900 ${className}`}
+      className={`group inline-block h-full overflow-hidden rounded-md bg-slate-200 dark:bg-neutral-900 ${className}`}
     >
       <div className="">
         <div className="relative overflow-hidden">
@@ -16,7 +16,7 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
               Sale
             </span>
           )}
-          <div className="relative aspect-square bg-white">
+          <div className="relative aspect-square dark:bg-gray bg-white">
             <img
               src={productImage}
               alt={`${product.name} cover photo`}

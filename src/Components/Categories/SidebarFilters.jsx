@@ -70,7 +70,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
   };
 
   const renderCheckboxGroup = (title, items, filterType) => (
-    <div className="relative flex flex-col p-5">
+    <div className="relative dark:text-white flex flex-col p-5">
       <h3 className="font-medium mb-3">{title}</h3>
       <ul className="space-y-2">
         {items.map((item) => (
@@ -98,7 +98,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
 
   const renderPriceRange = () => (
     <div className="relative flex flex-col p-5">
-      <h3 className="font-medium mb-3">Price Range</h3>
+      <h3 className="font-medium dark:text-white mb-3">Price Range</h3>
       <Slider
         range
         min={priceRange[0]}
@@ -129,7 +129,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
   );
 
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden">
+    <div className="bg-white dark:bg-slate-600 shadow rounded-lg overflow-hidden">
       {renderCheckboxGroup("Brands", uniqueValues.brands, "brands")}
       {renderPriceRange()}
       {renderCheckboxGroup(

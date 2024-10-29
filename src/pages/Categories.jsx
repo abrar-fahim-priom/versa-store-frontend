@@ -85,7 +85,7 @@ const Categories = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="bg-neutral-100 min-h-screen dark:bg-gray-900">
+    <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
       <NavBar />
       <CategoriesHeader
         CategoriesData={{
