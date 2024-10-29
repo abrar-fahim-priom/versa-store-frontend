@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import { orderApi, useGetUserOrdersQuery } from "../../store/api/orderApi";
 
 export default function Orders() {
   const dispatch = useDispatch();
+  const [activeFilter, setActiveFilter] = useState("all");
   useApiWithAuth();
   const { data: ordersData, isLoading } = useGetUserOrdersQuery();
 
@@ -14,6 +15,26 @@ export default function Orders() {
     };
   }, [dispatch]);
 
+  const filterOrders = (orders) => {
+    if (!orders) return [];
+    if (activeFilter === "all") return orders;
+    return orders.filter((order) => order.status === activeFilter);
+  };
+
+  const FilterButton = ({ filter, label, count }) => (
+    <button
+      onClick={() => setActiveFilter(filter)}
+      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
+        ${
+          activeFilter === filter
+            ? "bg-blue-500 text-white"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+        }`}
+    >
+      {label} ({count})
+    </button>
+  );
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -22,6 +43,20 @@ export default function Orders() {
     );
   }
 
+  const filteredOrders = filterOrders(ordersData?.orders);
+  const orderCounts = {
+    all: ordersData?.orders?.length || 0,
+    pending:
+      ordersData?.orders?.filter((order) => order.status === "pending")
+        .length || 0,
+    accepted:
+      ordersData?.orders?.filter((order) => order.status === "accepted")
+        .length || 0,
+    cancelled:
+      ordersData?.orders?.filter((order) => order.status === "cancelled")
+        .length || 0,
+  };
+
   return (
     <div className="p-6">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
@@ -29,14 +64,37 @@ export default function Orders() {
           My Orders
         </h2>
 
-        {ordersData?.orders?.length > 0 ? (
+        <div className="flex gap-4 mb-6">
+          <FilterButton
+            filter="all"
+            label="All Orders"
+            count={orderCounts.all}
+          />
+          <FilterButton
+            filter="pending"
+            label="Pending"
+            count={orderCounts.pending}
+          />
+          <FilterButton
+            filter="accepted"
+            label="Accepted"
+            count={orderCounts.accepted}
+          />
+          <FilterButton
+            filter="cancelled"
+            label="Cancelled"
+            count={orderCounts.cancelled}
+          />
+        </div>
+
+        {filteredOrders?.length > 0 ? (
           <div className="space-y-9 mx-9">
-            {[...ordersData.orders].reverse().map((order) => (
+            {[...filteredOrders].reverse().map((order) => (
               <div
                 key={order._id}
                 className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
               >
-                <div className="flex flex-col lg:flex-row  gap-6">
+                <div className="flex flex-col lg:flex-row gap-6">
                   {/* Order Details */}
                   <div className="lg:flex-1">
                     <div className="flex items-center justify-between pb-4 border-b">
@@ -63,7 +121,7 @@ export default function Orders() {
                             : order.status === "accepted"
                             ? "bg-green-100 text-green-800"
                             : order.status === "cancelled"
-                            ? "bg-red-100 text-red-800" // Use "bg-red-100" for consistency with "text-red-800"
+                            ? "bg-red-100 text-red-800"
                             : "bg-gray-100 text-gray-800"
                         }`}
                       >
@@ -94,7 +152,7 @@ export default function Orders() {
                   </div>
 
                   {/* Order Summary */}
-                  <div className=" shrink-0">
+                  <div className="shrink-0">
                     <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 space-y-6">
                       <div className="space-y-4">
                         <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
@@ -158,9 +216,15 @@ export default function Orders() {
           </div>
         ) : (
           <div className="text-center text-gray-500 py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <p className="text-lg">No orders yet</p>
+            <p className="text-lg">
+              {activeFilter === "all"
+                ? "No orders yet"
+                : `No ${activeFilter} orders found`}
+            </p>
             <p className="text-sm mt-2">
-              Your orders will appear here once you make a purchase
+              {activeFilter === "all"
+                ? "Your orders will appear here once you make a purchase"
+                : `You don't have any orders with ${activeFilter} status`}
             </p>
           </div>
         )}

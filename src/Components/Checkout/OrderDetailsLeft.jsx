@@ -22,28 +22,43 @@ const OrderDetailsLeft = ({ onSubmit }) => {
   const selectedZilla = watch("zilla");
   const selectedPaymentMethod = watch("paymentMethod");
 
+  // Handle division change
   useEffect(() => {
-    if (selectedDivision) {
-      setZillas(Object.keys(BangladeshData[selectedDivision]));
+    if (selectedDivision && BangladeshData[selectedDivision]) {
+      const newZillas = Object.keys(BangladeshData[selectedDivision]) || [];
+      setZillas(newZillas);
+      // Reset zilla and upazilla when division changes
       setValue("zilla", "");
       setValue("upazilla", "");
+      setUpazillas([]);
     } else {
       setZillas([]);
       setUpazillas([]);
+      setValue("zilla", "");
+      setValue("upazilla", "");
     }
   }, [selectedDivision, setValue]);
 
+  // Handle zilla change
   useEffect(() => {
-    if (selectedDivision && selectedZilla) {
-      setUpazillas(BangladeshData[selectedDivision][selectedZilla]);
+    if (
+      selectedDivision &&
+      selectedZilla &&
+      BangladeshData[selectedDivision] &&
+      BangladeshData[selectedDivision][selectedZilla]
+    ) {
+      const newUpazillas =
+        BangladeshData[selectedDivision][selectedZilla] || [];
+      setUpazillas(newUpazillas);
+      // Reset only upazilla when zilla changes
       setValue("upazilla", "");
     } else {
       setUpazillas([]);
+      setValue("upazilla", "");
     }
   }, [selectedDivision, selectedZilla, setValue]);
 
   const handleFormSubmit = (data) => {
-    // Format the data according to the expected structure
     const formattedData = {
       fullName: data.orderName,
       phoneNumber: data.phone,
@@ -57,6 +72,9 @@ const OrderDetailsLeft = ({ onSubmit }) => {
 
     onSubmit(formattedData);
   };
+
+  // Get divisions safely
+  const divisions = BangladeshData ? Object.keys(BangladeshData) : [];
 
   return (
     <form id="checkout-form" onSubmit={handleSubmit(handleFormSubmit)}>
@@ -135,7 +153,7 @@ const OrderDetailsLeft = ({ onSubmit }) => {
                   } rounded h-12 px-4 py-3 focus:outline-none bg-transparent placeholder:text-neutral-500 focus:border-primary`}
                 >
                   <option value="">Select Division</option>
-                  {Object.keys(BangladeshData).map((division) => (
+                  {divisions.map((division) => (
                     <option key={division} value={division}>
                       {division}
                     </option>

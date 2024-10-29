@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
@@ -11,6 +11,7 @@ import {
 
 export default function Admin() {
   const dispatch = useDispatch();
+  const [activeFilter, setActiveFilter] = useState("all");
   useApiWithAuth();
   const { data: ordersData, isLoading, refetch } = useGetAllOrdersQuery();
   const [acceptOrder, { isLoading: isAccepting }] = useAcceptOrderMutation();
@@ -27,9 +28,7 @@ export default function Admin() {
       const result = await acceptOrder(orderId);
       if (result.data.success) {
         toast.success("Order accepted successfully");
-        // Force refetch after successful acceptance
         await refetch();
-        // Additional cache invalidation
         dispatch(orderApi.util.invalidateTags(["AllOrders"]));
       }
     } catch (error) {
@@ -42,13 +41,32 @@ export default function Admin() {
       const result = await rejectOrder(orderId);
       if (result.data.success) {
         toast.success("Order rejected successfully");
-        // Force refetch after successful rejection
         await refetch();
       }
     } catch (error) {
       toast.error(error?.data?.message || "Failed to reject order");
     }
   };
+
+  const filterOrders = (orders) => {
+    if (!orders) return [];
+    if (activeFilter === "all") return orders;
+    return orders.filter((order) => order.status === activeFilter);
+  };
+
+  const FilterButton = ({ filter, label, count }) => (
+    <button
+      onClick={() => setActiveFilter(filter)}
+      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors
+        ${
+          activeFilter === filter
+            ? "bg-blue-500 text-white"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+        }`}
+    >
+      {label} ({count})
+    </button>
+  );
 
   if (isLoading) {
     return (
@@ -58,6 +76,20 @@ export default function Admin() {
     );
   }
 
+  const filteredOrders = filterOrders(ordersData?.orders);
+  const orderCounts = {
+    all: ordersData?.orders?.length || 0,
+    pending:
+      ordersData?.orders?.filter((order) => order.status === "pending")
+        .length || 0,
+    accepted:
+      ordersData?.orders?.filter((order) => order.status === "accepted")
+        .length || 0,
+    rejected:
+      ordersData?.orders?.filter((order) => order.status === "rejected")
+        .length || 0,
+  };
+
   return (
     <div className="p-6">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
@@ -65,9 +97,32 @@ export default function Admin() {
           All Active Orders
         </h2>
 
-        {ordersData?.orders?.length > 0 ? (
+        <div className="flex gap-4 mb-6">
+          <FilterButton
+            filter="all"
+            label="All Orders"
+            count={orderCounts.all}
+          />
+          <FilterButton
+            filter="pending"
+            label="Pending"
+            count={orderCounts.pending}
+          />
+          <FilterButton
+            filter="accepted"
+            label="Accepted"
+            count={orderCounts.accepted}
+          />
+          <FilterButton
+            filter="rejected"
+            label="Rejected"
+            count={orderCounts.rejected}
+          />
+        </div>
+
+        {filteredOrders?.length > 0 ? (
           <div className="space-y-9 mx-9">
-            {[...ordersData.orders].reverse().map((order) => (
+            {[...filteredOrders].reverse().map((order) => (
               <div
                 key={order._id}
                 className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
@@ -237,9 +292,11 @@ export default function Admin() {
           </div>
         ) : (
           <div className="text-center text-gray-500 py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <p className="text-lg">No orders yet</p>
+            <p className="text-lg">No orders found</p>
             <p className="text-sm mt-2">
-              All orders will appear here once any customer places order
+              {activeFilter === "all"
+                ? "All orders will appear here once any customer places order"
+                : `No ${activeFilter} orders found`}
             </p>
           </div>
         )}
