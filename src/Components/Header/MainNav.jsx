@@ -76,7 +76,8 @@ const SearchDropdown = ({
 const MainNav = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const searchRef = useRef(null);
+  const searchRefPc = useRef(null);
+  const searchRefMobile = useRef(null);
   const navigate = useNavigate();
 
   const debouncedSearchTerm = debounce((term) => {
@@ -133,7 +134,7 @@ const MainNav = () => {
           <Logo />
           <CatalogBar className="hidden xl:inline-block" />
           <div className="hidden  xl:block">
-            <div ref={searchRef} className="relative ">
+            <div ref={searchRefPc} className="relative ">
               <div className="flex items-center gap-2 rounded border-2 border-primary/15 bg-white pr-2 transition-all duration-300 hover:border-primary dark:border-white/15 dark:bg-neutral-950">
                 <Input
                   type="text"
@@ -181,7 +182,7 @@ const MainNav = () => {
       </div>
 
       <div className="pb-2 xl:hidden">
-        <div ref={searchRef} className="relative">
+        <div ref={searchRefMobile} className="relative">
           <div className="flex items-center border border-neutral-300 bg-white pr-3 dark:bg-neutral-950">
             <Input
               type="text"
