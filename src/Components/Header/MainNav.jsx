@@ -43,7 +43,7 @@ const SearchDropdown = ({
   if (!isVisible) return null;
 
   return (
-    <div className="absolute left-0 right-0 top-full z-50 mt-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
+    <div className="absolute left-0 right-0 top-full z-30 mt-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
       <div className="p-4 flex flex-row flex-wrap gap-4 justify-center">
         {isLoading ? (
           <div className="text-center text-neutral-500">Searching...</div>
@@ -106,10 +106,15 @@ const MainNav = () => {
     navigate(`/products/${product._id}`);
   };
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+      const clickedOutsideMobile =
+        searchRefMobile.current &&
+        !searchRefMobile.current.contains(event.target);
+      const clickedOutsidePc =
+        searchRefPc.current && !searchRefPc.current.contains(event.target);
+
+      if (clickedOutsideMobile && clickedOutsidePc) {
         setShowResults(false);
       }
     };
@@ -174,6 +179,7 @@ const MainNav = () => {
           </div>
         </div>
       </div>
+
       <div className="pb-2 xl:hidden">
         <div ref={searchRef} className="relative">
           <div className="flex items-center border border-neutral-300 bg-white pr-3 dark:bg-neutral-950">

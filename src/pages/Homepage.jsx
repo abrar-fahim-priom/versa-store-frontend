@@ -5,7 +5,7 @@ import HeroSection from "../Components/HeroSection.jsx";
 export default function Homepage() {
   return (
     <>
-      <div className="bg-neutral-100 z-50 dark:bg-gray">
+      <div className="bg-neutral-100 z-40 dark:bg-gray">
         <NavBar />
         <HeroSection />
         <BestSeller />
