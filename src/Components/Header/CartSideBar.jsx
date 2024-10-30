@@ -13,7 +13,7 @@ const CartSideBar = () => {
     useCart();
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  console.log(cart);
+
   useEffect(() => {
     if (auth && cart) {
       setIsLoading(false);

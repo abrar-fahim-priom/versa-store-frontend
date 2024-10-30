@@ -115,6 +115,18 @@ export const productApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Review"],
     }),
 
+    searchProducts: builder.query({
+      query: (searchTerm) => ({
+        url: "/products/search",
+        method: "GET",
+        params: { term: searchTerm || "" }, // Use `data` for the request body
+      }),
+      transformResponse: (response) => {
+        // Handle the success and products structure from the response
+        return response.success ? response.products : [];
+      },
+    }),
+
     toggleBookmark: builder.mutation({
       query: (productId) => ({
         url: `/products/bookmark/${productId}`,
@@ -129,6 +141,7 @@ export const productApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useSearchProductsQuery,
   useToggleBookmarkMutation,
   useGetSingleCategoryQuery,
   useGetCategoriesQuery,

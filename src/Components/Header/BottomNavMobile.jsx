@@ -1,5 +1,4 @@
 import React from "react";
-import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { Link, NavLink } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
 import Darkmode from "../ui/Darkmode";
@@ -13,12 +12,6 @@ const BottomNavMobile = () => {
     error: categoriesError,
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
-
-  const dropDownMenuOptions = [
-    { href: "#", label: "Samsung" },
-    { href: "#", label: "Apple" },
-    { href: "#", label: "Xiaomi" },
-  ];
 
   const navLinks = [
     { id: "1", href: "/home", name: "Home" },
@@ -70,31 +63,7 @@ const BottomNavMobile = () => {
                   {category.name.charAt(0).toUpperCase() +
                     category.name.slice(1)}
                 </Link>
-                {category.name === "mobile" && (
-                  <div className="text-neutral-500">
-                    {openCategory === category.name ? (
-                      <BiChevronUp size={24} />
-                    ) : (
-                      <BiChevronDown size={24} />
-                    )}
-                  </div>
-                )}
               </div>
-
-              {/* Dropdown for mobile category */}
-              {category.name === "mobile" && openCategory === category.name && (
-                <div className="bg-neutral-50 dark:bg-neutral-900">
-                  {dropDownMenuOptions.map((linkItem) => (
-                    <Link
-                      key={linkItem.label}
-                      to={linkItem.href}
-                      className="block px-6 py-3 text-sm text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
-                    >
-                      {linkItem.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </div>
