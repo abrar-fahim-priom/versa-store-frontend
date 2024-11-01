@@ -30,7 +30,9 @@ const RegistrationForm = () => {
     },
   });
 
+  const [serverError, setServerError] = useState(null);
   const [shopPhotoName, setShopPhotoName] = useState("");
+  const [loading, setLoading] = useState(false);
   const registerForValue = watch("registerFor");
 
   useEffect(() => {
@@ -46,6 +48,10 @@ const RegistrationForm = () => {
   }, [registerForValue, clearErrors]);
 
   const onSubmit = async (data) => {
+    // Reset server error before submission
+    setServerError(null);
+    setLoading(true);
+
     try {
       const formData = new FormData();
 
@@ -67,11 +73,6 @@ const RegistrationForm = () => {
         }
       }
 
-      // Log formData contents
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
-
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER_BASE_URL}/auth/register`,
         formData,
@@ -85,16 +86,46 @@ const RegistrationForm = () => {
       if (response.data?.success) {
         navigate("/login", { replace: true });
       }
-      console.log("Registration successful:", response.data);
-      // Handle successful registration (e.g., show success message, redirect user)
     } catch (error) {
-      console.error(
-        "Registration failed:",
-        error.response?.data || error.message
-      );
-      // Handle registration error (e.g., show error message to user)
+      const errorData = error.response?.data;
+      console.error("Registration failed:", errorData || error.message);
+
+      // Centralized error handling similar to login form
+      if (
+        errorData?.statusCode === 400 &&
+        errorData.message === "Input validation failed"
+      ) {
+        const uniqueErrors = new Set();
+        errorData.errors?.forEach((err) => {
+          if (!uniqueErrors.has(err.path)) {
+            setError(err.path, { type: "manual", message: err.msg });
+            uniqueErrors.add(err.path);
+          }
+        });
+      } else {
+        // Set a generic server error if specific error handling doesn't apply
+        setServerError(
+          errorData?.message ||
+            "An unexpected error occurred. Please try again."
+        );
+      }
+    } finally {
+      setLoading(false);
     }
   };
+
+  const ErrorMessage = ({ message }) => (
+    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-md text-sm flex items-center">
+      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fillRule="evenodd"
+          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+          clipRule="evenodd"
+        />
+      </svg>
+      {message}
+    </div>
+  );
 
   return (
     <div>
@@ -119,9 +150,7 @@ const RegistrationForm = () => {
                   />
                 </div>
                 {errors.fullName && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.fullName.message}
-                  </p>
+                  <ErrorMessage message={errors.fullName.message} />
                 )}
               </Field>
               <Field label="Email Address" htmlFor="email">
@@ -142,9 +171,7 @@ const RegistrationForm = () => {
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.email.message}
-                  </p>
+                  <ErrorMessage message={errors.email.message} />
                 )}
               </Field>
               <Field label="Password" htmlFor="password">
@@ -185,9 +212,7 @@ const RegistrationForm = () => {
                   />
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.password.message}
-                  </p>
+                  <ErrorMessage message={errors.password.message} />
                 )}
                 <p className="text-sm text-gray-500 mt-1">
                   Password should be minimum 8 characters, including at least 1
@@ -222,9 +247,7 @@ const RegistrationForm = () => {
                   </label>
                 </div>
                 {errors.registerFor && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.registerFor.message}
-                  </p>
+                  <ErrorMessage message={errors.registerFor.message} />
                 )}
               </Field>
               {registerForValue === "vendor" && (
@@ -243,9 +266,7 @@ const RegistrationForm = () => {
                       />
                     </div>
                     {errors.shopName && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.shopName.message}
-                      </p>
+                      <ErrorMessage message={errors.shopName.message} />
                     )}
                   </Field>
                   <Field label="Shop Type" htmlFor="shopType">
@@ -262,9 +283,7 @@ const RegistrationForm = () => {
                       />
                     </div>
                     {errors.shopType && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.shopType.message}
-                      </p>
+                      <ErrorMessage message={errors.shopType.message} />
                     )}
                   </Field>
                   <Field label="Shop Address" htmlFor="shopAddress">
@@ -281,9 +300,7 @@ const RegistrationForm = () => {
                       />
                     </div>
                     {errors.shopAddress && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.shopAddress.message}
-                      </p>
+                      <ErrorMessage message={errors.shopAddress.message} />
                     )}
                   </Field>
                   <Field label="Shop License Number" htmlFor="shopLicenseNo">
@@ -300,9 +317,7 @@ const RegistrationForm = () => {
                       />
                     </div>
                     {errors.shopLicenseNo && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.shopLicenseNo.message}
-                      </p>
+                      <ErrorMessage message={errors.shopLicenseNo.message} />
                     )}
                   </Field>
                   <Field label="Shop Photo" htmlFor="shopPhoto">
@@ -328,9 +343,7 @@ const RegistrationForm = () => {
                       </label>
                     </div>
                     {errors.shopPhoto && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.shopPhoto.message}
-                      </p>
+                      <ErrorMessage message={errors.shopPhoto.message} />
                     )}
                   </Field>
                 </>
@@ -342,11 +355,11 @@ const RegistrationForm = () => {
                 type="submit"
                 className="w-full lg:w-1/2"
               >
-                Create Account
+                {loading ? "Creating Account..." : "Create Account"}
               </ButtonPrimary>
               <ButtonSecondary
                 showPointer
-                onClick={() => navigate("/account/login")}
+                onClick={() => navigate("/login")}
                 className="w-full lg:w-1/2"
               >
                 Back to Login

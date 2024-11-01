@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import { orderApi, useGetUserOrdersQuery } from "../../store/api/orderApi";
+import LoaderGradient from "../ui/LoaderGradient";
 
 export default function Orders() {
   const dispatch = useDispatch();
@@ -36,11 +37,7 @@ export default function Orders() {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-      </div>
-    );
+    return <LoaderGradient />;
   }
 
   const filteredOrders = filterOrders(ordersData?.orders);

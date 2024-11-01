@@ -1,4 +1,5 @@
 import React from "react";
+import LoaderGradient from "../ui/LoaderGradient";
 
 export default function CategoriesHeader({ CategoriesData }) {
   const { SingleCategoryData, SingleCategoryLoading, SingleCategoryError } =
@@ -7,13 +8,7 @@ export default function CategoriesHeader({ CategoriesData }) {
   console.log(SingleCategoryData);
   // Handle loading state
   if (SingleCategoryLoading) {
-    return (
-      <div className="container mt-4 pb-8">
-        <div className="relative overflow-hidden rounded-md p-6 lg:px-20 lg:py-10">
-          <h1 className="mb-4 text-4xl font-semibold text-black">Loading...</h1>
-        </div>
-      </div>
-    );
+    return <LoaderGradient />;
   }
 
   // Handle error state

@@ -13,11 +13,11 @@ export default function Login() {
             <div className="pb-24 pt-2">
               <div className="flex flex-col md:flex-row">
                 <div className="order-2 basis-1/2 md:order-1">
-                  <div className="relative aspect-video h-full bg-neutral-300 md:aspect-auto  lg:aspect-[8/7]">
+                  <div className="relative aspect-video h-full bg-white md:aspect-auto  lg:aspect-[8/7]">
                     <img
                       src={loginImage}
                       alt="about us"
-                      className="w-full h-full object-cover"
+                      className="w-full  h-full object-contain"
                     />
                   </div>
                 </div>

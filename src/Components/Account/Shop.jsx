@@ -13,6 +13,7 @@ import ProductCard from "../Products/ProductCard";
 import ProductEditForm from "../Products/ProductEditForm";
 import ProductForm from "../Products/ProductForm";
 import ShopHeader from "../Products/ShopHeader";
+import LoaderGradient from "../ui/LoaderGradient";
 
 export default function Shop() {
   useApiWithAuth();
@@ -142,7 +143,7 @@ export default function Shop() {
   }, [initialProducts]);
 
   if (userProfileLoading || productsLoading) {
-    return <div>Loading...</div>;
+    return <LoaderGradient />;
   }
 
   if (userProfileError) {

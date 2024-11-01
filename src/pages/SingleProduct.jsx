@@ -13,6 +13,7 @@ import ProductReviewSection from "../Components/Products/ProductReviewSection.js
 import ProductSlider from "../Components/Products/ProductSlider";
 import ProductTabs from "../Components/Products/ProductTabs";
 import FavoriteToggle from "../Components/ui/FavoriteToggle.jsx";
+import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
 import QuantityInput from "../Components/ui/QuantityInput";
 import useAuth from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart.js";
@@ -107,7 +108,7 @@ export default function SingleProduct() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoaderGradient />;
   if (error) return <div>Error: {error.message}</div>;
   if (!currentProduct) return <div>Product not found</div>;
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
+import LoaderGradient from "../ui/LoaderGradient";
 
 // import PhoneBar from "./PhoneBar";
 
@@ -19,15 +20,7 @@ const BottomNav = () => {
   ];
 
   if (categoriesLoading) {
-    return (
-      <div className="container relative">
-        <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600 xl:block">
-          <div className="flex items-center justify-center">
-            <div className="loader">Loading...</div>
-          </div>
-        </div>
-      </div>
-    );
+    return <LoaderGradient />;
   }
 
   if (categoriesError) {

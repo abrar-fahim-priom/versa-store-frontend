@@ -4,6 +4,7 @@ import CategoriesHeader from "../Components/Categories/CategoriesHeader";
 import SidebarFilters from "../Components/Categories/SidebarFilters";
 import NavBar from "../Components/Header/NavBar";
 import ProductCard from "../Components/Products/ProductCard";
+import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
 import {
   useGetProductsQuery,
   useGetSingleCategoryQuery,
@@ -81,7 +82,7 @@ const Categories = () => {
     setQueryParams((prev) => ({ ...prev, page: newPage }));
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoaderGradient />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

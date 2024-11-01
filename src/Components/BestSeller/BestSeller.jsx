@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary.jsx";
 import { useGetPopularProductsQuery } from "../../store/api/productApi";
 import ProductCard from "../Products/ProductCard";
+import { GroupCardsSkeleton } from "../ui/SkeletonLoaders.jsx";
 
 const BestSeller = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const BestSeller = () => {
   } = useGetPopularProductsQuery();
 
   if (isLoading) {
-    return <div>Loading best sellers...</div>;
+    return <GroupCardsSkeleton />;
   }
 
   if (isError) {
