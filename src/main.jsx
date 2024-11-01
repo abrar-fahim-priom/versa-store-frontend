@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import App from "./App.jsx";
+import About from "./Components/AboutUs/About.jsx";
 import Admin from "./Components/Account/Admin.jsx";
 import GuestRoute from "./Components/Account/GuestRoute.jsx";
 import Orders from "./Components/Account/Orders.jsx";
@@ -38,6 +39,7 @@ createRoot(document.getElementById("root")).render(
                     </GuestRoute>
                   }
                 />
+                <Route path="/about" element={<About />} />
                 <Route
                   path="/register"
                   element={
