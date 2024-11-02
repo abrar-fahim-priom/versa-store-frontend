@@ -56,12 +56,12 @@ export default function Orders() {
 
   return (
     <div className="p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+      <div className="bg-neutral-100 dark:bg-black h-full min-h-screen rounded-xl shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:bg-black dark:text-white">
           My Orders
         </h2>
 
-        <div className="flex gap-4 mb-6">
+        <div className="flex gap-4 dark:text-white mb-6">
           <FilterButton
             filter="all"
             label="All Orders"
@@ -89,7 +89,7 @@ export default function Orders() {
             {[...filteredOrders].reverse().map((order) => (
               <div
                 key={order._id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+                className="bg-white dark:bg-gray rounded-lg shadow p-6"
               >
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* Order Details */}
@@ -99,7 +99,7 @@ export default function Orders() {
                         <p className="font-medium text-gray-800 dark:text-white">
                           Order #{order.tranxId}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-gray-500 dark:text-gray">
                           {new Date(order.createdAt).toLocaleDateString(
                             "en-US",
                             {
@@ -112,15 +112,17 @@ export default function Orders() {
                       </div>
                       <span
                         className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize
-                        ${
-                          order.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : order.status === "accepted"
-                            ? "bg-green-100 text-green-800"
-                            : order.status === "cancelled"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
+    ${
+      order.status === "pending"
+        ? "bg-yellow-100 text-yellow-800"
+        : order.status === "accepted"
+        ? "bg-green-100 text-green-800"
+        : order.status === "cancelled"
+        ? "bg-red-100 text-red-800"
+        : order.status === "rejected"
+        ? "bg-red-300 text-gray-800"
+        : "bg-red-300 text-gray-800"
+    }`}
                       >
                         {order.status}
                       </span>
@@ -136,10 +138,10 @@ export default function Orders() {
                             className="w-20 h-20 object-cover rounded"
                           />
                           <div>
-                            <p className="font-medium text-gray-800 dark:text-white">
+                            <p className="font-medium text-gray dark:text-white">
                               {item.product.name}
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                            <p className="text-sm text-gray-500 dark:text-gray">
                               Quantity: {item.count}
                             </p>
                           </div>
@@ -150,14 +152,14 @@ export default function Orders() {
 
                   {/* Order Summary */}
                   <div className="shrink-0">
-                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 space-y-6">
+                    <div className="bg-white dark:bg-gray rounded-xl p-6 space-y-6">
                       <div className="space-y-4">
-                        <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
+                        <h3 className="font-semibold text-lg text-gray dark:text-white">
                           Shipping Details
                         </h3>
                         <div className="text-sm space-y-2">
                           <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-gray-400">
+                            <span className="w-20 text-gray-500 dark:text-white">
                               Name:
                             </span>
                             <span className="text-gray-800 dark:text-white">
@@ -165,7 +167,7 @@ export default function Orders() {
                             </span>
                           </div>
                           <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-gray-400">
+                            <span className="w-20 text-gray-500 dark:text-white">
                               Phone:
                             </span>
                             <span className="text-gray-800 dark:text-white">
@@ -173,7 +175,7 @@ export default function Orders() {
                             </span>
                           </div>
                           <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-gray-400">
+                            <span className="w-20 text-gray-500 dark:text-white">
                               Address:
                             </span>
                             <span className="text-gray-800 dark:text-white">
@@ -190,10 +192,10 @@ export default function Orders() {
                           Order Summary
                         </h3>
                         <div className="flex justify-between text-sm mt-4">
-                          <span className="text-gray-500 dark:text-gray-400">
+                          <span className="text-gray-500 text-lg dark:text-white">
                             Total:
                           </span>
-                          <span className="font-semibold text-gray-800 dark:text-white">
+                          <span className="font-semibold text-xl text-gray-800 dark:text-white">
                             ৳{order.totalPrice.toLocaleString()}
                           </span>
                         </div>

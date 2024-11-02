@@ -7,7 +7,7 @@ export default function PrivateRoutes() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex bg-neutral-100 dark:bg-gray items-center justify-center h-screen">
         <Transition
           show={true}
           enter="transition-opacity duration-75"

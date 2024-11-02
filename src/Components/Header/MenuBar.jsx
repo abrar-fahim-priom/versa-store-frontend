@@ -16,7 +16,7 @@ const MenuBar = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="size-7 dark:text-white"
+          className="w-7 h-7 dark:text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -30,7 +30,7 @@ const MenuBar = () => {
 
       {/* Overlay */}
       <div
-        className={`fixed inset-0 dark:text-white bg-neutral-900/60 z-40 transition-opacity ${
+        className={`fixed inset-0 bg-neutral-900/60 z-40 transition-opacity ${
           isVisible ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={handleCloseMenu}
@@ -38,7 +38,7 @@ const MenuBar = () => {
 
       {/* Sidebar with sliding transition */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-full max-w-md transition-transform duration-300 transform bg-white shadow-lg ring-1 ring-black/5 md:w-auto ${
+        className={`fixed inset-y-0 left-0 z-50 w-4/5 max-w-sm sm:max-w-md md:w-auto transition-transform duration-300 transform bg-white shadow-lg ring-1 ring-black/5 ${
           isVisible ? "translate-x-0" : "-translate-x-full"
         }`}
       >

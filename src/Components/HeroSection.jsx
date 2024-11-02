@@ -16,7 +16,7 @@ export default function HeroSection() {
           {/* First Banner */}
           <NavLink
             to="/categories/670564515858fa34536cdef8"
-            className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
+            className="group relative aspect-auto col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
               <img
@@ -30,10 +30,10 @@ export default function HeroSection() {
                 <span className="inline-block size-1 rounded-full bg-green-600 dark:bg-white"></span>
                 IN STOCK NOW
               </span>
-              <h2 className="mb-2 text-4xl font-bold leading-tight md:mt-16 md:w-[80%] lg:mt-10">
+              <h2 className="mb-2 text-xl md:text-3xl font-bold leading-tight md:mt-16 md:w-[80%] lg:mt-10">
                 Buy Smartphones !
               </h2>
-              <p className="mb-4 w-4/5 text-neutral-500 dark:text-white md:w-1/2">
+              <p className="mb-4 text-sm md:text-base w-4/5 text-neutral-500 dark:text-white md:w-1/2">
                 Find your perfect phone - sleek and stylish or budget-friendly.
               </p>
               <div className="md:mt-16 lg:mt-10">

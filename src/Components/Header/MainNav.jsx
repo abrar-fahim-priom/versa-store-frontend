@@ -28,8 +28,8 @@ const Input = ({ type, className, placeholder, value, onChange }) => (
 
 const Logo = () => (
   <Link className="flex cursor-pointer items-center gap-1" to="/">
-    <img src={versaStoreLogo} className="w-10" alt="" />
-    <span className={`text-2xl font-bold dark:text-white`}>VersaStore</span>
+    <img src={versaStoreLogo} className="w-6 md:w-10 " alt="" />
+    <span className="text-2xl font-bold dark:text-white">VersaStore</span>
   </Link>
 );
 
@@ -93,7 +93,7 @@ const MainNav = () => {
   });
 
   const handleSearchChange = (e) => {
-    const value = e.target.value.trim(); // Remove unnecessary whitespace
+    const value = e.target.value.trim();
     if (value.length >= 2) {
       debouncedSearchTerm(value);
       setShowResults(true);
@@ -125,16 +125,16 @@ const MainNav = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="flex items-center justify-between gap-6 py-3 lg:py-4">
-        <div className="xl:hidden flex flex-row items-center">
+    <div className="container px-4 md:px-6 lg:px-8">
+      <div className="flex items-center justify-between gap-4 lg:gap-6 py-3 lg:py-4">
+        <div className="xl:hidden flex items-center">
           <MenuBar />
         </div>
-        <div className="relative flex items-center gap-5 xl:grow">
+        <div className="relative flex items-center gap-4 xl:grow justify-center xl:justify-start">
           <Logo />
           <CatalogBar className="hidden xl:inline-block" />
-          <div className="hidden  xl:block">
-            <div ref={searchRefPc} className="relative ">
+          <div className="hidden xl:block">
+            <div ref={searchRefPc} className="relative">
               <div className="flex items-center gap-2 rounded border-2 border-primary/15 bg-white pr-2 transition-all duration-300 hover:border-primary dark:border-white/15 dark:bg-neutral-950">
                 <Input
                   type="text"
