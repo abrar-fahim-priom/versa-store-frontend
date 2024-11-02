@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
-import LoaderGradient from "../ui/LoaderGradient";
+import { CategorySkeleton } from "../ui/SkeletonLoaders";
 
 // import PhoneBar from "./PhoneBar";
 
@@ -12,15 +12,8 @@ const BottomNav = () => {
     isLoading: categoriesLoading,
   } = useGetCategoriesQuery();
 
-  // Placeholder dropdown menu options (you might want to replace this with actual data)
-  const dropDownMenuOptions = [
-    { href: "#", label: "Samsung" },
-    { href: "#", label: "Apple" },
-    { href: "#", label: "Xiaomi" },
-  ];
-
   if (categoriesLoading) {
-    return <LoaderGradient />;
+    return <CategorySkeleton />;
   }
 
   if (categoriesError) {
@@ -43,20 +36,6 @@ const BottomNav = () => {
                   {category.name.charAt(0).toUpperCase() +
                     category.name.slice(1)}
                 </Link>
-                {category.name === "mobile" && (
-                  <ul className="absolute left-0 hidden z-10 min-w-full bg-white border border-blue-500 px-2 py-4 shadow-lg dark:bg-neutral-800 group-hover:block">
-                    {dropDownMenuOptions.map((linkItem) => (
-                      <li key={linkItem.label}>
-                        <Link
-                          to={linkItem.href}
-                          className="inline-block w-full dark:text-white px-3 py-2 font-medium hover:text-primary"
-                        >
-                          {linkItem.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
             ))}
           </div>

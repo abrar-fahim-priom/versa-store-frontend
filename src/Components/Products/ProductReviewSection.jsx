@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaStar, FaTimes, FaUser } from "react-icons/fa";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import useAuth from "../../hooks/useAuth";
+
 import {
   useDeleteProductReviewMutation,
   useGetProductReviewsQuery,
@@ -41,6 +42,8 @@ const ProductReviewSection = ({ productId }) => {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   useApiWithAuth();
+
+  console.log("User Profile Data:", auth?.user);
 
   const handleSubmitReview = async () => {
     try {
@@ -91,50 +94,45 @@ const ProductReviewSection = ({ productId }) => {
 
   const reviews = reviewsData?.reviews || [];
 
+  console.log(reviews);
+
   return (
-    <div className="py-12 px-4 md:px-6 2xl:px-0 2xl:container 2xl:mx-auto">
+    <div className="py-12 px-4 max-w-screen-md md:px-6 2xl:px-0 2xl:container 2xl:mx-auto">
       <div className="flex flex-col justify-start items-start w-full space-y-8">
-        <h2 className="text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-white">
+        <h2 className="text-neutral-500 text-lg md:text-xl font-bold dark:text-neutral-300">
           Reviews
         </h2>
-
-        <div className="w-full bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h3 className="text-2xl font-medium text-gray-800 dark:text-white mb-4">
-            Write a Review
-          </h3>
-          <StarRating rating={rating} size="lg" onRatingChange={setRating} />
-          <textarea
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-            className="w-full p-2 mt-4 border rounded-md dark:bg-gray-700 dark:text-white"
-            placeholder="Write your review here..."
-            rows={4}
-          />
-          <button
-            onClick={handleSubmitReview}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Submit Review
-          </button>
-        </div>
+        {loggedInUserId ? (
+          <div className="w-full bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-md">
+            <h3 className="text-neutral-500 text-lg md:text-xl font-bold dark:text-neutral-300">
+              Write a Review
+            </h3>
+            <StarRating rating={rating} size="lg" onRatingChange={setRating} />
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              className="w-full p-2 mt-4 border rounded-md dark:bg-gray-700 dark:text-white"
+              placeholder="Write your review here..."
+              rows={4}
+            />
+            <button
+              onClick={handleSubmitReview}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Submit Review
+            </button>
+          </div>
+        ) : (
+          <p className="text-center text-xl text-gray-500 dark:text-white">
+            Log in to add a review for this product.
+          </p>
+        )}
 
         {reviews.map((review) => (
           <div
             key={review._id}
-            className="w-full dark:bg-gray-800 py-3 rounded-lg"
+            className="w-full border border-neutral-300 border-opacity-50 dark:border-opacity-35 dark:border-neutral-50 p-3 dark:bg-gray-800 py-3 rounded-lg"
           >
-            {loggedInUserId === review.userId?._id && (
-              <button
-                onClick={() => handleDeleteReview(review._id)}
-                className="ml-auto text-gray-400 bg-red-300 rounded-md text-xs text-white hover:text-red-500"
-                aria-label="Delete review"
-              >
-                <div className="flex flex-row gap-2 items-center">
-                  <FaTimes />
-                  Delete Review
-                </div>
-              </button>
-            )}
             <div className="flex items-center space-x-4 mb-4">
               {review.userId?.image ? (
                 <img
@@ -147,12 +145,29 @@ const ProductReviewSection = ({ productId }) => {
               )}
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                  {review.userId?.name || "Anonymous"}
+                  {review.userId?.fullName}
                 </h3>
                 <StarRating rating={review.rating} size="sm" />
               </div>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">{review.review}</p>
+            <div className="flex flex-row gap-2 justify-between items-center">
+              <p className="text-gray-600 text-lg dark:text-white">
+                {review.review}
+              </p>
+
+              {loggedInUserId && loggedInUserId === review.userId?._id && (
+                <button
+                  onClick={() => handleDeleteReview(review._id)}
+                  className="ml-auto text-gray-400 bg-red-300 rounded-md text-xs text-white hover:text-red-500"
+                  aria-label="Delete review"
+                >
+                  <div className="flex flex-row gap-2 items-center">
+                    <FaTimes />
+                    Delete Review
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>

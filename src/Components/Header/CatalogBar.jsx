@@ -4,7 +4,7 @@ import banner1 from "../../images/banner-1_3.webp";
 import banner2 from "../../images/banner-1_4.webp";
 import ShopNowButton2 from "../../shared/Button/ShopNowButton2.jsx";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
-import LoaderGradient from "../ui/LoaderGradient";
+import { CategorySkeleton } from "../ui/SkeletonLoaders.jsx";
 
 const CatalogBar = ({ className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,7 +23,7 @@ const CatalogBar = ({ className = "" }) => {
   const firstColumnCategories = categories.slice(0, midPoint);
   const secondColumnCategories = categories.slice(midPoint);
 
-  if (categoriesLoading) return <LoaderGradient />;
+  if (categoriesLoading) return <CategorySkeleton />;
   if (categoriesError) return <div>Error loading categories</div>;
 
   return (

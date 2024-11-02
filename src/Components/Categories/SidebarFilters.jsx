@@ -193,7 +193,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
           lg:block
         `}
       >
-        <div className="lg:hidden flex justify-between items-center p-4 border-b dark:border-gray-700">
+        <div className="lg:hidden flex justify-between items-center p-4 border-b border-opacity-20 border-neutral-300 ">
           <h2 className="text-lg font-medium dark:text-white">Filters</h2>
           <button
             onClick={() => setIsVisible(false)}
@@ -203,7 +203,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
           </button>
         </div>
 
-        <div className="divide-y dark:divide-gray-700">
+        <div className="border-b border-opacity-20 border-neutral-300">
           {renderCheckboxGroup("Brands", uniqueValues.brands, "brands")}
           {renderPriceRange()}
           {renderCheckboxGroup(

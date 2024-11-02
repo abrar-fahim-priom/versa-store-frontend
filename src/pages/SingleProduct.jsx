@@ -14,8 +14,8 @@ import ImageShowCase from "../Components/Products/ImageShowCase";
 import ProductReviewSection from "../Components/Products/ProductReviewSection.jsx";
 import ProductSlider from "../Components/Products/ProductSlider";
 import FavoriteToggle from "../Components/ui/FavoriteToggle.jsx";
-import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
 import QuantityInput from "../Components/ui/QuantityInput";
+import { ProductSkeleton } from "../Components/ui/SkeletonLoaders.jsx";
 import useAuth from "../hooks/useAuth";
 import { useCart } from "../hooks/useCart.js";
 import ButtonPrimary from "../shared/Button/ButtonPrimary";
@@ -109,15 +109,13 @@ export default function SingleProduct() {
     }
   };
 
-  if (isLoading) return <LoaderGradient />;
+  if (isLoading) return <ProductSkeleton />;
   if (error) return <div>Error: {error.message}</div>;
   if (!currentProduct) return <div>Product not found</div>;
 
   const productImages = currentProduct.images.map((image) => image.url);
   const discountedPrice =
     currentProduct.price * (1 - currentProduct.discount / 100);
-
-  console.log(currentProduct);
 
   return (
     <>

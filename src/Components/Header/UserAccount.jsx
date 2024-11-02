@@ -67,7 +67,7 @@ const UserAccount = () => {
                     </ButtonPrimary>
                   </Link>
                   <Link to="/register" className="text-center w-full">
-                    <span>Create Account</span>
+                    <span className="dark:text-white">Create Account</span>
                   </Link>
                 </>
               ) : (

@@ -3,7 +3,7 @@ import { FaIdCard, FaMapMarkerAlt, FaStore } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
 import { useUpdateUserProfileMutation } from "../../store/api/userApi";
 import ProductCard from "../Products/ProductCard";
-import LoaderGradient from "../ui/LoaderGradient";
+import { ProductSkeleton } from "../ui/SkeletonLoaders";
 import EditProfileComponent from "./EditProfileComponent";
 
 export default function ProfileInfo() {
@@ -12,7 +12,7 @@ export default function ProfileInfo() {
   const [updateUserProfile] = useUpdateUserProfileMutation();
 
   if (isLoading) {
-    return <LoaderGradient />;
+    return <ProductSkeleton />;
   }
 
   if (error) {
