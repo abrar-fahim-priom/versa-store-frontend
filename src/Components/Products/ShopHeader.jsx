@@ -4,7 +4,7 @@ import { BiErrorCircle, BiMap, BiPhone, BiStore } from "react-icons/bi";
 const ShopHeader = ({ shopData }) => {
   if (!shopData) {
     return (
-      <div className="w-full rounded-lg border border-red-500 bg-white dark:bg-gray-800">
+      <div className="w-full rounded-lg border shadow-lg border-red-500 bg-white dark:bg-gray-800">
         <div className="p-6 flex items-center justify-center text-red-500">
           <BiErrorCircle className="w-5 h-5 mr-2" />
           <span>Unable to load shop information. Please try again later.</span>
@@ -22,23 +22,23 @@ const ShopHeader = ({ shopData }) => {
   } = shopData;
 
   return (
-    <div className="w-full container rounded-lg mt-3 border border-cyan-600 dark:border-gray-700 overflow-hidden bg-white dark:bg-gray-800">
+    <div className="w-full shadow-lg container rounded-lg mt-3 border border-cyan-600 dark:border-gray-700 overflow-hidden bg-white dark:bg-slate-800">
       <div className="grid grid-cols-[auto,1fr] gap-3 md:gap-6 items-center">
         {/* Shop Info Section */}
         <div className="p-3 md:p-6 flex flex-col justify-center ">
           <div className="space-y-1 md:space-y-3">
-            <h2 className="text-lg md:text-2xl font-bold text-gray-900">
+            <h2 className="text-lg md:text-2xl dark:text-white font-bold text-gray-900">
               {shopName}
             </h2>
-            <div className="flex items-center text-gray-600 dark:text-gray-300">
+            <div className="flex dark:text-white items-center text-gray-600 ">
               <BiMap className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               <span>{shopAddress}</span>
             </div>
-            <div className="flex items-center text-gray-600 dark:text-gray-300">
+            <div className="flex dark:text-white items-center text-gray-600 ">
               <BiPhone className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               <span>{phone}</span>
             </div>
-            <div className="flex items-center text-gray-600 dark:text-gray-300">
+            <div className="flex dark:text-white items-center text-gray-600 ">
               <BiStore className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               <span>{shopType}</span>
             </div>
@@ -59,7 +59,7 @@ const ShopHeader = ({ shopData }) => {
             />
           ) : (
             <div className="absolute inset-0 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-              <div className="text-center text-gray-500 dark:text-gray-400">
+              <div className="text-center dark:text-white text-gray-500">
                 <BiStore className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-2" />
                 <p>No shop image available</p>
               </div>

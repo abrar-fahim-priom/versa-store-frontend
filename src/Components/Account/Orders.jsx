@@ -55,13 +55,13 @@ export default function Orders() {
   };
 
   return (
-    <div className="p-6">
-      <div className="bg-neutral-100 dark:bg-black h-full min-h-screen rounded-xl shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:bg-black dark:text-white">
+    <div className="p-4 md:p-6 lg:p-8">
+      <div className="bg-neutral-100 dark:bg-black h-full min-h-screen rounded-xl shadow-lg p-4 md:p-6">
+        <h2 className="text-xl md:text-2xl font-bold mb-6 text-gray-800 dark:text-white">
           My Orders
         </h2>
 
-        <div className="flex gap-4 dark:text-white mb-6">
+        <div className="flex dark:text-white flex-wrap gap-4 mb-6">
           <FilterButton
             filter="all"
             label="All Orders"
@@ -85,21 +85,21 @@ export default function Orders() {
         </div>
 
         {filteredOrders?.length > 0 ? (
-          <div className="space-y-9 mx-9">
+          <div className="space-y-6">
             {[...filteredOrders].reverse().map((order) => (
               <div
                 key={order._id}
-                className="bg-white dark:bg-gray rounded-lg shadow p-6"
+                className="bg-white dark:bg-gray rounded-lg shadow p-4 md:p-6"
               >
-                <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex flex-col gap-6 lg:flex-row">
                   {/* Order Details */}
                   <div className="lg:flex-1">
-                    <div className="flex items-center justify-between pb-4 border-b">
+                    <div className="flex flex-col gap-4 items-start md:flex-row md:items-center md:justify-between pb-4 border-b border-slate-200">
                       <div>
-                        <p className="font-medium text-gray-800 dark:text-white">
+                        <p className="font-medium text-sm md:text-base md:font-medium text-gray-800 dark:text-white">
                           Order #{order.tranxId}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray">
+                        <p className="text-sm text-gray dark:text-gray">
                           {new Date(order.createdAt).toLocaleDateString(
                             "en-US",
                             {
@@ -131,17 +131,20 @@ export default function Orders() {
                     {/* Products List */}
                     <div className="space-y-4 mt-4">
                       {order.products.map((item) => (
-                        <div key={item._id} className="flex items-center gap-4">
+                        <div
+                          key={item._id}
+                          className="flex dark:text-white items-center gap-4"
+                        >
                           <img
                             src={item.product.images?.[0]?.url}
                             alt={item.product.name}
-                            className="w-20 h-20 object-cover rounded"
+                            className="w-16 h-16 md:w-20 md:h-20 object-cover rounded"
                           />
                           <div>
-                            <p className="font-medium text-gray dark:text-white">
+                            <p className="font-medium text-gray-800 dark:text-white">
                               {item.product.name}
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray">
+                            <p className="text-sm text-gray dark:text-white">
                               Quantity: {item.count}
                             </p>
                           </div>
@@ -152,50 +155,47 @@ export default function Orders() {
 
                   {/* Order Summary */}
                   <div className="shrink-0">
-                    <div className="bg-white dark:bg-gray rounded-xl p-6 space-y-6">
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg text-gray dark:text-white">
-                          Shipping Details
-                        </h3>
-                        <div className="text-sm space-y-2">
-                          <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-white">
-                              Name:
-                            </span>
-                            <span className="text-gray-800 dark:text-white">
-                              {order.orderName}
-                            </span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-white">
-                              Phone:
-                            </span>
-                            <span className="text-gray-800 dark:text-white">
-                              {order.phoneNumber}
-                            </span>
-                          </div>
-                          <div className="flex">
-                            <span className="w-20 text-gray-500 dark:text-white">
-                              Address:
-                            </span>
-                            <span className="text-gray-800 dark:text-white">
-                              {order.houseNo}, {order.subDistrict},{" "}
-                              {order.district}, {order.division},{" "}
-                              {order.postCode}
-                            </span>
-                          </div>
+                    <div className="bg-white dark:bg-gray rounded-xl p-4 md:p-6 space-y-4 md:space-y-6">
+                      <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
+                        Shipping Details
+                      </h3>
+                      <div className="text-sm space-y-2">
+                        <div className="flex">
+                          <span className="w-16 md:w-20 text-gray dark:text-white">
+                            Name:
+                          </span>
+                          <span className="text-gray-800 dark:text-white">
+                            {order.orderName}
+                          </span>
+                        </div>
+                        <div className="flex">
+                          <span className="w-16 md:w-20 text-gray dark:text-white">
+                            Phone:
+                          </span>
+                          <span className="text-gray-800 dark:text-white">
+                            {order.phoneNumber}
+                          </span>
+                        </div>
+                        <div className="flex">
+                          <span className="w-16 md:w-20 text-gray dark:text-white">
+                            Address:
+                          </span>
+                          <span className="text-gray-800 dark:text-white">
+                            {order.houseNo}, {order.subDistrict},{" "}
+                            {order.district}, {order.division}, {order.postCode}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                      <div className="border-t border-slate-200  dark:border-gray-600 pt-4">
                         <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
                           Order Summary
                         </h3>
                         <div className="flex justify-between text-sm mt-4">
-                          <span className="text-gray-500 text-lg dark:text-white">
+                          <span className="text-gray text-lg dark:text-gray-300">
                             Total:
                           </span>
-                          <span className="font-semibold text-xl text-gray-800 dark:text-white">
+                          <span className="font-semibold text-xl text-green-600 text-gray-800 ">
                             ৳{order.totalPrice.toLocaleString()}
                           </span>
                         </div>
@@ -214,7 +214,7 @@ export default function Orders() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray-500 py-12 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="text-center text-gray py-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <p className="text-lg">
               {activeFilter === "all"
                 ? "No orders yet"

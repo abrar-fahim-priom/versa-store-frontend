@@ -26,7 +26,7 @@ export default function Shop() {
   });
 
   const vendorId = userProfile?.profile?._id;
-  // console.log(shopData);
+  console.log(userProfile?.profile?.user_type);
 
   const {
     data: vendorProductsData,
@@ -37,8 +37,6 @@ export default function Shop() {
   } = useGetVendorProductsQuery(vendorId, {
     skip: !vendorId, // Skip the query if vendorId is not available
   });
-
-  console.log(vendorProductsData);
 
   const initialProducts = useMemo(
     () => vendorProductsData?.products || [],
@@ -157,13 +155,24 @@ export default function Shop() {
   return (
     <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
       <div className="flex justify-center">
-        <ShopHeader shopData={userProfile?.profile} />
+        {(userProfile?.profile?.user_type === "vendor" ||
+          userProfile?.profile?.user_type === "admin") && (
+          <ShopHeader shopData={userProfile?.profile} />
+        )}
       </div>
 
       <div className="flex justify-center">
-        <ButtonSecondary onClick={handleAddProduct} className="w-32 mt-2">
-          Add Product
-        </ButtonSecondary>
+        {(userProfile?.profile?.user_type === "vendor" ||
+          userProfile?.profile?.user_type === "admin") && (
+          <ButtonSecondary onClick={handleAddProduct} className="w-32 mt-2">
+            Add Product
+          </ButtonSecondary>
+        )}
+        {userProfile?.profile?.user_type === "customer" && (
+          <p className="text-xl lg:text-3xl font-medium text-black dark:text-white m-5">
+            Create a Vendor Profile to start selling with your own shop !!
+          </p>
+        )}
       </div>
       <div className="container mx-auto px-4 py-8">
         {productAddField ? (
@@ -176,12 +185,15 @@ export default function Shop() {
           />
         ) : (
           <div className="grid grid-cols-12 gap-6">
-            <div className="hidden lg:block md:col-span-5 lg:col-span-3">
-              <SidebarFilters
-                products={initialProducts}
-                onFilterChange={handleFilterChange}
-              />
-            </div>
+            {(userProfile?.profile?.user_type === "vendor" ||
+              userProfile?.profile?.user_type === "admin") && (
+              <div className="hidden lg:block md:col-span-5 lg:col-span-3">
+                <SidebarFilters
+                  products={initialProducts}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+            )}
 
             <div className="col-span-12 md:col-span-12 lg:col-span-9">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">

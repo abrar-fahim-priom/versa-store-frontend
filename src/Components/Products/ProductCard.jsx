@@ -16,7 +16,7 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
               Sale
             </span>
           )}
-          <div className="relative aspect-square dark:bg-gray bg-white">
+          <div className="relative aspect-square dark:bg-slate-700 bg-white">
             <img
               src={productImage}
               alt={`${product.name} cover photo`}
