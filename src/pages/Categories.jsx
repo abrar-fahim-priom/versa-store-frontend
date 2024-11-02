@@ -97,7 +97,7 @@ const Categories = () => {
       />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-12 gap-6">
-          <div className="hidden lg:block md:col-span-5 lg:col-span-3">
+          <div className=" md:col-span-5 lg:col-span-3">
             <SidebarFilters
               products={data?.data?.products || []}
               onFilterChange={handleFilterChange}
@@ -117,7 +117,7 @@ const Categories = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 mt-8">
+              <div className="text-center dark:text-white text-gray-500 mt-8">
                 End of product list
               </div>
             )}

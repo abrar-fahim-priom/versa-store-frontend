@@ -19,7 +19,7 @@ import {
 } from "../../store/api/productApi";
 import Field from "../Common/Field";
 
-export default function ProductForm() {
+export default function ProductForm({ onCancel, refetch }) {
   // useApiWithAuth();
   const {
     data,
@@ -51,7 +51,7 @@ export default function ProductForm() {
       name: "",
       description: "",
       price: "",
-      discount: "",
+      discount: "0",
       brand: "",
       stock: "",
       category: null, // Change this to null initially
@@ -153,7 +153,12 @@ export default function ProductForm() {
 
     try {
       const response = await createProduct(formData).unwrap();
-      console.log("Product created successfully:", response);
+      console.log("The response:", response);
+
+      if (response?.success) {
+        onCancel(null);
+        refetch();
+      }
     } catch (err) {
       console.error("Failed to create product:", err);
       console.error("Error details:", JSON.stringify(err, null, 2));
@@ -554,13 +559,22 @@ export default function ProductForm() {
         </Field>
       )}
 
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white py-3 rounded hover:bg-blue-600 transition-colors"
-        disabled={isCreating}
-      >
-        {isCreating ? "Creating Product..." : "Add Product"}
-      </button>
+      <div className="flex justify-end space-x-4">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-4 bg-blue-500 text-white py-3 rounded hover:bg-blue-600 transition-colors"
+          disabled={isCreating}
+        >
+          {isCreating ? "Creating Product..." : "Add Product"}
+        </button>
+      </div>
 
       {createSuccess && (
         <div className="mt-4 p-4 bg-green-100 text-green-700 rounded">
@@ -573,14 +587,6 @@ export default function ProductForm() {
           Error creating product. Please check the form and try again.
         </div>
       )}
-
-      {/* Debug section */}
-      <div className="mt-4 p-4 bg-gray-100 rounded">
-        <h3 className="font-bold mb-2">Debug Info:</h3>
-        <pre className="whitespace-pre-wrap">
-          {JSON.stringify({ errors, watchVariants, serverErrors }, null, 2)}
-        </pre>
-      </div>
     </form>
   );
 }

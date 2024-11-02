@@ -176,7 +176,7 @@ export default function Shop() {
       </div>
       <div className="container mx-auto px-4 py-8">
         {productAddField ? (
-          <ProductForm />
+          <ProductForm refetch={() => refetch} onCancel={handleAddProduct} />
         ) : editingProduct ? (
           <ProductEditForm
             product={editingProduct}
@@ -187,7 +187,7 @@ export default function Shop() {
           <div className="grid grid-cols-12 gap-6">
             {(userProfile?.profile?.user_type === "vendor" ||
               userProfile?.profile?.user_type === "admin") && (
-              <div className="hidden lg:block md:col-span-5 lg:col-span-3">
+              <div className=" md:col-span-5 lg:col-span-3">
                 <SidebarFilters
                   products={initialProducts}
                   onFilterChange={handleFilterChange}
@@ -196,48 +196,54 @@ export default function Shop() {
             )}
 
             <div className="col-span-12 md:col-span-12 lg:col-span-9">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                {filteredProducts.map((product) => (
-                  <div key={product._id} className="w-full relative">
-                    {/* Three-dot icon positioned in the top-right corner */}
-                    <div
-                      className="absolute top-2 right-2 z-10 cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevents triggering the global click listener
-                        handleMenuToggle(product._id);
-                      }}
-                    >
-                      <FiMoreVertical />
-                    </div>
-
-                    {/* Dropdown menu for edit and delete */}
-                    {activeMenu === product._id && (
-                      <div className="absolute top-8 right-2 bg-white dark:bg-gray-800 shadow-lg rounded-md w-32 menu-container z-20">
-                        <ul className="text-gray-700 dark:text-gray-200">
-                          <li
-                            className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-                            onClick={() => handleEditProduct(product._id)}
-                          >
-                            Edit Product
-                          </li>
-                          <li
-                            className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
-                            onClick={() => handleDeleteProduct(product._id)}
-                          >
-                            Delete Product
-                          </li>
-                        </ul>
+              {filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                  {filteredProducts.map((product) => (
+                    <div key={product._id} className="w-full relative">
+                      {/* Three-dot icon positioned in the top-right corner */}
+                      <div
+                        className="absolute top-2 right-2 z-10 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevents triggering the global click listener
+                          handleMenuToggle(product._id);
+                        }}
+                      >
+                        <FiMoreVertical />
                       </div>
-                    )}
 
-                    {/* Product card */}
-                    <ProductCard
-                      className="w-full hover:border-indigo-400 hover:rounded hover:border h-full transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-md"
-                      product={product}
-                    />
-                  </div>
-                ))}
-              </div>
+                      {/* Dropdown menu for edit and delete */}
+                      {activeMenu === product._id && (
+                        <div className="absolute top-8 right-2 bg-white dark:bg-gray-800 shadow-lg rounded-md w-32 menu-container z-20">
+                          <ul className="text-gray-700 dark:text-gray-200">
+                            <li
+                              className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                              onClick={() => handleEditProduct(product._id)}
+                            >
+                              Edit Product
+                            </li>
+                            <li
+                              className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                              onClick={() => handleDeleteProduct(product._id)}
+                            >
+                              Delete Product
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Product card */}
+                      <ProductCard
+                        className="w-full hover:border-indigo-400 hover:rounded hover:border h-full transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-md"
+                        product={product}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center text-gray-500 dark:text-gray-400 mt-4">
+                  No products added yet in your shop.
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -251,22 +257,22 @@ export default function Shop() {
       >
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="mx-auto max-w-sm rounded bg-white p-6 dark:bg-gray-800">
+          <Dialog.Panel className="mx-auto max-w-sm rounded bg-white p-6 dark:bg-gray">
             <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
               Delete Product
             </Dialog.Title>
-            <Dialog.Description className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <Dialog.Description className="mt-2 text-sm text-gray-500 dark:text-white">
               Are you sure you want to delete this product? This action cannot
               be undone.
             </Dialog.Description>
 
-            <p className="mt-4 text-sm text-gray-700 dark:text-gray-300">
+            <p className="mt-4 text-sm text-gray-700 dark:text-white">
               Product: {productToDelete?.name}
             </p>
 
             <div className="mt-6 flex justify-end space-x-4">
               <button
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray dark:text-white dark:border-gray-600 dark:hover:bg-gray-600"
                 onClick={() => setIsDeleteDialogOpen(false)}
               >
                 Cancel
