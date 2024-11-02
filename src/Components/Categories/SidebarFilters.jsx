@@ -187,7 +187,7 @@ const SidebarFilters = ({ products, onFilterChange }) => {
             isVisible ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0
           transition-transform duration-300 ease-in-out
-          bg-white dark:bg-slate-600 
+          bg-white dark:bg-neutral-900 
           shadow-lg lg:shadow rounded-lg
           overflow-y-auto h-screen lg:h-auto
           lg:block
@@ -212,7 +212,6 @@ const SidebarFilters = ({ products, onFilterChange }) => {
             "stockStatus"
           )}
           {renderCheckboxGroup("Discount", uniqueValues.discount, "discount")}
-          {renderCheckboxGroup("Rating", uniqueValues.rating, "rating")}
         </div>
       </div>
     </>

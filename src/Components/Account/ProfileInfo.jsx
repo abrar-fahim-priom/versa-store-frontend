@@ -3,6 +3,7 @@ import { FaIdCard, FaMapMarkerAlt, FaStore } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
 import { useUpdateUserProfileMutation } from "../../store/api/userApi";
 import ProductCard from "../Products/ProductCard";
+import LoaderGradient from "../ui/LoaderGradient";
 import EditProfileComponent from "./EditProfileComponent";
 
 export default function ProfileInfo() {
@@ -11,7 +12,7 @@ export default function ProfileInfo() {
   const [updateUserProfile] = useUpdateUserProfileMutation();
 
   if (isLoading) {
-    return <div className="text-center py-4">Loading profile...</div>;
+    return <LoaderGradient />;
   }
 
   if (error) {
@@ -24,7 +25,9 @@ export default function ProfileInfo() {
 
   if (!userProfile || !userProfile.profile) {
     return (
-      <div className="text-center py-4">No user profile data available</div>
+      <div className="text-center text-xl text-black dark:text-white flex items-center justify-center py-4">
+        No user profile data available
+      </div>
     );
   }
 
@@ -61,7 +64,7 @@ export default function ProfileInfo() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Profile Section */}
         <div className="lg:col-span-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-lg overflow-hidden">
             <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-4 h-32">
               <button
                 onClick={() => setIsEditing(true)}
@@ -81,9 +84,7 @@ export default function ProfileInfo() {
                 <h2 className="mt-4 text-2xl font-bold text-gray-800 dark:text-white">
                   {profile.fullName}
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {profile.email}
-                </p>
+                <p className="text-gray-600 dark:text-white">{profile.email}</p>
                 <div className="mt-4 inline-block px-4 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-semibold">
                   {profile.user_type.charAt(0).toUpperCase() +
                     profile.user_type.slice(1)}
@@ -91,18 +92,14 @@ export default function ProfileInfo() {
               </div>
 
               <div className="mt-8 space-y-4">
-                <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-                  <span className="text-gray-600 dark:text-gray-400">
-                    Phone
-                  </span>
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-200">
+                  <span className="text-gray-600 dark:text-white">Phone</span>
                   <span className="font-medium dark:text-white">
                     {profile.phone || "Not provided"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-                  <span className="text-gray-600 dark:text-gray-400">
-                    Joined
-                  </span>
+                <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-200">
+                  <span className="text-gray-600 dark:text-white">Joined</span>
                   <span className="font-medium dark:text-white">
                     {new Date(profile.createdAt).toLocaleDateString()}
                   </span>
@@ -114,24 +111,24 @@ export default function ProfileInfo() {
                       Shop Information
                     </h3>
                     <div className="space-y-4">
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-                        <span className="text-gray-600 dark:text-gray-400 flex items-center">
+                      <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-200">
+                        <span className="text-gray-600 dark:text-white flex items-center">
                           <FaStore className="mr-2" /> Shop Name
                         </span>
                         <span className="font-medium dark:text-white">
                           {profile.shopName || "Not provided"}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-                        <span className="text-gray-600 dark:text-gray-400 flex items-center">
+                      <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-200">
+                        <span className="text-gray-600 dark:text-white flex items-center">
                           <FaIdCard className="mr-2" /> License No
                         </span>
                         <span className="font-medium dark:text-white">
                           {profile.shopLicenseNo || "Not provided"}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-700">
-                        <span className="text-gray-600 dark:text-gray-400 flex items-center">
+                      <div className="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-200">
+                        <span className="text-gray-600 dark:text-white flex items-center">
                           <FaMapMarkerAlt className="mr-2" /> Address
                         </span>
                         <span className="font-medium dark:text-white">
@@ -148,8 +145,8 @@ export default function ProfileInfo() {
 
         {/* Favorites Section */}
         <div className="lg:col-span-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+          <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-lg p-6">
+            <h2 className="text-2xl font-bold mb-6 text-black dark:text-white">
               Favorite Items
             </h2>
             {profile?.bookmarks?.length > 0 ? (
@@ -164,7 +161,7 @@ export default function ProfileInfo() {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="text-center text-black py-8 bg-gray-50 dark:text-white rounded-lg">
                 <p className="text-lg">No favorite items yet</p>
                 <p className="text-sm mt-2">
                   Items you bookmark will appear here

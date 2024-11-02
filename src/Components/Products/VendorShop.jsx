@@ -6,6 +6,7 @@ import SidebarFilters from "../Categories/SidebarFilters";
 import MainNav from "../Header/MainNav";
 import ProductCard from "../Products/ProductCard";
 import ShopHeader from "../Products/ShopHeader";
+import LoaderGradient from "../ui/LoaderGradient";
 
 export default function VendorShop() {
   // console.log(shopData);
@@ -77,6 +78,10 @@ export default function VendorShop() {
     return <div>Error loading products: {productsErrorData.message}</div>;
   }
 
+  if (productsLoading) {
+    return <LoaderGradient />;
+  }
+
   return (
     <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
       <div className="shadow ">
@@ -89,7 +94,7 @@ export default function VendorShop() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-12 gap-6">
-          <div className="hidden lg:block md:col-span-5 lg:col-span-3">
+          <div className=" md:col-span-5 lg:col-span-3">
             <SidebarFilters
               products={initialProducts}
               onFilterChange={handleFilterChange}

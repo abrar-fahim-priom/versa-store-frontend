@@ -27,21 +27,25 @@ const Categories = () => {
   } = useGetSingleCategoryQuery(categoryId);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // console.log(SingleCategoryData);
-
   useEffect(() => {
-    setQueryParams((prev) => ({ ...prev, category: categoryId }));
+    setQueryParams({
+      category: categoryId,
+      page: 1,
+      limit: 10,
+    });
   }, [categoryId]);
 
   useEffect(() => {
-    if (data && data.data && data.data.products) {
+    if (data?.data?.products) {
       setFilteredProducts(data.data.products);
+    } else {
+      setFilteredProducts([]);
     }
   }, [data]);
 
   const handleFilterChange = useCallback(
     (filters) => {
-      if (data && data.data && data.data.products) {
+      if (data?.data?.products) {
         setFilteredProducts(
           data.data.products.filter((product) => {
             const matchesBrand =
@@ -97,11 +101,13 @@ const Categories = () => {
       />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-12 gap-6">
-          <div className=" md:col-span-5 lg:col-span-3">
-            <SidebarFilters
-              products={data?.data?.products || []}
-              onFilterChange={handleFilterChange}
-            />
+          <div className="md:col-span-5 lg:col-span-3">
+            {data?.data?.products?.length > 0 && (
+              <SidebarFilters
+                products={data.data.products || []}
+                onFilterChange={handleFilterChange}
+              />
+            )}
           </div>
 
           <div className="col-span-12 md:col-span-12 lg:col-span-9">
@@ -117,13 +123,16 @@ const Categories = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center dark:text-white text-gray-500 mt-8">
-                End of product list
+              <div className="w-full flex items-center justify-center min-h-[200px]">
+                <p className="text-center dark:text-white text-gray-500">
+                  No more products in this category to show
+                </p>
               </div>
             )}
+
             <div className="flex justify-center mt-4">
               <button
-                className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 onClick={() => handlePageChange(queryParams.page - 1)}
                 disabled={queryParams.page === 1}
               >

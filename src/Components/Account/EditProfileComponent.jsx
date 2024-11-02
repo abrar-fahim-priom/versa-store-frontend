@@ -96,7 +96,7 @@ const EditProfileComponent = ({
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+    <div className="max-w-md mx-auto bg-white dark:bg-slate-600 rounded-xl shadow-lg p-6">
       <h2 className="text-2xl font-bold mb-6 dark:text-white">Edit Profile</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Profile Image */}
@@ -235,7 +235,7 @@ const EditProfileComponent = ({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors"
+            className="px-4 py-2 bg-gray-300 dark:text-white text-gray-700 rounded hover:bg-gray-400 transition-colors"
           >
             Cancel
           </button>

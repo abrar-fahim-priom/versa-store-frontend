@@ -56,7 +56,7 @@ export default function Orders() {
 
   return (
     <div className="p-4 md:p-6 lg:p-8">
-      <div className="bg-neutral-100 dark:bg-black h-full min-h-screen rounded-xl shadow-lg p-4 md:p-6">
+      <div className="bg-neutral-100 dark:bg-slate-600 h-full min-h-screen rounded-xl shadow-lg p-4 md:p-6">
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-gray-800 dark:text-white">
           My Orders
         </h2>
@@ -214,7 +214,7 @@ export default function Orders() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray py-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="text-center text-gray dark:text-white py-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <p className="text-lg">
               {activeFilter === "all"
                 ? "No orders yet"

@@ -240,9 +240,12 @@ export default function Shop() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center text-gray-500 dark:text-gray-400 mt-4">
-                  No products added yet in your shop.
-                </div>
+                (userProfile?.profile?.user_type === "vendor" ||
+                  userProfile?.profile?.user_type === "admin") && (
+                  <div className="text-center text-gray-500 dark:text-gray-400 mt-4">
+                    No products added yet in your shop.
+                  </div>
+                )
               )}
             </div>
           </div>

@@ -1,23 +1,30 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import banner1 from "../../images/banner-1_3.webp";
 import banner2 from "../../images/banner-1_4.webp";
-
-const footerLinks = [
-  { name: "Starter Site 1", href: "#" },
-  { name: "Starter Site 2", href: "#" },
-  { name: "Starter Site 3", href: "#" },
-  { name: "Collection 1", href: "#" },
-  { name: "Collection 2", href: "#" },
-  { name: "Collection 3", href: "#" },
-];
-
 import ShopNowButton2 from "../../shared/Button/ShopNowButton2.jsx";
+import { useGetCategoriesQuery } from "../../store/api/productApi";
+import LoaderGradient from "../ui/LoaderGradient";
 
 const CatalogBar = ({ className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const {
+    data: categoriesData,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useGetCategoriesQuery();
 
   const handleOpenMenu = () => setIsVisible(true);
   const handleCloseMenu = () => setIsVisible(false);
+
+  // Split categories into two groups for the two-column layout
+  const categories = categoriesData?.categories || [];
+  const midPoint = Math.ceil(categories.length / 2);
+  const firstColumnCategories = categories.slice(0, midPoint);
+  const secondColumnCategories = categories.slice(midPoint);
+
+  if (categoriesLoading) return <LoaderGradient />;
+  if (categoriesError) return <div>Error loading categories</div>;
 
   return (
     <div className={`flex flex-row ${className}`}>
@@ -40,14 +47,18 @@ const CatalogBar = ({ className = "" }) => {
                 <div className="grid grid-cols-12 gap-3">
                   <div className="col-span-2">
                     <h4 className="mb-2 font-medium text-gray-800 dark:text-white">
-                      Starter Sites
+                      Categories
                     </h4>
                     <div className="space-y-2 text-neutral-500 dark:text-neutral-300">
-                      {footerLinks.slice(0, 3).map((link) => (
-                        <div key={link.name} className="text-sm">
-                          <a href={link.href} className="hover:underline">
-                            {link.name}
-                          </a>
+                      {firstColumnCategories.map((category) => (
+                        <div key={category._id} className="text-sm">
+                          <Link
+                            to={`/categories/${category._id}`}
+                            className="hover:text-primary hover:underline transition-colors"
+                          >
+                            {category.name.charAt(0).toUpperCase() +
+                              category.name.slice(1)}
+                          </Link>
                         </div>
                       ))}
                     </div>
@@ -55,14 +66,18 @@ const CatalogBar = ({ className = "" }) => {
 
                   <div className="col-span-2">
                     <h4 className="mb-2 font-medium text-gray-800 dark:text-white">
-                      Collections
+                      More Categories
                     </h4>
                     <div className="space-y-2 text-neutral-500 dark:text-neutral-300">
-                      {footerLinks.slice(3).map((link) => (
-                        <div key={link.name} className="text-sm">
-                          <a href={link.href} className="hover:underline">
-                            {link.name}
-                          </a>
+                      {secondColumnCategories.map((category) => (
+                        <div key={category._id} className="text-sm">
+                          <Link
+                            to={`/categories/${category._id}`}
+                            className="hover:text-primary hover:underline transition-colors"
+                          >
+                            {category.name.charAt(0).toUpperCase() +
+                              category.name.slice(1)}
+                          </Link>
                         </div>
                       ))}
                     </div>
@@ -77,7 +92,7 @@ const CatalogBar = ({ className = "" }) => {
                           className="object-cover object-center w-full h-full transition-transform duration-700 transform scale-105 hover:scale-100"
                         />
                       </div>
-                      <div className="relative z-20 flex flex-col justify-center h-full p-6  bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
+                      <div className="relative z-20 flex flex-col justify-center h-full p-6 bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
                         <h4 className="font-semibold text-gray-800 dark:text-white">
                           Stay Ahead with Our New Tech
                         </h4>
@@ -105,7 +120,7 @@ const CatalogBar = ({ className = "" }) => {
                           className="object-cover object-center w-full h-full transition-transform duration-700 transform scale-105 hover:scale-100"
                         />
                       </div>
-                      <div className="relative z-20 flex flex-col justify-center h-full p-6  bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
+                      <div className="relative z-20 flex flex-col justify-center h-full p-6 bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
                         <h4 className="font-semibold text-gray-800 dark:text-white">
                           Check Out for New Speakers
                         </h4>

@@ -2,6 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 
 import { BsLightningCharge } from "react-icons/bs";
+import { FaStore } from "react-icons/fa";
+
 import { FaCheck } from "react-icons/fa6";
 import { HiMiniArrowUturnLeft } from "react-icons/hi2";
 import { LuInfo, LuTruck } from "react-icons/lu";
@@ -11,7 +13,6 @@ import Banner from "../Components/Products/Banner";
 import ImageShowCase from "../Components/Products/ImageShowCase";
 import ProductReviewSection from "../Components/Products/ProductReviewSection.jsx";
 import ProductSlider from "../Components/Products/ProductSlider";
-import ProductTabs from "../Components/Products/ProductTabs";
 import FavoriteToggle from "../Components/ui/FavoriteToggle.jsx";
 import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
 import QuantityInput from "../Components/ui/QuantityInput";
@@ -126,15 +127,51 @@ export default function SingleProduct() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8">
               <ImageShowCase shots={productImages} />
+
+              <div className="mb-6 p-4 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-600 bg-white dark:bg-neutral-800">
+                {/* Product Description */}
+                <div className="mb-4">
+                  <h3 className="text-neutral-500 text-lg md:text-xl font-bold dark:text-neutral-300">
+                    Description
+                  </h3>
+                  <p className="mt-2 text-neutral-700 dark:text-neutral-400 leading-relaxed">
+                    {currentProduct.description}
+                  </p>
+                </div>
+
+                {/* Shop Information */}
+                <div className="mb-4 border-t border-neutral-200 dark:border-neutral-600 pt-4">
+                  <h3 className="text-neutral-500 text-lg md:text-xl font-bold dark:text-neutral-300">
+                    Shop Information
+                  </h3>
+                  <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+                    <span className="font-semibold">Name:</span>{" "}
+                    {currentProduct?.addedBy?.shopName}
+                  </p>
+                  <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+                    <span className="font-semibold">Address:</span>{" "}
+                    {currentProduct?.addedBy?.shopAddress}
+                  </p>
+                  <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+                    <span className="font-semibold">Contact:</span>{" "}
+                    {currentProduct?.addedBy?.phone}
+                  </p>
+
+                  <div className="flex mt-3 items-center">
+                    <p className="dark:text-white text-lg ">Visit Shop :</p>
+                    <button
+                      onClick={handleVendorClick}
+                      className="mb-2 flex ml-2 flex-row items-center px-3 py-1 text-base text-blue-500 bg-white rounded-md"
+                    >
+                      <FaStore />
+                      {currentProduct?.addedBy?.shopName}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="lg:col-span-4 mt-2">
-              <button
-                onClick={handleVendorClick}
-                className="mb-2  text-s text-blue-500 bg-white rounded-md"
-              >
-                {currentProduct?.addedBy?.shopName}
-              </button>
               <FavoriteToggle auth={auth} productId={currentProduct._id} />
               <h1 className="mb-0 text-3xl dark:text-white font-bold">
                 {currentProduct.name}
@@ -156,7 +193,7 @@ export default function SingleProduct() {
 
               {currentProduct.variant && currentProduct.variant.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="text-sm mb-2">Select Type:</h4>
+                  <h4 className="text-sm dark:text-white mb-2">Select Type:</h4>
                   <div className="flex flex-wrap gap-2">
                     <ButtonSecondary
                       onClick={() =>
@@ -186,24 +223,6 @@ export default function SingleProduct() {
                   </div>
                 </div>
               )}
-
-              <div className="mb-6">
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {currentProduct.description}
-                </p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {currentProduct?.addedBy?.shopName}
-                </p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {currentProduct?.addedBy?.shopAddress}
-                </p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {currentProduct?.addedBy?.phone}
-                </p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-                  {currentProduct?.addedBy?.shopType}
-                </p>
-              </div>
 
               <div className="mb-6">
                 <h4 className="text-sm dark:text-white">Quantity:</h4>
@@ -283,7 +302,6 @@ export default function SingleProduct() {
             </div>
 
             <div className="lg:col-span-12">
-              <ProductTabs description={currentProduct.description} />
               <ProductReviewSection productId={currentProduct?._id} />
               <ProductSlider
                 currentCategory={currentProduct?.category?._id}

@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ButtonSecondary from "../../shared/Button/ButtonSecondary.jsx";
 import { useGetPopularProductsQuery } from "../../store/api/productApi";
 import ProductCard from "../Products/ProductCard";
 import { GroupCardsSkeleton } from "../ui/SkeletonLoaders.jsx";
@@ -44,12 +43,6 @@ const BestSeller = () => {
                   curated selection features the hottest gadgets and devices
                   flying off the shelves.
                 </p>
-                <ButtonSecondary
-                  className="btn-primary"
-                  onClick={() => navigate("/collections")}
-                >
-                  Shop More
-                </ButtonSecondary>
               </div>
             </li>
             {popularProducts &&
