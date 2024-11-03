@@ -23,7 +23,7 @@ const BottomNav = () => {
   const categories = categoriesData?.categories || [];
 
   return (
-    <div className="container ">
+    <div className="container sticky ">
       <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600  xl:block">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-base font-semibold">

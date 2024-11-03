@@ -9,7 +9,7 @@ export default function Login() {
         <NavBar />
 
         <main>
-          <div data-nc-id="PageLogin" className="container">
+          <div data-nc-id="PageLogin" className="container mt-3 xl:mt-24">
             <div className="pb-24 pt-2">
               <div className="flex flex-col md:flex-row">
                 <div className="order-2 basis-1/2 md:order-1">

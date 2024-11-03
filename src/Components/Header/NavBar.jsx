@@ -29,7 +29,7 @@ export default function NavBar() {
         <MainNav />
       </div>
       <div
-        className={`nc-Header fixed top-1 left-0 right-0 z-30 bg-neutral-100 dark:bg-gray shadow-lg transition-all duration-300 transform ${
+        className={`nc-Header fixed top-0 left-0 right-0 z-30 bg-neutral-100 dark:bg-gray shadow-lg transition-all duration-300 transform ${
           visible ? "translate-y-full" : "translate-y-0"
         }`}
       >
