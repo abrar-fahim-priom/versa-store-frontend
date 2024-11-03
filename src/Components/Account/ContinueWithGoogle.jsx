@@ -16,57 +16,50 @@ export default function ContinueWithGoogle({
 
   const handleSuccess = async (response) => {
     setLoading(true);
-    console.log(response);
-
-    const { email, name, picture } = jwtDecode(response.credential);
-    const userInfo = {
-      email,
-      name,
-      picture,
-    };
-
-    console.log(userInfo);
 
     try {
+      const { email, name, picture } = jwtDecode(response.credential);
+
       const ServerResponse = await api.post(
         `${import.meta.env.VITE_SERVER_BASE_URL}/auth/google`,
-        userInfo,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        { email, name, picture },
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      const { user, tokens } = ServerResponse.data;
+      const { user, tokens, success, message } = ServerResponse.data;
 
-      if (ServerResponse.data?.success) {
+      if (success) {
+        if (user.loginMethod === "form") {
+          setError("root.serverError", {
+            type: "manual",
+            message:
+              "This email is already registered with password. Please login with your password instead.",
+          });
+          return;
+        }
+
         const { accessToken, refreshToken } = tokens;
+
         setAuth({ user, accessToken, refreshToken });
-        setEncryptedCookie("_at", accessToken, 3 / 1440);
-        setEncryptedCookie("_rt", refreshToken, 1);
+        setEncryptedCookie("_at", accessToken, 3 / 1440); // 3 minutes
+        setEncryptedCookie("_rt", refreshToken, 1); // 1 day
+
         navigate("/");
       } else {
         setError("root.serverError", {
           type: "manual",
-          message: ServerResponse.data.message || "Login failed",
+          message: message || "Login failed",
         });
       }
     } catch (error) {
-      if (
-        error.response?.data?.message?.includes("E11000 duplicate key error")
-      ) {
-        setError("root.serverError", {
-          type: "manual",
-          message:
-            "An account with this email already exists. Please use a different email or login with your existing account.",
-        });
-      } else {
-        setError("root.serverError", {
-          type: "manual",
-          message:
-            error.response?.data?.message ||
-            "An unexpected error occurred during Google login",
-        });
-      }
+      const errorMessage = error.response?.data?.message || "";
+      setError("root.serverError", {
+        type: "manual",
+        message:
+          errorMessage ||
+          "An unexpected error occurred during Google login. Please try again.",
+      });
+      console.error("Google login error:", error);
     } finally {
       setLoading(false);
     }
@@ -83,10 +76,10 @@ export default function ContinueWithGoogle({
   return (
     <GoogleLogin
       text={text}
-      auto_select
-      useOneTap
       onSuccess={handleSuccess}
       onError={handleFailure}
+      useOneTap // Enables one-tap login for returning users
+      auto_select // Automatically selects the account if there's only one
     />
   );
 }

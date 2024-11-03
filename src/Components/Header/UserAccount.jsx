@@ -1,4 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
+import { googleLogout } from "@react-oauth/google";
 import Cookies from "js-cookie";
 import React, { Fragment } from "react";
 import { RiLogoutBoxRLine, RiUser6Line } from "react-icons/ri";
@@ -29,6 +30,8 @@ const UserAccount = () => {
     Cookies.remove("_rt");
     setAuth(null);
     dispatch(userApi.util.invalidateTags(["User"]));
+
+    googleLogout();
     navigate("/");
   };
 

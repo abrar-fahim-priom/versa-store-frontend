@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Field from "../../Components/Common/Field.jsx";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary";
+import ContinueWithGoogle from "./ContinueWithGoogle.jsx";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const RegistrationForm = () => {
     watch,
     clearErrors,
     setValue,
+    setError,
   } = useForm({
     defaultValues: {
       registerFor: "customer",
@@ -350,6 +352,15 @@ const RegistrationForm = () => {
               )}
             </div>
             <div className="mt-8 gap-2 space-y-2 lg:flex lg:space-y-0">
+              {registerForValue === "customer" && (
+                <ButtonSecondary>
+                  <ContinueWithGoogle
+                    text="login_with"
+                    setError={setServerError}
+                    setLoading={setLoading}
+                  />
+                </ButtonSecondary>
+              )}
               <ButtonPrimary
                 showPointer
                 type="submit"
@@ -366,6 +377,7 @@ const RegistrationForm = () => {
               </ButtonSecondary>
             </div>
           </form>
+          {serverError && <ErrorMessage message={serverError} />}
         </div>
       </div>
     </div>

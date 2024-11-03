@@ -17,7 +17,7 @@ export default function Login() {
                     <img
                       src={loginImage}
                       alt="about us"
-                      className="w-full  h-full object-contain"
+                      className="object-contain"
                     />
                   </div>
                 </div>

@@ -228,6 +228,15 @@ const LoginForm = () => {
           {/* Global error message for server-side errors */}
 
           <div className="mt-8 gap-2 space-y-2 flex flex-col items-center lg:space-y-0">
+            {selectedRole === "customer" && (
+              <ButtonSecondary>
+                <ContinueWithGoogle
+                  setError={setError}
+                  setLoading={setLoading}
+                  text="login_with"
+                />
+              </ButtonSecondary>
+            )}
             <ButtonPrimary
               showPointer
               type="submit"
@@ -236,15 +245,7 @@ const LoginForm = () => {
             >
               {loading ? "Signing In..." : "Sign In"}
             </ButtonPrimary>
-            <ButtonSecondary>
-              {selectedRole === "customer" && (
-                <ContinueWithGoogle
-                  setError={setError}
-                  setLoading={setLoading}
-                  text="login_with"
-                />
-              )}
-            </ButtonSecondary>
+
             <ButtonSecondary
               showPointer
               onClick={() => navigate("/register")}
