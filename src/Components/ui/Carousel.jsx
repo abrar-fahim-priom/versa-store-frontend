@@ -82,7 +82,7 @@ const Carousel = () => {
   }, [isPlaying]);
 
   return (
-    <div className="relative container w-full overflow-hidden rounded-xl shadow-2xl bg-gray-900 mx-auto px-0 h-56 sm:h-64 md:h-72 lg:h-96 xl:h-[21rem]">
+    <div className="relative container w-full overflow-hidden mt-3 xl:mt-24 rounded-xl shadow-2xl bg-gray-900 mx-auto px-0 h-56 sm:h-64 md:h-72 lg:h-96 xl:h-[21rem]">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentSlide}
