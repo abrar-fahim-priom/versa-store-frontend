@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth.js";
 import { setEncryptedCookie } from "../../lib/CookieStore.js";
 import ButtonPrimary from "../../shared/Button/ButtonPrimary";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary";
+import ContinueWithGoogle from "./ContinueWithGoogle.jsx";
 
 const LoginForm = () => {
   const { setAuth } = useAuth();
@@ -15,6 +16,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     setError,
   } = useForm({
@@ -22,6 +24,8 @@ const LoginForm = () => {
       role: "customer", // Set customer as default selected role
     },
   });
+
+  const selectedRole = watch("role");
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -222,24 +226,8 @@ const LoginForm = () => {
           )}
 
           {/* Global error message for server-side errors */}
-          {errors.root?.serverError && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm flex items-center">
-              <svg
-                className="w-6 h-6 mr-3"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {errors.root.serverError.message}
-            </div>
-          )}
 
-          <div className="mt-8 gap-2 space-y-2 lg:flex lg:space-y-0">
+          <div className="mt-8 gap-2 space-y-2 flex flex-col items-center lg:space-y-0">
             <ButtonPrimary
               showPointer
               type="submit"
@@ -248,6 +236,15 @@ const LoginForm = () => {
             >
               {loading ? "Signing In..." : "Sign In"}
             </ButtonPrimary>
+            <ButtonSecondary>
+              {selectedRole === "customer" && (
+                <ContinueWithGoogle
+                  setError={setError}
+                  setLoading={setLoading}
+                  text="login_with"
+                />
+              )}
+            </ButtonSecondary>
             <ButtonSecondary
               showPointer
               onClick={() => navigate("/register")}
@@ -259,6 +256,19 @@ const LoginForm = () => {
           </div>
         </div>
       </form>
+
+      {errors.root?.serverError && (
+        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm flex items-center">
+          <svg className="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clipRule="evenodd"
+            />
+          </svg>
+          {errors.root.serverError.message}
+        </div>
+      )}
     </div>
   );
 };

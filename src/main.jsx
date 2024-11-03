@@ -1,7 +1,13 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import App from "./App.jsx";
 import About from "./Components/AboutUs/About.jsx";
 import Admin from "./Components/Account/Admin.jsx";
@@ -23,56 +29,59 @@ import CartProvider from "./providers/CartProvider.jsx";
 import { DarkModeProvider } from "./providers/DarkModeProvider.jsx";
 import { store } from "./store/index.js";
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route
+        path="/login"
+        element={
+          <GuestRoute>
+            <Login />
+          </GuestRoute>
+        }
+      />
+      <Route path="/about" element={<About />} />
+      <Route
+        path="/register"
+        element={
+          <GuestRoute>
+            {" "}
+            <Registration />{" "}
+          </GuestRoute>
+        }
+      />
+
+      <Route element={<PrivateRoutes />}>
+        <Route path="profile" element={<ProfilePage />}>
+          <Route index element={<ProfileInfo />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="admin" element={<Admin />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
+      </Route>
+
+      <Route index element={<App />} />
+
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/products/:id" element={<SingleProduct />} />
+      <Route path="/vendorShop/:id" element={<VendorShop />} />
+      <Route path="/categories/:categoryId" element={<Categories />} />
+    </>
+  )
+);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <AuthProvider>
-        <CartProvider>
-          <DarkModeProvider>
-            <Router>
-              <Routes>
-                <Route
-                  path="/login"
-                  element={
-                    <GuestRoute>
-                      <Login />
-                    </GuestRoute>
-                  }
-                />
-                <Route path="/about" element={<About />} />
-                <Route
-                  path="/register"
-                  element={
-                    <GuestRoute>
-                      {" "}
-                      <Registration />{" "}
-                    </GuestRoute>
-                  }
-                />
-
-                <Route element={<PrivateRoutes />}>
-                  <Route path="profile" element={<ProfilePage />}>
-                    <Route index element={<ProfileInfo />} />
-                    <Route path="shop" element={<Shop />} />
-                    <Route path="admin" element={<Admin />} />
-                    <Route path="orders" element={<Orders />} />
-                  </Route>
-                </Route>
-
-                <Route index element={<App />} />
-
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/products/:id" element={<SingleProduct />} />
-                <Route path="/vendorShop/:id" element={<VendorShop />} />
-                <Route
-                  path="/categories/:categoryId"
-                  element={<Categories />}
-                />
-              </Routes>
-            </Router>
-          </DarkModeProvider>
-        </CartProvider>
-      </AuthProvider>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <CartProvider>
+            <DarkModeProvider>
+              <RouterProvider router={router} />
+            </DarkModeProvider>
+          </CartProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     </Provider>
   </StrictMode>
 );
