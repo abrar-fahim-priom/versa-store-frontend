@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import banner1 from "../../images/banner-1_3.webp";
+import banner1 from "../../images/banner-1_4.webp";
 import ShopNowButton2 from "../../shared/Button/ShopNowButton2.jsx";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
 import { CategorySkeleton } from "../ui/SkeletonLoaders.jsx";
@@ -138,18 +138,23 @@ const CatalogBar = ({ className = "" }) => {
                       </div>
                       <div className="relative z-20 flex flex-col justify-center h-full p-6 bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
                         <h4 className="font-semibold text-gray-800 dark:text-white">
-                          Check Out for New Speakers
+                          Checkout for New Smart Watches
                         </h4>
                         <div className="mt-8">
                           <p className="mb-3">
                             from:{" "}
                             <span className="text-lg font-semibold text-primary dark:text-white">
-                              $15
+                              ৳1500
                             </span>
                           </p>
-                          <button className="py-2 px-4 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                            Shop Now
-                          </button>
+                          <Link to={`/categories/670565355858fa34536cdefe`}>
+                            <button
+                              onClick={handleCloseMenu}
+                              className="py-2 px-4 bg-primary text-white rounded-lg hover:bg-primary-dark transition"
+                            >
+                              Shop Now
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
