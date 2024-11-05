@@ -29,7 +29,9 @@ const Input = ({ type, className, placeholder, value, onChange }) => (
 const Logo = () => (
   <Link className="flex cursor-pointer items-center gap-1" to="/">
     <img src={versaStoreLogo} className="w-6 md:w-10 " alt="" />
-    <span className="text-2xl font-bold dark:text-white">VersaStore</span>
+    <span className="text-xl md:text-2xl font-bold dark:text-white">
+      VersaStore
+    </span>
   </Link>
 );
 

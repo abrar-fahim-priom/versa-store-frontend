@@ -8,7 +8,7 @@ import Carousel from "../Components/ui/Carousel.jsx";
 export default function Homepage() {
   return (
     <>
-      <div className="bg-neutral-100 z-40 dark:bg-gray">
+      <div className="bg-neutral-100 z-40 overflow-x-hidden dark:bg-gray">
         <Carousel />
         <HeroSection />
         <BestSeller />

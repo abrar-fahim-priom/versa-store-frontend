@@ -28,12 +28,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-neutral-100 text-black dark:bg-gray dark:text-white">
+    <footer className="bg-neutral-100 text-black dark:bg-gray dark:text-white overflow-x-hidden">
       {/* Newsletter Section */}
-      <div className="container mx-auto px-4 py-6  border-t border-neutral-500 dark:border-neutral-500">
+      <div className="container max-w-full mx-auto px-4 py-6 border-t border-neutral-500 dark:border-neutral-500">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="bg-white  dark:bg-gray-800 p-3 rounded-lg">
+            <div className="bg-white dark:bg-gray-800 p-3 rounded-lg">
               <FaPaperPlane className="h-6 w-6 text-slate-950 dark:text-gray-300" />
             </div>
             <div>
@@ -63,7 +63,7 @@ export default function Footer() {
       </div>
 
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container max-w-full mx-auto px-16 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Us Column */}
           <div>
