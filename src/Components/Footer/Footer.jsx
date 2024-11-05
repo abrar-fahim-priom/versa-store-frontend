@@ -30,10 +30,10 @@ export default function Footer() {
   return (
     <footer className="bg-neutral-100 text-black dark:bg-gray dark:text-white">
       {/* Newsletter Section */}
-      <div className="container mx-auto px-4 py-8 border-b border-slate-800 dark:border-slate-700">
+      <div className="container mx-auto px-4 py-6  border-t border-neutral-500 dark:border-neutral-500">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="bg-white dark:bg-gray-800 p-3 rounded-lg">
+            <div className="bg-white  dark:bg-gray-800 p-3 rounded-lg">
               <FaPaperPlane className="h-6 w-6 text-slate-950 dark:text-gray-300" />
             </div>
             <div>
@@ -56,7 +56,7 @@ export default function Footer() {
               type="submit"
               className="bg-coral-500 hover:bg-coral-600 dark:bg-coral-600 dark:hover:bg-coral-500"
             >
-              <FaPaperPlane className="h-4 w-4" />
+              <FaPaperPlane className="h-4 w-4 text-black dark:text-white" />
             </Button>
           </form>
         </div>
@@ -71,7 +71,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Regarding Us
@@ -79,7 +79,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Terms and Conditions
@@ -87,7 +87,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="profile/orders"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Track My Order
@@ -95,7 +95,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Career
@@ -110,7 +110,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Delivery Policy
@@ -118,7 +118,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Point Policy
@@ -126,7 +126,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Return Policy
@@ -134,7 +134,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Refund Policy
@@ -149,7 +149,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Contact Us
@@ -157,7 +157,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Exchange
@@ -165,7 +165,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Used Device
@@ -173,7 +173,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to="/about"
                   className="hover:text-coral-500 dark:hover:text-coral-400"
                 >
                   Announcement
@@ -187,40 +187,38 @@ export default function Footer() {
             <h4 className="text-coral-500 font-semibold mb-4">
               STAY CONNECTED
             </h4>
-            <h5 className="font-semibold mb-2">Sumash Tech Ltd.</h5>
-            <p className="text-slate-300 dark:text-gray-400 mb-2">
-              contact@sumashtech.com
+            <h5 className="font-semibold mb-2">VersaStore</h5>
+            <p className="text-black dark:text-white dark:text-gray-400 mb-2">
+              contact@versaStore.com
             </p>
-            <p className="text-slate-300 dark:text-gray-400 mb-4">
-              09678-664664
-            </p>
+            <p className="text-black dark:text-white mb-4">09678-664664</p>
             <div className="flex gap-4">
               <Link
-                href="#"
+                to="/about"
                 className="hover:text-coral-500 dark:hover:text-coral-400"
               >
                 <FaFacebook className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                to="/about"
                 className="hover:text-coral-500 dark:hover:text-coral-400"
               >
                 <FaInstagram className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                to="/about"
                 className="hover:text-coral-500 dark:hover:text-coral-400"
               >
                 <FaLinkedin className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                to="/about"
                 className="hover:text-coral-500 dark:hover:text-coral-400"
               >
                 <FaYoutube className="h-5 w-5" />
               </Link>
               <Link
-                href="#"
+                to="/about"
                 className="hover:text-coral-500 dark:hover:text-coral-400"
               >
                 <FaTwitter className="h-5 w-5" />

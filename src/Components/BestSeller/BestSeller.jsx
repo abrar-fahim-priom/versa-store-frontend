@@ -52,7 +52,7 @@ const BestSeller = () => {
                   className="col-span-6 md:col-span-2 xl:col-span-1"
                 >
                   <ProductCard
-                    className="w-full hover:border-indigo-400 hover:rounded hover:border h-full"
+                    className="w-full hover:shadow-lg hover:border-blue-400 hover:border h-full"
                     product={product}
                   />
                 </li>

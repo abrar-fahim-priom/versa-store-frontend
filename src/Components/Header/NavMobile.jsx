@@ -19,7 +19,7 @@ const NavMobile = ({ onClickClose }) => {
 
       <ul className="flex flex-col space-y-5 py-6 divide-y divide-neutral-300 dark:divide-neutral-600 border-b border-neutral-300 dark:border-neutral-600">
         <li>
-          <BottomNavMobile />
+          <BottomNavMobile onClickClose={onClickClose} />
         </li>
       </ul>
 

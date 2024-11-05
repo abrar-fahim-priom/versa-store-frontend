@@ -11,9 +11,9 @@ import MenuBar from "./MenuBar";
 import UserAccount from "./UserAccount";
 
 const navLinks = [
-  { id: "1", href: "/home", name: "Home" },
+  { id: "1", href: "/", name: "Home" },
   { id: "2", href: "/profile/orders", name: "My Orders" },
-  { id: "3", href: "/about", name: "Contact" },
+  { id: "3", href: "/about", name: "About Us" },
 ];
 
 const Input = ({ type, className, placeholder, value, onChange }) => (

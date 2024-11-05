@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const isAdmin = userProfile?.profile?.user_type === "admin";
 
   return (
-    <div className="bg-neutral-100 dark:bg-gray mx-auto p-4 lg:pb-6 z-50">
+    <div className="bg-neutral-100 dark:bg-gray mx-auto p-4 mt-3 xl:mt-24 lg:pb-6 z-50">
       <nav className="mb-4">
         <ul className="flex flex-wrap container space-x-4 mx-auto p-2 rounded-md bg-gray-100 md:space-x-6 lg:space-x-8">
           <li>

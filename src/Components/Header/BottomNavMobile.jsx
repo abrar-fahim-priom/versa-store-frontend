@@ -4,7 +4,7 @@ import { useGetCategoriesQuery } from "../../store/api/productApi";
 import Darkmode from "../ui/Darkmode";
 import UserAccount from "./UserAccount";
 
-const BottomNavMobile = () => {
+const BottomNavMobile = ({ onClickClose }) => {
   const [openCategory, setOpenCategory] = React.useState(null);
 
   const {
@@ -37,6 +37,7 @@ const BottomNavMobile = () => {
   const categories = categoriesData?.categories || [];
 
   const toggleCategory = (categoryName) => {
+    onClickClose();
     setOpenCategory(openCategory === categoryName ? null : categoryName);
   };
 

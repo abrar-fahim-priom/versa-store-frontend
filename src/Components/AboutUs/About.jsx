@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
-import { FaBriefcase, FaEnvelope, FaGithub } from "react-icons/fa";
+import {
+  FaBriefcase,
+  FaEnvelope,
+  FaFacebook,
+  FaGithub,
+  FaLink,
+  FaLinkedin,
+} from "react-icons/fa";
 import DeveloperImage from "../../images/about/VersaStore Developers croped.jpg";
 import MainNav from "../Header/MainNav";
 
@@ -13,7 +20,7 @@ export default function About() {
     const mousePosition = (clientX - left) / width;
 
     if (mousePosition < 0.5) {
-      setActiveProfile("Sharif Md. Minhazur Rahman Rabbi");
+      setActiveProfile("Minhaz Sharif");
     } else {
       setActiveProfile("Abrar Fahim");
     }
@@ -53,9 +60,9 @@ export default function About() {
               transition={{ duration: 0.3 }}
             >
               <div className="w-1/2 h-full flex items-center justify-center">
-                {activeProfile === "Sharif Md. Minhazur Rahman Rabbi" && (
+                {activeProfile === "Minhaz Sharif" && (
                   <span className="text-2xl md:text-4xl font-bold text-white bg-black bg-opacity-50 px-4 py-2 rounded">
-                    Sharif Md. Minhazur Rahman Rabbi
+                    Minhaz Sharif
                   </span>
                 )}
               </div>
@@ -73,20 +80,49 @@ export default function About() {
 
         <div className="flex flex-col md:flex-row gap-8 -mt-10 max-w-4xl mx-auto">
           <ProfileInfo
-            name="Sharif Md. Minhazur Rahman Rabbi"
-            github="github.com/rahim"
-            email="rahim@example.com"
-            experience="5 years"
-            skills={["React", "Node.js", "TypeScript"]}
-            isActive={activeProfile === "Sharif Md. Minhazur Rahman Rabbi"}
+            name="Minhaz Sharif"
+            facebook="https://www.facebook.com/sharif.mdminhaz"
+            linkedin="https://www.linkedin.com/in/minhaz-sharif-614724205/"
+            github="https://github.com/Sharif-Minhaz"
+            email="smmr.career@gmail.com"
+            position="MERN Stack Developer"
+            skills={[
+              "Node.js",
+              "Express Js",
+              "MongoDB",
+              "ReactJs",
+              "NEXT",
+              "Redux",
+              "Tailwind css",
+              "Bootstrap",
+              "Flask",
+              "PostgreSQL",
+              "Git & Github",
+            ]}
+            portfolio="https://dev-sharif-md-minhaz.netlify.app/"
+            isActive={activeProfile === "Minhaz Sharif"}
           />
           <div className="hidden md:block w-px bg-gradient-to-b from-primary/20 via-primary to-primary/20 dark:from-primary/40 dark:via-primary dark:to-primary/40"></div>
           <ProfileInfo
             name="Abrar Fahim"
-            github="github.com/khalid"
-            email="khalid@example.com"
-            experience="4 years"
-            skills={["Vue.js", "Python", "AWS"]}
+            github="https://github.com/abrar-fahim-priom"
+            facebook="https://www.facebook.com/pshads77"
+            linkedin="https://www.linkedin.com/in/abrar-fahim-priom/"
+            email="priomshads@gmail.com"
+            position="Front-End/React Developer"
+            portfolio="https://abrar-fahim-priom.github.io/my_portfolio_with_bootstrap/"
+            skills={[
+              "Javascript",
+              "React JS",
+              "Tailwind CSS",
+              "Bootstrap",
+              "Firebase",
+              "Express JS",
+              "Redux",
+              "React Query",
+              "Adobe Illustrator",
+              "Git & Github",
+            ]}
             isActive={activeProfile === "Abrar Fahim"}
           />
         </div>
@@ -95,11 +131,21 @@ export default function About() {
   );
 }
 
-function ProfileInfo({ name, github, email, experience, skills, isActive }) {
+function ProfileInfo({
+  name,
+  github,
+  email,
+  position,
+  skills,
+  isActive,
+  facebook,
+  linkedin,
+  portfolio,
+}) {
   return (
     <motion.div
       className={`flex-1 p-6 bg-card rounded-lg shadow-md transition-all duration-300 dark:bg-gray-800 dark:text-white ${
-        isActive ? "shadow-xl -translate-y-1" : ""
+        isActive ? "shadow-xl shadow-blue-500 -translate-y-1" : ""
       }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -108,16 +154,23 @@ function ProfileInfo({ name, github, email, experience, skills, isActive }) {
       <h2 className="text-2xl font-bold mb-4">{name}</h2>
       <div className="space-y-2">
         <div className="flex items-center">
-          <FaGithub
+          <FaBriefcase
             className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
             aria-hidden="true"
           />
+          <span>{position}</span>
+        </div>
+        <div className="flex items-center">
           <a
-            href={`https://${github}`}
+            href={`${github}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline"
+            className="hover:underline flex flex-row"
           >
+            <FaGithub
+              className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
+              aria-hidden="true"
+            />
             {github}
           </a>
         </div>
@@ -130,12 +183,47 @@ function ProfileInfo({ name, github, email, experience, skills, isActive }) {
             {email}
           </a>
         </div>
+
         <div className="flex items-center">
-          <FaBriefcase
-            className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
-            aria-hidden="true"
-          />
-          <span>{experience} of experience</span>
+          <a
+            href={`${facebook}`}
+            target="_blank"
+            className="flex flex-row hover:underline"
+          >
+            <FaFacebook
+              className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
+              aria-hidden="true"
+            />
+            Facebook
+          </a>
+        </div>
+
+        <div className="flex ">
+          <a
+            href={`${linkedin}`}
+            target="_blank"
+            className="hover:underline flex flex-row"
+          >
+            <FaLinkedin
+              className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
+              aria-hidden="true"
+            />
+            Linkedin
+          </a>
+        </div>
+
+        <div className="flex ">
+          <a
+            href={`${portfolio}`}
+            target="_blank"
+            className="hover:underline flex flex-row"
+          >
+            <FaLink
+              className="w-5 h-5 mr-2 text-primary dark:text-primary-dark"
+              aria-hidden="true"
+            />
+            Portoflio
+          </a>
         </div>
       </div>
       <div className="mt-4">
