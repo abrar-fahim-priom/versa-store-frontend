@@ -1,13 +1,10 @@
 import LoginForm from "../Components/Account/LoginForm.jsx";
-import NavBar from "../Components/Header/NavBar.jsx";
 import loginImage from "../images/login-image.jpg";
 
 export default function Login() {
   return (
     <>
       <div className="bg-neutral-100 z-50 dark:bg-gray">
-        <NavBar />
-
         <main>
           <div data-nc-id="PageLogin" className="container mt-3 xl:mt-24">
             <div className="pb-24 pt-2">

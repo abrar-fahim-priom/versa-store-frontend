@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import { useGetUserProfileQuery } from "../../store/api/userApi";
-import MainNav from "../Header/MainNav";
 
 export default function ProfilePage() {
   useApiWithAuth();
@@ -22,7 +21,6 @@ export default function ProfilePage() {
 
   return (
     <div className="bg-neutral-100 dark:bg-gray mx-auto p-4 lg:pb-6 z-50">
-      <MainNav />
       <nav className="mb-4">
         <ul className="flex flex-wrap container space-x-4 mx-auto p-2 rounded-md bg-gray-100 md:space-x-6 lg:space-x-8">
           <li>

@@ -8,7 +8,6 @@ import { FaCheck } from "react-icons/fa6";
 import { HiMiniArrowUturnLeft } from "react-icons/hi2";
 import { LuInfo, LuTruck } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router-dom";
-import NavBar from "../Components/Header/NavBar";
 import Banner from "../Components/Products/Banner";
 import ImageShowCase from "../Components/Products/ImageShowCase";
 import ProductReviewSection from "../Components/Products/ProductReviewSection.jsx";
@@ -119,7 +118,6 @@ export default function SingleProduct() {
 
   return (
     <>
-      <NavBar />
       <div className="bg-neutral-100 mt-3 xl:mt-24 z-50 dark:bg-gray">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">

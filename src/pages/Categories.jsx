@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CategoriesHeader from "../Components/Categories/CategoriesHeader";
 import SidebarFilters from "../Components/Categories/SidebarFilters";
-import NavBar from "../Components/Header/NavBar";
 import ProductCard from "../Components/Products/ProductCard";
 import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
 import {
@@ -91,7 +90,6 @@ const Categories = () => {
 
   return (
     <div className="bg-neutral-100 dark:bg-gray min-h-screen  dark:bg-gray-900">
-      <NavBar />
       <div className="mt-3 xl:mt-24">
         <CategoriesHeader
           CategoriesData={{

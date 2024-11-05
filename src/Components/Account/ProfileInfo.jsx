@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FaIdCard, FaMapMarkerAlt, FaStore } from "react-icons/fa";
 import { useOutletContext } from "react-router-dom";
 import { useUpdateUserProfileMutation } from "../../store/api/userApi";
@@ -32,6 +32,7 @@ export default function ProfileInfo() {
   }
 
   const { profile } = userProfile;
+  console.log(profile.image);
   const isVendor = profile.user_type === "vendor";
 
   const handleEditSubmit = async (formData) => {
@@ -76,7 +77,7 @@ export default function ProfileInfo() {
 
             <div className="relative px-4 pb-8 -mt-16">
               <div className="flex flex-col items-center">
-                <img
+                <ProfileImage
                   src={profile.image}
                   alt={profile.fullName}
                   className="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover"
@@ -174,3 +175,55 @@ export default function ProfileInfo() {
     </div>
   );
 }
+
+export const ProfileImage = ({ src, alt, className }) => {
+  const [imageError, setImageError] = useState(false);
+
+  // Process Google Image URL with updated pattern matching
+  const processedImageUrl = useMemo(() => {
+    if (!src) return null;
+
+    // Check if it's a Google profile image URL
+    if (src.includes("googleusercontent.com")) {
+      // Handle the new format: remove size constraint and =s96-c
+      const baseUrl = src.split("=")[0]; // Get the URL part before the parameters
+      return `${baseUrl}`;
+    }
+
+    return src;
+  }, [src]);
+
+  // Fallback initials generator
+  const getInitials = () => {
+    if (!alt) return "?";
+    return alt
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  if (imageError || !processedImageUrl) {
+    return (
+      <div
+        className={`flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white text-2xl font-bold ${className}`}
+        role="img"
+        aria-label={alt}
+      >
+        {getInitials()}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={processedImageUrl}
+      alt={alt}
+      className={className}
+      onError={() => setImageError(true)}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+    />
+  );
+};

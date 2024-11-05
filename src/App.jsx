@@ -8,6 +8,7 @@ export default function App() {
     <>
       {/* <ScrollRestoration> */}
       <Homepage />
+
       {/* </ScrollRestoration> */}
     </>
   );

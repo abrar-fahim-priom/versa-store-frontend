@@ -9,7 +9,6 @@ import useAuth from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
 import { userApi } from "../../store/api/userApi";
 
-// Modified ButtonPrimary component
 const ButtonPrimary = ({ children, className, onClick }) => (
   <button
     onClick={onClick}
@@ -47,7 +46,7 @@ const UserAccount = () => {
               {auth?.user?.fullName}{" "}
             </span>
           ) : (
-            <span className="dark:text-white text-white"> User Settings </span>
+            <span className="dark:text-white text-white">User Settings</span>
           )}
         </Menu.Button>
         <Transition
@@ -63,30 +62,53 @@ const UserAccount = () => {
             <div className="flex flex-col p-6 space-y-2">
               {!auth ? (
                 <>
-                  <Link to="/login" className="w-full">
-                    <ButtonPrimary>
-                      <RiUser6Line color="white" size={18} />
-                      <span>Log In</span>
-                    </ButtonPrimary>
-                  </Link>
-                  <Link to="/register" className="text-center w-full">
-                    <span className="dark:text-white">Create Account</span>
-                  </Link>
+                  <Menu.Item>
+                    {({ close }) => (
+                      <Link to="/login" onClick={close} className="w-full">
+                        <ButtonPrimary>
+                          <RiUser6Line color="white" size={18} />
+                          <span>Log In</span>
+                        </ButtonPrimary>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ close }) => (
+                      <Link
+                        to="/register"
+                        onClick={close}
+                        className="text-center w-full"
+                      >
+                        <span className="dark:text-white">Create Account</span>
+                      </Link>
+                    )}
+                  </Menu.Item>
                 </>
               ) : (
                 <>
-                  <Link to="/profile" className="w-full">
-                    <ButtonPrimary className="bg-green-400 hover:bg-green-500">
-                      <span>Profile</span>
-                    </ButtonPrimary>
-                  </Link>
-                  <ButtonPrimary
-                    onClick={logout}
-                    className="bg-red-600 hover:bg-red-500"
-                  >
-                    <RiLogoutBoxRLine size={18} />
-                    <span>Logout</span>
-                  </ButtonPrimary>
+                  <Menu.Item>
+                    {({ close }) => (
+                      <Link to="/profile" onClick={close} className="w-full">
+                        <ButtonPrimary className="bg-green-400 hover:bg-green-500">
+                          <span>Profile</span>
+                        </ButtonPrimary>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ close }) => (
+                      <ButtonPrimary
+                        onClick={() => {
+                          logout();
+                          close();
+                        }}
+                        className="bg-red-600 hover:bg-red-500"
+                      >
+                        <RiLogoutBoxRLine size={18} />
+                        <span>Logout</span>
+                      </ButtonPrimary>
+                    )}
+                  </Menu.Item>
                 </>
               )}
             </div>

@@ -17,6 +17,7 @@ import PrivateRoutes from "./Components/Account/PrivateRoutes.jsx";
 import ProfileInfo from "./Components/Account/ProfileInfo.jsx";
 import ProfilePage from "./Components/Account/ProfilePage.jsx";
 import Shop from "./Components/Account/Shop.jsx";
+import Layout from "./Components/Layout.jsx";
 import VendorShop from "./Components/Products/VendorShop.jsx";
 import "./index.css";
 import Categories from "./pages/Categories.jsx";
@@ -32,40 +33,42 @@ import { store } from "./store/index.js";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route
-        path="/login"
-        element={
-          <GuestRoute>
-            <Login />
-          </GuestRoute>
-        }
-      />
-      <Route path="/about" element={<About />} />
-      <Route
-        path="/register"
-        element={
-          <GuestRoute>
-            {" "}
-            <Registration />{" "}
-          </GuestRoute>
-        }
-      />
+      <Route element={<Layout />}>
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <Login />
+            </GuestRoute>
+          }
+        />
+        <Route path="/about" element={<About />} />
+        <Route
+          path="/register"
+          element={
+            <GuestRoute>
+              {" "}
+              <Registration />{" "}
+            </GuestRoute>
+          }
+        />
 
-      <Route element={<PrivateRoutes />}>
-        <Route path="profile" element={<ProfilePage />}>
-          <Route index element={<ProfileInfo />} />
-          <Route path="shop" element={<Shop />} />
-          <Route path="admin" element={<Admin />} />
-          <Route path="orders" element={<Orders />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="profile" element={<ProfilePage />}>
+            <Route index element={<ProfileInfo />} />
+            <Route path="shop" element={<Shop />} />
+            <Route path="admin" element={<Admin />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
         </Route>
+
+        <Route index element={<App />} />
+
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/products/:id" element={<SingleProduct />} />
+        <Route path="/vendorShop/:id" element={<VendorShop />} />
+        <Route path="/categories/:categoryId" element={<Categories />} />
       </Route>
-
-      <Route index element={<App />} />
-
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/products/:id" element={<SingleProduct />} />
-      <Route path="/vendorShop/:id" element={<VendorShop />} />
-      <Route path="/categories/:categoryId" element={<Categories />} />
     </>
   )
 );

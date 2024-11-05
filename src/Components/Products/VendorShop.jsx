@@ -3,7 +3,6 @@ import { FiMoreVertical } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { useGetVendorProductsQuery } from "../../store/api/productApi";
 import SidebarFilters from "../Categories/SidebarFilters";
-import MainNav from "../Header/MainNav";
 import ProductCard from "../Products/ProductCard";
 import ShopHeader from "../Products/ShopHeader";
 import LoaderGradient from "../ui/LoaderGradient";
@@ -84,9 +83,7 @@ export default function VendorShop() {
 
   return (
     <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
-      <div className="shadow ">
-        <MainNav />
-      </div>
+      <div className="shadow "></div>
 
       <div className="flex justify-center">
         <ShopHeader shopData={vendorProductsData?.products[0]?.addedBy} />
