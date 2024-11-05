@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import banner1 from "../../images/banner-1_3.webp";
-import banner2 from "../../images/banner-1_4.webp";
 import ShopNowButton2 from "../../shared/Button/ShopNowButton2.jsx";
 import { useGetCategoriesQuery } from "../../store/api/productApi";
 import { CategorySkeleton } from "../ui/SkeletonLoaders.jsx";
@@ -29,7 +28,7 @@ const CatalogBar = ({ className = "" }) => {
   return (
     <div className={`flex flex-row ${className}`}>
       <button onClick={handleOpenMenu} className="shop-now-button">
-        <ShopNowButton2 />
+        <ShopNowButton2 text="Menu" />
       </button>
 
       {isVisible && (
@@ -39,22 +38,23 @@ const CatalogBar = ({ className = "" }) => {
             onClick={handleCloseMenu}
           />
           <div
-            className="fixed top-[15%] left-0 right-0 z-50 bg-white dark:bg-neutral-950 shadow-lg ring-1 ring-black/5 overflow-y-auto"
+            className="fixed top-[12%] left-0 right-0 z-50 bg-white dark:bg-neutral-950 shadow-lg ring-1 ring-black/5 overflow-y-auto"
             style={{ height: "70vh" }}
           >
-            <div className="container relative w-full h-full py-10">
+            <div className="container relative w-full h-full py-8">
               <div className="hiddenScrollbar overflow-y-auto py-5">
                 <div className="grid grid-cols-12 gap-3">
                   <div className="col-span-2">
-                    <h4 className="mb-2 font-medium text-gray-800 dark:text-white">
+                    <h4 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                       Categories
                     </h4>
-                    <div className="space-y-2 text-neutral-500 dark:text-neutral-300">
+                    <div className="space-y-5 text-lg text-neutral-500 dark:text-neutral-300">
                       {firstColumnCategories.map((category) => (
-                        <div key={category._id} className="text-sm">
+                        <div key={category._id} className="text-base">
                           <Link
                             to={`/categories/${category._id}`}
-                            className="hover:text-primary hover:underline transition-colors"
+                            className="hover:text-primary transition-colors"
+                            onClick={handleCloseMenu}
                           >
                             {category.name.charAt(0).toUpperCase() +
                               category.name.slice(1)}
@@ -65,15 +65,16 @@ const CatalogBar = ({ className = "" }) => {
                   </div>
 
                   <div className="col-span-2">
-                    <h4 className="mb-2 font-medium text-gray-800 dark:text-white">
+                    <h4 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
                       More Categories
                     </h4>
-                    <div className="space-y-2 text-neutral-500 dark:text-neutral-300">
+                    <div className="space-y-5 text-lg text-neutral-500 dark:text-neutral-300">
                       {secondColumnCategories.map((category) => (
-                        <div key={category._id} className="text-sm">
+                        <div key={category._id} className="text-base">
                           <Link
                             to={`/categories/${category._id}`}
-                            className="hover:text-primary hover:underline transition-colors"
+                            className="hover:text-primary  transition-colors"
+                            onClick={handleCloseMenu}
                           >
                             {category.name.charAt(0).toUpperCase() +
                               category.name.slice(1)}
@@ -83,31 +84,46 @@ const CatalogBar = ({ className = "" }) => {
                     </div>
                   </div>
 
-                  <div className="col-span-4">
-                    <div className="relative aspect-[8/5] overflow-hidden rounded-md p-6">
-                      <div className="absolute left-0 top-0 w-full h-full">
-                        <img
-                          src={banner2}
-                          alt="Tech Banner"
-                          className="object-cover object-center w-full h-full transition-transform duration-700 transform scale-105 hover:scale-100"
-                        />
-                      </div>
-                      <div className="relative z-20 flex flex-col justify-center h-full p-6 bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
-                        <h4 className="font-semibold text-gray-800 dark:text-white">
-                          Stay Ahead with Our New Tech
-                        </h4>
-                        <div className="mt-8">
-                          <p className="mb-3">
-                            from:{" "}
-                            <span className="text-lg font-semibold text-primary dark:text-white">
-                              $15
-                            </span>
-                          </p>
-                          <button className="py-2 px-4 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
-                            Shop Now
-                          </button>
-                        </div>
-                      </div>
+                  <div className="col-span-2">
+                    <h4 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white">
+                      Navigations
+                    </h4>
+                    <div className="flex flex-col space-y-5  text-neutral-500 text-base dark:text-neutral-300">
+                      <Link
+                        to="/"
+                        className="hover:text-primary  transition-colors"
+                        onClick={handleCloseMenu}
+                      >
+                        Home
+                      </Link>
+                      <Link
+                        to="/profile"
+                        className="hover:text-primary  transition-colors"
+                        onClick={handleCloseMenu}
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        to="/profile/shop"
+                        className="hover:text-primary  transition-colors"
+                        onClick={handleCloseMenu}
+                      >
+                        Shop
+                      </Link>
+                      <Link
+                        to="/profile/orders"
+                        className="hover:text-primary  transition-colors"
+                        onClick={handleCloseMenu}
+                      >
+                        My Orders
+                      </Link>
+                      <Link
+                        to="/about"
+                        className="hover:text-primary  transition-colors"
+                        onClick={handleCloseMenu}
+                      >
+                        About Us
+                      </Link>
                     </div>
                   </div>
 

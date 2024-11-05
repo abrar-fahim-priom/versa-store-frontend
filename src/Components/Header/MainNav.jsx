@@ -60,7 +60,9 @@ const SearchDropdown = ({
                 className="w-16 h-16 object-cover rounded-md"
               />
               <div>
-                <h3 className="text-lg font-medium">{product.name}</h3>
+                <h3 className="text-lg dark:text-white font-medium">
+                  {product.name}
+                </h3>
                 <p className="text-green-600">{product.price.toFixed(2)} ৳</p>
               </div>
             </div>
@@ -138,7 +140,7 @@ const MainNav = () => {
               <div className="flex items-center gap-2 rounded border-2 border-primary/15 bg-white pr-2 transition-all duration-300 hover:border-primary dark:border-white/15 dark:bg-neutral-950">
                 <Input
                   type="text"
-                  className="flex-grow w-full border-transparent dark:bg-neutral-950 placeholder:text-neutral-500 focus:border-transparent py-2 px-3"
+                  className="flex-grow w-full border-transparent dark:bg-neutral-950 dark:text-white placeholder:text-neutral-500 focus:border-transparent py-2 px-3"
                   placeholder="What are you looking for ..."
                   onChange={handleSearchChange}
                 />

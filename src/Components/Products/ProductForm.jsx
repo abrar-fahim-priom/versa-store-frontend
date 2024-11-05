@@ -13,6 +13,7 @@ import {
   FaTags,
 } from "react-icons/fa";
 // import { useApiWithAuth } from "../../hooks/useApiWithAuth";
+import { Link } from "react-router-dom";
 import {
   useCreateProductMutation,
   useGetCategoriesQuery,
@@ -350,6 +351,13 @@ export default function ProductForm({ onCancel, refetch }) {
           )}
         />
       </Field>
+
+      <div className="px-4 py-2  text-black dark:text-white rounded ">
+        Not seeing your desired category here ?
+        <Link to="/addCategory" className="text-sky-600 underline">
+          Add Category
+        </Link>
+      </div>
 
       <Field
         label="Images"

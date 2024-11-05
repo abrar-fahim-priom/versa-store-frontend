@@ -18,6 +18,7 @@ import ProfileInfo from "./Components/Account/ProfileInfo.jsx";
 import ProfilePage from "./Components/Account/ProfilePage.jsx";
 import Shop from "./Components/Account/Shop.jsx";
 import Layout from "./Components/Layout.jsx";
+import AddCategoryForm from "./Components/Products/AddCategoryForm.jsx";
 import VendorShop from "./Components/Products/VendorShop.jsx";
 import "./index.css";
 import Categories from "./pages/Categories.jsx";
@@ -54,6 +55,7 @@ const router = createBrowserRouter(
         />
 
         <Route element={<PrivateRoutes />}>
+          <Route path="addCategory" element={<AddCategoryForm />} />
           <Route path="profile" element={<ProfilePage />}>
             <Route index element={<ProfileInfo />} />
             <Route path="shop" element={<Shop />} />

@@ -137,11 +137,24 @@ export const productApi = apiSlice.injectEndpoints({
         "Bookmarks",
       ],
     }),
+
+    addCategory: builder.mutation({
+      query: (formData) => ({
+        url: "/categories",
+        method: "POST",
+        data: formData, // Send FormData directly
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }),
+      invalidatesTags: ["Categories"], // Invalidate the cache for categories
+    }),
   }),
 });
 
 export const {
   useSearchProductsQuery,
+  useAddCategoryMutation,
   useToggleBookmarkMutation,
   useGetSingleCategoryQuery,
   useGetCategoriesQuery,

@@ -12,6 +12,7 @@ import {
   FaTags,
   FaTrash,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import {
   useDeleteProductImageMutation,
@@ -300,6 +301,13 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
               )}
             />
           </Field>
+
+          <div className="px-4 py-2  text-black dark:text-white rounded ">
+            Not seeing your desired category here ?
+            <Link to="/addCategory" className="text-sky-600 underline">
+              Add Category
+            </Link>
+          </div>
 
           {/* Images */}
           <Field label="Images" error={errors.images} htmlFor="images">
