@@ -27,7 +27,7 @@ const CatalogBar = ({ className = "" }) => {
 
   return (
     <div className={`flex flex-row ${className}`}>
-      <button onClick={handleOpenMenu} className="shop-now-button">
+      <button onClick={handleOpenMenu} className="shop-now-button ">
         <ShopNowButton2 text="Menu" />
       </button>
 

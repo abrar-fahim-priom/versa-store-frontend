@@ -1,4 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
+import { motion } from "framer-motion";
 import React, { Fragment, useEffect, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdClose } from "react-icons/md";
@@ -13,12 +14,20 @@ const CartSideBar = () => {
     useCart();
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const [cartLength, setCartLength] = useState(cart.length);
 
   useEffect(() => {
     if (auth && cart) {
       setIsLoading(false);
     }
   }, [auth, cart]);
+
+  // Update cart length and trigger animation
+  useEffect(() => {
+    if (cart.length !== cartLength) {
+      setCartLength(cart.length);
+    }
+  }, [cart.length, cartLength]);
 
   const handleOpenMenu = () => {
     if (!auth) {
@@ -56,16 +65,20 @@ const CartSideBar = () => {
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
         onClick={handleOpenMenu}
         className="relative mx-3 sm:mx-5 flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
+        // Add animation when cart length changes
+        animate={{ scale: [1, 1.2, 1] }}
+        transition={{ duration: 0.3 }}
+        key={cartLength} // key change triggers animation
       >
         <span className="absolute -top-1/4 left-3/4 inline-block aspect-square size-4 rounded-full bg-primary text-[10px] text-white">
           {isLoading ? "..." : cart.length}
         </span>
         <CiShoppingCart className="text-black dark:text-white" size={24} />
-      </button>
+      </motion.button>
 
       {auth && (
         <>
@@ -156,7 +169,7 @@ const CartSideBar = () => {
                         </div>
                         <div className="flex w-full items-end justify-between text-xs sm:text-sm">
                           <div>
-                            <span className="text-gray-600 dark:text-gray-300">
+                            <span className="text-gray-600 dark:text-white">
                               Type: {item.selectedType}
                             </span>
                           </div>

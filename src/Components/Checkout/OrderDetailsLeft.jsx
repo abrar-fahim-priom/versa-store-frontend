@@ -152,9 +152,15 @@ const OrderDetailsLeft = ({ onSubmit }) => {
                     errors.division ? "border-red-500" : "border-neutral-300"
                   } rounded h-12 px-4 py-3 focus:outline-none bg-transparent placeholder:text-neutral-500 focus:border-primary`}
                 >
-                  <option value="">Select Division</option>
+                  <option className="dark:text-white dark:bg-black" value="">
+                    Select Division
+                  </option>
                   {divisions.map((division) => (
-                    <option key={division} value={division}>
+                    <option
+                      key={division}
+                      className="dark:text-white dark:bg-black"
+                      value={division}
+                    >
                       {division}
                     </option>
                   ))}
@@ -173,9 +179,15 @@ const OrderDetailsLeft = ({ onSubmit }) => {
                   } rounded h-12 px-4 py-3 focus:outline-none bg-transparent placeholder:text-neutral-500 focus:border-primary`}
                   disabled={!selectedDivision}
                 >
-                  <option value="">Select Zilla</option>
+                  <option className="dark:text-white dark:bg-black" value="">
+                    Select Zilla
+                  </option>
                   {zillas.map((zilla) => (
-                    <option key={zilla} value={zilla}>
+                    <option
+                      className="dark:text-white dark:bg-black"
+                      key={zilla}
+                      value={zilla}
+                    >
                       {zilla}
                     </option>
                   ))}
@@ -194,9 +206,15 @@ const OrderDetailsLeft = ({ onSubmit }) => {
                   } rounded h-12 px-4 py-3 focus:outline-none bg-transparent placeholder:text-neutral-500 focus:border-primary`}
                   disabled={!selectedZilla}
                 >
-                  <option value="">Select Upazilla</option>
+                  <option className="dark:text-white dark:bg-black" value="">
+                    Select Upazilla
+                  </option>
                   {upazillas.map((upazilla) => (
-                    <option key={upazilla} value={upazilla}>
+                    <option
+                      className="dark:text-white dark:bg-black"
+                      key={upazilla}
+                      value={upazilla}
+                    >
                       {upazilla}
                     </option>
                   ))}
