@@ -26,7 +26,7 @@ const BestSeller = () => {
 
   return (
     <section>
-      <div className="container pb-8 xl:pb-24">
+      <div className="container pb-8 xl:pb-16">
         <div>
           <ul className="grid grid-cols-6 gap-2 lg:grid-rows-2">
             <li className="col-span-6 md:col-span-4 xl:col-span-2">

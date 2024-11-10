@@ -11,7 +11,7 @@ export default function HeroSection() {
   // console.log(auth);
   return (
     <section>
-      <div className="container relative mt-5 pb-8 xl:pb-24">
+      <div className="container relative mt-5 pb-8 xl:pb-16">
         <div className="grid grid-cols-4 gap-2 lg:grid-rows-2">
           {/* First Banner */}
           <NavLink
