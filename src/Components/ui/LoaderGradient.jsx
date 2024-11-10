@@ -12,7 +12,7 @@ export default function LoaderGradient() {
 
       {/* Loading Text with Animated Color and Dots */}
       <div className="text-2xl font-semibold mt-4 flex items-center space-x-1">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 dark:from-white dark:to-white animate-text">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 dark:bg-white animate-text">
           Loading
         </span>
         <span className="animate-bounce text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 dark:from-blue-500 dark:to-blue-700">

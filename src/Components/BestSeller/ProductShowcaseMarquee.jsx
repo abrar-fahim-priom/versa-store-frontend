@@ -1,43 +1,68 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
+import apple from "../../images/companies/apple.png";
+import asus from "../../images/companies/asus.png";
+import dell from "../../images/companies/drll.png";
+import gigabyte from "../../images/companies/gigabyte.png";
+import huawei from "../../images/companies/huawei.png";
+import mi from "../../images/companies/mi.png";
+import MSI from "../../images/companies/msi.png";
+import pixel from "../../images/companies/pixel.png";
+import ralph from "../../images/companies/ralph.png";
+import sony from "../../images/companies/sony.png";
 
 const BrandShowcaseMarquee = () => {
   // Sample brand logos (replace with actual logos if needed)
   const brands = [
     {
       id: 1,
-      name: "Brand 1",
-      logo: "https://via.placeholder.com/150?text=Brand+1",
+      name: "MSI",
+      logo: MSI,
     },
     {
       id: 2,
-      name: "Brand 2",
-      logo: "https://via.placeholder.com/150?text=Brand+2",
+      name: "PIXEL",
+      logo: pixel,
     },
     {
       id: 3,
-      name: "Brand 3",
-      logo: "https://via.placeholder.com/150?text=Brand+3",
+      name: "Dell",
+      logo: dell,
     },
     {
       id: 4,
-      name: "Brand 4",
-      logo: "https://via.placeholder.com/150?text=Brand+4",
+      name: "Apple",
+      logo: apple,
     },
     {
       id: 5,
-      name: "Brand 5",
-      logo: "https://via.placeholder.com/150?text=Brand+5",
+      name: "Asus",
+      logo: asus,
     },
     {
       id: 6,
-      name: "Brand 6",
-      logo: "https://via.placeholder.com/150?text=Brand+6",
+      name: "Gigabyte",
+      logo: gigabyte,
     },
     {
       id: 7,
-      name: "Brand 7",
-      logo: "https://via.placeholder.com/150?text=Brand+7",
+      name: "Huawei",
+      logo: huawei,
+    },
+    {
+      id: 8,
+      name: "Xiaomi",
+      logo: mi,
+    },
+    {
+      id: 9,
+      name: "Ralph Lauren",
+      logo: ralph,
+    },
+    {
+      id: 10,
+      name: "Sony",
+      logo: sony,
     },
   ];
 
@@ -54,7 +79,7 @@ const BrandShowcaseMarquee = () => {
             <img
               src={brand.logo}
               alt={brand.name}
-              className="w-32 h-32 object-contain rounded-lg shadow-md"
+              className="w-32 h-32 object-contain rounded-lg"
             />
           </div>
         ))}

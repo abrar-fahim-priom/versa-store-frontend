@@ -6,9 +6,10 @@ import {
   FaPause as Pause,
   FaPlay as Play,
 } from "react-icons/fa";
-import slide1 from "../../images/new_arrival/Slider_1.webp";
-import slide2 from "../../images/new_arrival/Slider_watch.webp";
-import slide3 from "../../images/new_arrival/slider_laptop.webp";
+import slide3 from "../../images/new_arrival/asus.webp";
+import slide1 from "../../images/new_arrival/iPhone_16_Pro_and_iPhone_16_Pro_Max.webp";
+import slide2 from "../../images/new_arrival/mitv.webp";
+import slide4 from "../../images/new_arrival/s24.jpg";
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -33,6 +34,13 @@ const Carousel = () => {
     {
       id: 3,
       image: slide3,
+      alt: "Third slide",
+      title: "Adventure Time",
+      description: "Discover new horizons",
+    },
+    {
+      id: 4,
+      image: slide4,
       alt: "Third slide",
       title: "Adventure Time",
       description: "Discover new horizons",
@@ -82,7 +90,7 @@ const Carousel = () => {
   }, [isPlaying]);
 
   return (
-    <div className="relative container w-full overflow-hidden mt-3 xl:mt-24 rounded-xl shadow-2xl bg-gray-900 mx-auto px-0 h-56 sm:h-64 md:h-72 lg:h-96 xl:h-[21rem]">
+    <div className="relative container w-full overflow-hidden mt-3 xl:mt-24 rounded-xl shadow-2xl bg-gray-900 mx-auto px-0 h-56 sm:h-64 md:h-72 lg:h-96 ">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentSlide}

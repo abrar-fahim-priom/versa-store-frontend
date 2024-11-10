@@ -1,4 +1,5 @@
 import Banner from "../Components/BestSeller/Banner.jsx";
+import BannerLow from "../Components/BestSeller/BannerLow.jsx";
 import BestSeller from "../Components/BestSeller/BestSeller.jsx";
 import PhoneBestSeller from "../Components/BestSeller/PhoneBestSeller.jsx";
 import ProductShowcaseMarquee from "../Components/BestSeller/ProductShowcaseMarquee.jsx";
@@ -14,6 +15,7 @@ export default function Homepage() {
         <BestSeller />
         <Banner />
         <PhoneBestSeller />
+        <BannerLow />
         <ProductShowcaseMarquee />
       </div>
     </>
