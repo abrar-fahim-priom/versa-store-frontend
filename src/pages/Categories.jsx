@@ -4,6 +4,7 @@ import CategoriesHeader from "../Components/Categories/CategoriesHeader";
 import SidebarFilters from "../Components/Categories/SidebarFilters";
 import ProductCard from "../Components/Products/ProductCard";
 import LoaderGradient from "../Components/ui/LoaderGradient.jsx";
+import { GroupCardsSkeleton } from "../Components/ui/SkeletonLoaders.jsx";
 import {
   useGetProductsQuery,
   useGetSingleCategoryQuery,
@@ -11,22 +12,32 @@ import {
 
 const Categories = () => {
   const { categoryId } = useParams();
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [queryParams, setQueryParams] = useState({
     category: categoryId,
     page: 1,
     limit: 10,
   });
 
-  const { data, isLoading, error } = useGetProductsQuery(queryParams);
+  const { data, isLoading, error, isFetching } = useGetProductsQuery(
+    queryParams,
+    {
+      // Skip the query if we're transitioning to ensure a fresh fetch
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const {
     data: SingleCategoryData,
     isLoading: SingleCategoryLoading,
     error: SingleCategoryError,
   } = useGetSingleCategoryQuery(categoryId);
+
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+  // Handle category changes
   useEffect(() => {
+    setIsTransitioning(true);
     setQueryParams({
       category: categoryId,
       page: 1,
@@ -34,9 +45,11 @@ const Categories = () => {
     });
   }, [categoryId]);
 
+  // Update filtered products and handle transition state
   useEffect(() => {
     if (data?.data?.products) {
       setFilteredProducts(data.data.products);
+      setIsTransitioning(false);
     } else {
       setFilteredProducts([]);
     }
@@ -82,14 +95,17 @@ const Categories = () => {
   );
 
   const handlePageChange = (newPage) => {
+    setIsTransitioning(true);
     setQueryParams((prev) => ({ ...prev, page: newPage }));
   };
 
-  if (isLoading) return <LoaderGradient />;
+  // Show loader during initial load, transitions, or when fetching new data
+  if (isLoading || isTransitioning || isFetching) return <GroupCardsSkeleton />;
+  if (SingleCategoryLoading) return <LoaderGradient />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="bg-neutral-100 dark:bg-gray min-h-screen  dark:bg-gray-900">
+    <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
       <div className="mt-3 xl:mt-24">
         <CategoriesHeader
           CategoriesData={{

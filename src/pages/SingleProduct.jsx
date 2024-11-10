@@ -60,9 +60,6 @@ export default function SingleProduct() {
         selectedType: selectedVariant,
       };
       addToCart(cartProduct, quantity);
-      console.log(
-        `Added ${quantity} of ${currentProduct.name} (${selectedVariant}) to cart.`
-      );
     }
   };
 
@@ -71,7 +68,6 @@ export default function SingleProduct() {
       setIsAlertOpen(true);
       return;
     }
-    console.log("reached buy now");
 
     if (currentProduct && quantity > 0) {
       clearCart();

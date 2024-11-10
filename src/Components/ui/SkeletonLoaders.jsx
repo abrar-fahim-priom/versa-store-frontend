@@ -74,19 +74,27 @@ export const CardSkeleton = () => (
   </div>
 );
 
-export const GroupCardsSkeleton = () => (
-  <section>
-    <div className="container pb-8 xl:pb-24">
-      <ul className="grid grid-cols-6 gap-2 lg:grid-rows-2">
-        <li className="col-span-6 md:col-span-4 xl:col-span-2">
-          <ProductSkeleton />
-        </li>
-        {[...Array(10)].map((_, index) => (
-          <li key={index} className="col-span-6 md:col-span-2 xl:col-span-1">
-            <CardSkeleton />
-          </li>
-        ))}
-      </ul>
+export const GroupCardsSkeleton = () => {
+  return (
+    <div className="w-full p-8 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 16 }).map((_, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-slate-500 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-200 animate-pulse"
+            >
+              <div
+                className="bg-gray-200 dark:bg-gray-700 h-0 mb-4 rounded-md w-full"
+                style={{ paddingTop: "100%" }}
+              ></div>
+              <div className="bg-gray-200 dark:bg-gray-700 h-4 mb-2 rounded w-3/4"></div>
+              <div className="bg-gray-200 dark:bg-gray-700 h-4 mb-4 rounded w-1/2"></div>
+              <div className="bg-gray-200 dark:bg-gray-700 h-8 rounded w-full"></div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-  </section>
-);
+  );
+};

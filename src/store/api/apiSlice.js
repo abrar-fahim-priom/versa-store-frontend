@@ -3,13 +3,6 @@ import { api } from "../../lib/axios/index.js";
 
 const axiosBaseQuery = () => async (args) => {
   const { url, method, data, params, headers } = args;
-  console.log("axiosBaseQuery received:", {
-    url,
-    method,
-    data,
-    params,
-    headers,
-  });
 
   try {
     const config = {
@@ -24,9 +17,9 @@ const axiosBaseQuery = () => async (args) => {
         ...headers,
       },
     };
-    console.log("Axios config:", config);
+
     const result = await api(config);
-    console.log("axiosBaseQuery response:", result);
+
     return { data: result.data };
   } catch (axiosError) {
     console.error("axiosBaseQuery error:", axiosError);

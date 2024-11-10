@@ -9,6 +9,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import Field from "../Common/Field";
+import { ProfileImage } from "./ProfileInfo";
 
 const EditProfileComponent = ({
   user,
@@ -102,10 +103,10 @@ const EditProfileComponent = ({
         {/* Profile Image */}
         <div className="flex justify-center mb-6">
           <div className="relative">
-            <img
+            <ProfileImage
               src={previewImage}
-              alt="Profile"
-              className="w-32 h-32 rounded-full object-cover"
+              alt="profile image"
+              className="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover"
             />
             <label
               htmlFor="image"

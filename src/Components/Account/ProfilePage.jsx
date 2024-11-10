@@ -14,7 +14,6 @@ export default function ProfilePage() {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log("User Profile Data:", userProfile);
   if (error) console.error("Error fetching user profile:", error);
 
   const isAdmin = userProfile?.profile?.user_type === "admin";

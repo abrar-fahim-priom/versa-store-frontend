@@ -14,7 +14,6 @@ const PhoneBestSeller = () => {
 
   const { data, isLoading, error } = useGetProductsQuery(queryParams);
 
-  console.log(data);
   const topPhoneProducts = data?.data?.products || [];
 
   useEffect(() => {
