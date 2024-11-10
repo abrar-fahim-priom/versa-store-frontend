@@ -69,9 +69,9 @@ export default function ProfileInfo() {
             <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-4 h-32">
               <button
                 onClick={() => setIsEditing(true)}
-                className="absolute top-4 right-4 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="absolute top-4 right-4 hover:text-blue-500 bg-white dark:bg-gray-800 p-2 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
-                Edit
+                Edit Profile
               </button>
             </div>
 

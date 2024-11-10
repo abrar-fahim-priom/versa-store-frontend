@@ -56,7 +56,7 @@ export default function Orders() {
 
   return (
     <div className="p-4 md:p-6 lg:p-8">
-      <div className="bg-neutral-100 dark:bg-slate-600 h-full min-h-screen rounded-xl shadow-lg p-4 md:p-6">
+      <div className="bg-neutral-100 dark:bg-neutral-900 h-full min-h-screen rounded-xl shadow-lg p-4 md:p-6">
         <h2 className="text-xl md:text-2xl font-bold mb-6 text-gray-800 dark:text-white">
           My Orders
         </h2>
@@ -192,7 +192,7 @@ export default function Orders() {
                           Order Summary
                         </h3>
                         <div className="flex justify-between text-sm mt-4">
-                          <span className="text-gray text-lg dark:text-gray-300">
+                          <span className="text-gray text-lg dark:text-white">
                             Total:
                           </span>
                           <span className="font-semibold text-xl text-green-600 text-gray-800 ">

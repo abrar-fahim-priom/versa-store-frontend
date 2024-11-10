@@ -61,7 +61,7 @@ const PhoneBestSeller = () => {
                   className="col-span-3 md:col-span-2 xl:col-span-1"
                 >
                   <ProductCard
-                    className="w-full hover:shadow-lg hover:border-blue-400 hover:border h-full"
+                    className="w-full transition-all duration-300 ease-in-out hover:shadow-lg  hover:scale-[1.02]  h-full"
                     product={product}
                   />
                 </li>

@@ -131,7 +131,7 @@ const Categories = () => {
                   {filteredProducts.map((product) => (
                     <div key={product._id} className="w-full">
                       <ProductCard
-                        className="w-full hover:border-indigo-400 hover:rounded hover:border h-full transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-md"
+                        className="w-full transition-all duration-300 ease-in-out hover:shadow-lg  hover:scale-[1.02]  h-full"
                         product={product}
                       />
                     </div>
