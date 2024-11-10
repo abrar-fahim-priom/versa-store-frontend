@@ -49,6 +49,7 @@ export default function Shop() {
   const [editingProduct, setEditingProduct] = useState(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [deleteProduct] = useDeleteProductMutation();
 
   const handleFilterChange = useCallback(
@@ -120,6 +121,14 @@ export default function Shop() {
         refetch(); // Refetch the products list after deletion
         setIsDeleteDialogOpen(false);
         setProductToDelete(null);
+
+        // Show success notification
+        setIsNotificationVisible(true);
+
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+          setIsNotificationVisible(false);
+        }, 3000);
       } catch (error) {
         console.error("Failed to delete product:", error);
         // Handle error (e.g., show an error message to the user)
@@ -213,16 +222,16 @@ export default function Shop() {
 
                       {/* Dropdown menu for edit and delete */}
                       {activeMenu === product._id && (
-                        <div className="absolute top-8 right-2 bg-white dark:bg-gray-800 shadow-lg rounded-md w-32 menu-container z-20">
-                          <ul className="text-gray-700 dark:text-gray-200">
+                        <div className="absolute top-8 right-2 bg-white dark:bg-neutral-600 text-sm font-normal shadow-lg rounded-md w-32 menu-container z-20">
+                          <ul className="text-black dark:text-white">
                             <li
-                              className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                              className="px-4 py-2 hover:bg-blue-300 rounded-sm  cursor-pointer"
                               onClick={() => handleEditProduct(product._id)}
                             >
                               Edit Product
                             </li>
                             <li
-                              className="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
+                              className="px-4 py-2 hover:bg-red-300 rounded-sm  cursor-pointer"
                               onClick={() => handleDeleteProduct(product._id)}
                             >
                               Delete Product
@@ -233,7 +242,7 @@ export default function Shop() {
 
                       {/* Product card */}
                       <ProductCard
-                        className="w-full hover:border-indigo-400 hover:rounded hover:border h-full transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-md"
+                        className="w-full transition-all duration-300 ease-in-out hover:shadow-lg  hover:scale-[1.02]  h-full"
                         product={product}
                       />
                     </div>
@@ -285,6 +294,34 @@ export default function Shop() {
                 onClick={confirmDelete}
               >
                 Delete
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+
+      {/* Success Notification Dialog */}
+      <Dialog
+        open={isNotificationVisible}
+        onClose={() => setIsNotificationVisible(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-sm rounded bg-green-500 p-6 text-white">
+            <Dialog.Title className="text-lg font-medium leading-6">
+              Product Deleted
+            </Dialog.Title>
+            <Dialog.Description className="mt-2 text-sm">
+              The product has been successfully deleted.
+            </Dialog.Description>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                className="px-4 py-2 text-sm font-medium text-white bg-green-700 rounded-md hover:bg-green-800"
+                onClick={() => setIsNotificationVisible(false)}
+              >
+                Close
               </button>
             </div>
           </Dialog.Panel>

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { FiMoreVertical } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { useGetVendorProductsQuery } from "../../store/api/productApi";
 import SidebarFilters from "../Categories/SidebarFilters";
@@ -103,19 +102,10 @@ export default function VendorShop() {
               {filteredProducts.map((product) => (
                 <div key={product._id} className="w-full relative">
                   {/* Three-dot icon positioned in the top-right corner */}
-                  <div
-                    className="absolute top-2 right-2 z-10 cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevents triggering the global click listener
-                      handleMenuToggle(product._id);
-                    }}
-                  >
-                    <FiMoreVertical />
-                  </div>
 
                   {/* Product card */}
                   <ProductCard
-                    className="w-full hover:border-indigo-400 hover:rounded hover:border h-full transition-shadow duration-300 ease-in-out shadow-sm hover:shadow-md"
+                    className="w-full transition-all duration-300 ease-in-out hover:shadow-lg  hover:scale-[1.02]  h-full"
                     product={product}
                   />
                 </div>

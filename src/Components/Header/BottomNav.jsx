@@ -31,7 +31,7 @@ const BottomNav = () => {
               <div key={category._id} className="relative group ml-6">
                 <Link
                   to={`/categories/${category._id}`}
-                  className="font-semibold text-neutral-700 dark:text-neutral-200 hover:text-primary"
+                  className="font-semibold text-neutral-700 dark:text-neutral-200 dark:hover:text-primary hover:text-primary"
                 >
                   {category.name.charAt(0).toUpperCase() +
                     category.name.slice(1)}
