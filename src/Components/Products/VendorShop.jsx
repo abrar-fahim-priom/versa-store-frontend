@@ -85,7 +85,7 @@ export default function VendorShop() {
     <div className="bg-neutral-100 dark:bg-gray min-h-screen dark:bg-gray-900">
       <div className="shadow "></div>
 
-      <div className="flex justify-center">
+      <div className="flex mt-3 xl:mt-24 justify-center">
         <ShopHeader shopData={vendorProductsData?.products[0]?.addedBy} />
       </div>
 

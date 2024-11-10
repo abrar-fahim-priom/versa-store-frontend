@@ -9,7 +9,7 @@ import {
 import slide3 from "../../images/new_arrival/asus.webp";
 import slide1 from "../../images/new_arrival/iPhone_16_Pro_and_iPhone_16_Pro_Max.webp";
 import slide2 from "../../images/new_arrival/mitv.webp";
-import slide4 from "../../images/new_arrival/s24.jpg";
+import slide4 from "../../images/new_arrival/s24.webp";
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -21,29 +21,21 @@ const Carousel = () => {
       id: 1,
       image: slide1,
       alt: "First slide",
-      title: "Beautiful Nature",
-      description: "Explore the wonders of nature",
     },
     {
       id: 2,
       image: slide2,
       alt: "Second slide",
-      title: "Urban Life",
-      description: "City views and architecture",
     },
     {
       id: 3,
       image: slide3,
       alt: "Third slide",
-      title: "Adventure Time",
-      description: "Discover new horizons",
     },
     {
       id: 4,
       image: slide4,
       alt: "Third slide",
-      title: "Adventure Time",
-      description: "Discover new horizons",
     },
   ];
 
