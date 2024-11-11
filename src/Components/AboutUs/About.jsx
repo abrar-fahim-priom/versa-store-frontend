@@ -9,7 +9,6 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import DeveloperImage from "../../images/about/VersaStore Developers croped.jpg";
-import MainNav from "../Header/MainNav";
 
 export default function About() {
   const [activeProfile, setActiveProfile] = useState(null);
@@ -32,11 +31,7 @@ export default function About() {
 
   return (
     <>
-      <div className="dark:bg-gray">
-        <MainNav />
-      </div>
-
-      <section className=" mx-auto  px-4 py-16  duration-300 dark:bg-gray bg-neutral-100">
+      <section className=" mx-auto mt-3 xl:mt-24 px-4 py-16  duration-300 dark:bg-gray bg-neutral-100">
         <p className="text-center -mt-12 text-xl md:text-3xl xl:text-4xl font-bold text-black dark:text-white mb-4">
           {" "}
           Meet the Developers

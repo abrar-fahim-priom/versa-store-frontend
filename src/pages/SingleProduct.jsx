@@ -25,6 +25,7 @@ export default function SingleProduct() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading, error } = useGetSingleProductQuery(id);
+  console.log(data);
   const { addToCart, clearCart } = useCart();
   const { auth } = useAuth();
   const [isAlertOpen, setIsAlertOpen] = useState(false);

@@ -112,6 +112,10 @@ export default function ProductForm({ onCancel, refetch }) {
 
   const addVariant = () => {
     append({ type: "", price: "", description: "" });
+
+    if (!watchDefaultType && watchVariants.length === 0) {
+      setValue("defaultType", watchType);
+    }
   };
 
   const removeVariant = (index) => {
