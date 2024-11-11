@@ -27,7 +27,7 @@ const BottomNav = () => {
       <div className="hidden border-t border-neutral-300 py-6 dark:border-neutral-600  xl:block">
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-base font-semibold">
-            {categories.map((category) => (
+            {categories.slice(0, 8).map((category) => (
               <div key={category._id} className="relative group ml-6">
                 <Link
                   to={`/categories/${category._id}`}

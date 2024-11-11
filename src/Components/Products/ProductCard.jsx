@@ -43,12 +43,12 @@ const ProductCard = ({ product, className, showPrevPrice = false }) => {
                 ৳{(product.price * (1 - product.discount / 100)).toFixed(2)}
               </span>{" "}
               <span className="text-sm font-semibold text-neutral-500 line-through">
-                ৳{product.price.toFixed(2)}
+                ৳{product.price.toFixed(0)}
               </span>
             </p>
           ) : (
             <p className="font-bold text-green-700 text-lg">
-              ৳{product.price.toFixed(2)}
+              ৳{product.price.toFixed(0)}
             </p>
           )}
         </div>

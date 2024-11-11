@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoCashSharp } from "react-icons/io5";
 import { PiCreditCard } from "react-icons/pi";
-import { Link } from "react-router-dom";
 import { BangladeshData } from "../../data/BangladeshData";
 import Field from "../Common/Field";
 
@@ -85,14 +84,6 @@ const OrderDetailsLeft = ({ onSubmit }) => {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold">Contact</h3>
-                <span>
-                  <Link
-                    to="/auth/login"
-                    className="text-sm text-primary underline"
-                  >
-                    Log In
-                  </Link>
-                </span>
               </div>
               <Field label="" error={errors.phone} htmlFor="phone">
                 <input

@@ -8,7 +8,7 @@ const CheckoutProducts = ({ item }) => {
 
   return (
     <div key={_id} className="flex gap-2">
-      <div className="relative size-16 overflow-hidden rounded-xl">
+      <div className="relative xl:mt-16 size-16 overflow-hidden rounded-xl">
         <img
           src={images[0]?.url}
           alt={name}
