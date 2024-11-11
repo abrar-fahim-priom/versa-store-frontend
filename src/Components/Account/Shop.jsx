@@ -1,6 +1,13 @@
 import { Dialog } from "@headlessui/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { FiMoreVertical } from "react-icons/fi";
+import { useClickAway } from "react-use";
 import { useApiWithAuth } from "../../hooks/useApiWithAuth";
 import ButtonSecondary from "../../shared/Button/ButtonSecondary";
 import {
@@ -52,6 +59,13 @@ export default function Shop() {
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [deleteProduct] = useDeleteProductMutation();
 
+  const menuRef = useRef(null);
+
+  useClickAway(menuRef, () => {
+    // Close the active menu when clicking outside
+    setActiveMenu(null);
+  });
+
   const handleFilterChange = useCallback(
     (filters) => {
       setFilteredProducts(
@@ -91,7 +105,7 @@ export default function Shop() {
       );
     },
     [initialProducts]
-  ); // Dependency on memoized initial products
+  );
 
   const handleAddProduct = () => {
     setProductAddField((prev) => !prev);
@@ -101,7 +115,6 @@ export default function Shop() {
     setActiveMenu(activeMenu === productId ? null : productId);
   };
 
-  // Edit and Delete handlers
   const handleEditProduct = (productId) => {
     const productToEdit = filteredProducts.find((p) => p._id === productId);
     setEditingProduct(productToEdit);
@@ -173,7 +186,10 @@ export default function Shop() {
       <div className="flex justify-center">
         {(userProfile?.profile?.user_type === "vendor" ||
           userProfile?.profile?.user_type === "admin") && (
-          <ButtonSecondary onClick={handleAddProduct} className="w-32 mt-2">
+          <ButtonSecondary
+            onClick={handleAddProduct}
+            className="w-32 text-white bg-blue-700 hover:scale-110 mt-4"
+          >
             Add Product
           </ButtonSecondary>
         )}
@@ -217,22 +233,31 @@ export default function Shop() {
                           handleMenuToggle(product._id);
                         }}
                       >
-                        <FiMoreVertical />
+                        <FiMoreVertical className="text-blue-600" />
                       </div>
 
                       {/* Dropdown menu for edit and delete */}
                       {activeMenu === product._id && (
-                        <div className="absolute top-8 right-2 bg-white dark:bg-neutral-600 text-sm font-normal shadow-lg rounded-md w-32 menu-container z-20">
+                        <div
+                          ref={menuRef}
+                          className="absolute top-8 right-2 bg-white dark:bg-neutral-600 text-sm font-normal shadow-lg rounded-md w-32 menu-container z-20"
+                        >
                           <ul className="text-black dark:text-white">
                             <li
                               className="px-4 py-2 hover:bg-blue-300 rounded-sm  cursor-pointer"
-                              onClick={() => handleEditProduct(product._id)}
+                              onClick={() => {
+                                handleEditProduct(product._id);
+                                setActiveMenu(null);
+                              }}
                             >
                               Edit Product
                             </li>
                             <li
                               className="px-4 py-2 hover:bg-red-300 rounded-sm  cursor-pointer"
-                              onClick={() => handleDeleteProduct(product._id)}
+                              onClick={() => {
+                                handleDeleteProduct(product._id);
+                                setActiveMenu(null);
+                              }}
                             >
                               Delete Product
                             </li>

@@ -153,7 +153,7 @@ const CartSideBar = () => {
                               </Link>
                             </h3>
                             <span className="font-medium text-black dark:text-white">
-                              $
+                              ৳
                               {(item.price * (1 - item.discount / 100)).toFixed(
                                 2
                               )}
@@ -196,7 +196,7 @@ const CartSideBar = () => {
                   <span className="flex justify-between text-black dark:text-white font-medium">
                     <span>Subtotal</span>
                     <span>
-                      $
+                      ৳
                       {cart
                         .reduce(
                           (total, item) =>
@@ -216,8 +216,14 @@ const CartSideBar = () => {
                 <div className="mt-4 sm:mt-5 flex flex-col items-center gap-4">
                   <Link
                     onClick={handleCloseMenu}
-                    className="w-full bg-primary text-white p-2 sm:p-3 rounded-md text-center text-sm sm:text-base"
+                    className={`w-full p-2 sm:p-3 rounded-md text-center text-sm sm:text-base ${
+                      cart.length === 0
+                        ? "bg-gray-400 bg-gray text-white cursor-not-allowed"
+                        : "bg-primary text-white"
+                    }`}
                     to="/checkout"
+                    disabled={cart.length === 0} // disables link
+                    style={cart.length === 0 ? { pointerEvents: "none" } : {}}
                   >
                     Checkout
                   </Link>

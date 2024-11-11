@@ -172,11 +172,11 @@ export default function SingleProduct() {
               <div className="mb-5 space-y-1">
                 <h1 className="text-2xl font-semibold">
                   <span className="text-green-700">
-                    ${discountedPrice.toFixed(2)}
+                    ৳{discountedPrice.toFixed(2)}
                   </span>{" "}
                   {currentProduct.discount > 0 && (
                     <span className="text-neutral-500 line-through">
-                      ${currentProduct.price.toFixed(2)}
+                      ৳{currentProduct.price.toFixed(2)}
                     </span>
                   )}
                 </h1>

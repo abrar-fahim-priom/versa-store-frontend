@@ -11,23 +11,31 @@ import {
 } from "../../store/api/productApi";
 import { ProfileImage } from "../Account/ProfileInfo";
 
-const StarRating = ({ rating, size, onRatingChange }) => (
-  <div
-    className={`flex items-center ${
-      size === "sm" ? "text-sm" : size === "lg" ? "text-3xl" : "text-base"
-    }`}
-  >
-    {[1, 2, 3, 4, 5].map((star) => (
-      <FaStar
-        key={star}
-        className={`cursor-pointer ${
-          star <= rating ? "text-yellow-400" : "text-slate-300"
-        }`}
-        onClick={() => onRatingChange?.(Number(star))}
-      />
-    ))}
-  </div>
-);
+const StarRating = ({ rating, size, onRatingChange }) => {
+  const [hoveredStar, setHoveredStar] = useState(0);
+
+  return (
+    <div
+      className={`flex items-center ${
+        size === "sm" ? "text-sm" : size === "lg" ? "text-3xl" : "text-base"
+      }`}
+    >
+      {[1, 2, 3, 4, 5].map((star) => (
+        <FaStar
+          key={star}
+          className={`cursor-pointer transition-transform duration-150 ${
+            star <= (hoveredStar || rating)
+              ? "text-yellow-400"
+              : "text-slate-300"
+          } ${star <= hoveredStar ? "scale-110" : ""}`}
+          onMouseEnter={() => setHoveredStar(star)}
+          onMouseLeave={() => setHoveredStar(0)}
+          onClick={() => onRatingChange?.(star)}
+        />
+      ))}
+    </div>
+  );
+};
 
 const ProductReviewSection = ({ productId }) => {
   const { auth } = useAuth();
@@ -164,7 +172,7 @@ const ProductReviewSection = ({ productId }) => {
               <textarea
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
-                className="w-full p-2 mt-4 border rounded-md dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-2 mt-4 border rounded-md placeholder:dark:text-neutral-100 dark:bg-gray-700 dark:text-white dark:bg-neutral-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Write your review here..."
                 rows={4}
               />

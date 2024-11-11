@@ -1,3 +1,4 @@
+import { Dialog, Transition } from "@headlessui/react";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -21,6 +22,9 @@ const EditProfileComponent = ({
   const [previewShopPhoto, setPreviewShopPhoto] = useState(user.shopPhoto);
   const fileInputRef = useRef(null);
   const shopPhotoInputRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
   const isVendor = user.user_type === "vendor";
 
   const {
@@ -49,7 +53,8 @@ const EditProfileComponent = ({
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setIsLoading(true);
     const formData = new FormData();
 
     // Only append changed fields
@@ -88,11 +93,19 @@ const EditProfileComponent = ({
       }
     }
 
-    // Only submit if there are changes
-    if (Array.from(formData.entries()).length > 0) {
-      onSubmitProp(formData);
-    } else {
-      onCancel(); // No changes, just cancel
+    try {
+      // Submit only if there are changes
+      if (Array.from(formData.entries()).length > 0) {
+        await onSubmitProp(formData);
+        setDialogMessage("Profile updated successfully!");
+      } else {
+        setDialogMessage("No changes made.");
+      }
+    } catch (error) {
+      setDialogMessage("Failed to update profile. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setIsDialogOpen(true);
     }
   };
 
@@ -242,12 +255,38 @@ const EditProfileComponent = ({
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            disabled={isLoading}
+            className={`px-4 py-2 rounded transition-colors ${
+              isLoading
+                ? "bg-gray-400"
+                : "bg-blue-500 hover:bg-blue-600 text-white"
+            }`}
           >
-            Save Changes
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>
+
+      {/* Success/Error Dialog */}
+      <Transition show={isDialogOpen}>
+        <Dialog
+          onClose={() => setIsDialogOpen(false)}
+          className="fixed z-10 inset-0 flex items-center justify-center"
+        >
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+          <div className="relative bg-white dark:bg-neutral-900 rounded-lg p-6 max-w-sm mx-auto text-center shadow-lg">
+            <Dialog.Title className="text-lg font-semibold dark:text-white">
+              {dialogMessage}
+            </Dialog.Title>
+            <button
+              onClick={() => setIsDialogOpen(false)}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </Dialog>
+      </Transition>
     </div>
   );
 };

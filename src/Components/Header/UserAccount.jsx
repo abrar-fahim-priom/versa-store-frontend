@@ -1,6 +1,6 @@
 import { googleLogout } from "@react-oauth/google";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiLogoutBoxRLine, RiUser6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,12 +17,53 @@ const ButtonPrimary = ({ children, className, onClick }) => (
   </button>
 );
 
+const Tooltip = ({ message, visible }) => {
+  if (!visible) return null;
+
+  return (
+    <div className="absolute top-12 right-0 w-72 bg-blue-600 text-white text-sm py-3 px-4 rounded-md shadow-lg z-50 transition-all duration-300 ease-in-out">
+      <div className="relative">
+        {/* Arrow indicator */}
+        <div className="absolute -top-6 right-3 text-blue-600">
+          <svg
+            width="24"
+            height="12"
+            viewBox="0 0 24 12"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M10.2426 1.75736C11.0232 0.976311 12.0768 0.976311 12.8574 1.75736L24 12H0L10.2426 1.75736Z" />
+          </svg>
+        </div>
+        <p className="relative z-10 font-medium leading-tight">{message}</p>
+      </div>
+    </div>
+  );
+};
+
 const UserAccount = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { switchCart } = useCart();
   const [isVisible, setIsVisible] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    if (auth?.user?.user_type === "vendor") {
+      // Reset and show the tooltip every time a vendor logs in
+      setShowTooltip(true);
+      if (tooltipTimeoutRef.current) clearTimeout(tooltipTimeoutRef.current);
+
+      tooltipTimeoutRef.current = setTimeout(() => {
+        setShowTooltip(false);
+      }, 5000); // Show tooltip for 5 seconds
+    }
+    return () => {
+      if (tooltipTimeoutRef.current) clearTimeout(tooltipTimeoutRef.current);
+    };
+  }, [auth]); // Re-run whenever `auth` changes
 
   const logout = () => {
     Cookies.remove("_at");
@@ -50,7 +91,7 @@ const UserAccount = () => {
         <RiUser6Line className="dark:text-white text-white" size={18} />
         {auth ? (
           <span className="dark:text-white text-white">
-            {auth?.user?.fullName}
+            {auth?.user?.fullName?.split(" ")[0]}
           </span>
         ) : (
           <span className="dark:text-white text-white">User Settings</span>
@@ -111,6 +152,12 @@ const UserAccount = () => {
           </div>
         </div>
       )}
+
+      {/* Vendor Tooltip */}
+      <Tooltip
+        message="Find your shop settings, product addition, and management inside Profile"
+        visible={showTooltip}
+      />
     </div>
   );
 };
