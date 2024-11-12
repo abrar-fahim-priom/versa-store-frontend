@@ -5,7 +5,6 @@ export default function CategoriesHeader({ CategoriesData }) {
   const { SingleCategoryData, SingleCategoryLoading, SingleCategoryError } =
     CategoriesData;
 
-  console.log(SingleCategoryData);
   // Handle loading state
   if (SingleCategoryLoading) {
     return <LoaderGradient />;

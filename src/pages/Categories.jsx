@@ -16,7 +16,7 @@ const Categories = () => {
   const [queryParams, setQueryParams] = useState({
     category: categoryId,
     page: 1,
-    limit: 10,
+    limit: 20,
   });
 
   const { data, isLoading, error, isFetching } = useGetProductsQuery(
@@ -41,7 +41,7 @@ const Categories = () => {
     setQueryParams({
       category: categoryId,
       page: 1,
-      limit: 10,
+      limit: 20,
     });
   }, [categoryId]);
 
