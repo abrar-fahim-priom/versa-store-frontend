@@ -95,15 +95,29 @@ export default function ProductForm({ onCancel, refetch }) {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length + selectedImages.length > 5) {
-      alert(
-        "You can only select up to 5 images. Only the first 5 will be kept."
-      );
-      const combinedFiles = [...selectedImages, ...files];
-      setSelectedImages(combinedFiles.slice(0, 5));
-    } else {
-      setSelectedImages((prev) => [...prev, ...files]);
-    }
+
+    setSelectedImages((prevSelectedImages) => {
+      // Combine previous images and new ones, but ensure uniqueness by name and size
+      const combinedFiles = [
+        ...prevSelectedImages,
+        ...files.filter(
+          (file) =>
+            !prevSelectedImages.some(
+              (prevFile) =>
+                prevFile.name === file.name && prevFile.size === file.size
+            )
+        ),
+      ];
+
+      // Slice to only keep up to 5 images
+      if (combinedFiles.length > 5) {
+        alert(
+          "You can only select up to 5 images. Only the first 5 will be kept."
+        );
+      }
+
+      return combinedFiles.slice(0, 5);
+    });
   };
 
   const removeImage = (index) => {

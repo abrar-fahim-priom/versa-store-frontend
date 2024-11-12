@@ -24,7 +24,7 @@ import Field from "../Common/Field";
 const iconClasses =
   "absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500";
 const inputClasses =
-  "w-full pl-10 pr-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50";
+  "w-full rounded-sm h-12 dark:text-white pl-10 pr-4 py-3 border-2 border-blue-100 bg-transparent placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-all duration-200";
 
 const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
   const [editProduct, { isLoading: isEditing }] = useEditProductMutation();
@@ -492,7 +492,7 @@ const ProductEditForm = ({ product, onCancel, onSubmitSuccess }) => {
                   {...register("defaultType", {
                     required: "Default type is required",
                   })}
-                  className="mr-2 dark:text-white"
+                  className="mr-2 dark:text-blue-500"
                 />
                 <label className="dark:text-white" htmlFor="mainType">
                   {watchType}

@@ -70,7 +70,7 @@ export default function HeroSection() {
 
           {/* Third Banner */}
           <NavLink
-            to="/categories/670565665858fa34536cdf04"
+            to="/categories/670565465858fa34536cdf01"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -83,18 +83,18 @@ export default function HeroSection() {
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-auto inline-block text-xs">
                 <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase ">
-                  Headphones
+                  Gadgets
                 </span>
               </span>
               <h3 className="w-2/3 font-semibold dark:text-white leading-tight tracking-tight">
-                Hear the Difference
+                Vibe with latest gadgets
               </h3>
             </div>
           </NavLink>
 
           {/* Fourth Banner */}
           <NavLink
-            to="/categories/670565355858fa34536cdefe"
+            to="/categories/672622bc97044a17163bc1eb"
             className="group relative col-span-4 overflow-hidden rounded-md p-8 lg:col-span-1 lg:first:col-span-2 lg:first:row-span-2 lg:first:p-8 xl:first:px-14 lg:[&:nth-child(2)]:row-span-2"
           >
             <div className="absolute inset-0 z-0">
@@ -107,11 +107,11 @@ export default function HeroSection() {
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-auto inline-block text-xs">
                 <span className="inline-block rounded bg-white px-3 py-1 font-semibold uppercase ">
-                  Smart Watches
+                  Apparels
                 </span>
               </span>
               <h3 className="w-2/3 font-semibold dark:text-white leading-tight tracking-tight">
-                Experience the Latest Technology
+                Wear your anthems
               </h3>
             </div>
           </NavLink>

@@ -138,16 +138,16 @@ const CatalogBar = ({ className = "" }) => {
                       </div>
                       <div className="relative z-20 flex flex-col justify-center h-full p-6 bg-opacity-70 dark:bg-neutral-900 dark:bg-opacity-70">
                         <h4 className="font-semibold text-gray-800 dark:text-white">
-                          Checkout for New Smart Watches
+                          Checkout for New Home Appliances
                         </h4>
                         <div className="mt-8">
-                          <p className="mb-3">
+                          <p className="mb-3 dark:text-white">
                             from:{" "}
                             <span className="text-lg font-semibold text-primary dark:text-white">
-                              ৳1500
+                              ৳3500
                             </span>
                           </p>
-                          <Link to={`/categories/670565355858fa34536cdefe`}>
+                          <Link to={`/categories/673339459e0dae6e0e3c5a87`}>
                             <button
                               onClick={handleCloseMenu}
                               className="py-2 px-4 bg-primary text-white rounded-lg hover:bg-primary-dark transition"
