@@ -22,7 +22,6 @@ const Categories = () => {
   const { data, isLoading, error, isFetching } = useGetProductsQuery(
     queryParams,
     {
-      // Skip the query if we're transitioning to ensure a fresh fetch
       refetchOnMountOrArgChange: true,
     }
   );
@@ -35,7 +34,6 @@ const Categories = () => {
 
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Handle category changes
   useEffect(() => {
     setIsTransitioning(true);
     setQueryParams({
@@ -45,7 +43,6 @@ const Categories = () => {
     });
   }, [categoryId]);
 
-  // Update filtered products and handle transition state
   useEffect(() => {
     if (data?.data?.products) {
       setFilteredProducts(data.data.products);
@@ -99,7 +96,6 @@ const Categories = () => {
     setQueryParams((prev) => ({ ...prev, page: newPage }));
   };
 
-  // Show loader during initial load, transitions, or when fetching new data
   if (isLoading || isTransitioning || isFetching) return <GroupCardsSkeleton />;
   if (SingleCategoryLoading) return <LoaderGradient />;
   if (error) return <div>Error: {error.message}</div>;
@@ -131,7 +127,7 @@ const Categories = () => {
                   {filteredProducts.map((product) => (
                     <div key={product._id} className="w-full">
                       <ProductCard
-                        className="w-full transition-all duration-300 ease-in-out hover:shadow-lg  hover:scale-[1.02]  h-full"
+                        className="w-full transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02] h-full"
                         product={product}
                       />
                     </div>
