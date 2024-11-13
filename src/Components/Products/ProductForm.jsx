@@ -97,27 +97,41 @@ export default function ProductForm({ onCancel, refetch }) {
     const files = Array.from(e.target.files);
 
     setSelectedImages((prevSelectedImages) => {
-      // Combine previous images and new ones, but ensure uniqueness by name and size
-      const combinedFiles = [
-        ...prevSelectedImages,
-        ...files.filter(
-          (file) =>
-            !prevSelectedImages.some(
-              (prevFile) =>
-                prevFile.name === file.name && prevFile.size === file.size
-            )
-        ),
-      ];
+      // Create a more comprehensive unique identifier for images
+      const getImageIdentifier = (file) => {
+        return `${file.name}-${file.size}-${file.lastModified}-${file.type}`;
+      };
 
-      // Slice to only keep up to 5 images
-      if (combinedFiles.length > 5) {
-        alert(
-          "You can only select up to 5 images. Only the first 5 will be kept."
-        );
+      // Map of existing images
+      const existingImageMap = new Map(
+        prevSelectedImages.map((file) => [getImageIdentifier(file), file])
+      );
+
+      // Filter new files
+      const newUniqueFiles = files.filter((file) => {
+        const fileId = getImageIdentifier(file);
+        return !existingImageMap.has(fileId);
+      });
+
+      // Create new array with unique files
+      const combinedFiles = [...prevSelectedImages];
+
+      // Add only new unique files
+      newUniqueFiles.forEach((file) => {
+        if (combinedFiles.length < 5) {
+          combinedFiles.push(file);
+        }
+      });
+
+      // Alert if files were skipped due to limit
+      if (combinedFiles.length + newUniqueFiles.length > 5) {
+        alert("Only the first 5 images will be kept.");
       }
 
       return combinedFiles.slice(0, 5);
     });
+
+    e.target.value = "";
   };
 
   const removeImage = (index) => {
@@ -174,9 +188,24 @@ export default function ProductForm({ onCancel, refetch }) {
       formData.append("defaultType", data.type);
     }
 
-    // Append images
-    selectedImages.forEach((image, index) => {
-      formData.append("images", image);
+    // Use Set to ensure unique images before appending
+    const uniqueImages = Array.from(
+      new Set(
+        selectedImages.map(
+          (img) => `${img.name}-${img.size}-${img.lastModified}-${img.type}`
+        )
+      )
+    );
+
+    // Append only unique images
+    uniqueImages.forEach((imageId, index) => {
+      const image = selectedImages.find(
+        (img) =>
+          `${img.name}-${img.size}-${img.lastModified}-${img.type}` === imageId
+      );
+      if (image) {
+        formData.append("images", image);
+      }
     });
 
     try {
@@ -187,7 +216,6 @@ export default function ProductForm({ onCancel, refetch }) {
         setSuccessMessage("Product successfully added!");
         setIsSuccessDialogOpen(true);
 
-        // Set a timeout to close the success dialog after 3 seconds
         setSuccessDialogTimeout(
           setTimeout(() => {
             setIsSuccessDialogOpen(false);
