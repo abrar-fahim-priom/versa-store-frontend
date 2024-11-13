@@ -93,38 +93,28 @@ export default function ProductForm({ onCancel, refetch }) {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
-    setSelectedImages((prevSelectedImages) => {
-      const getImageIdentifier = (file) => {
-        return `${file.name}-${file.size}-${file.lastModified}-${file.type}`;
-      };
+    setSelectedImages((prevImages) => {
+      const newImages = [...prevImages];
 
-      const existingImageMap = new Map(
-        prevSelectedImages.map((file) => [getImageIdentifier(file), file])
-      );
+      // Collect the names of already selected images to avoid duplicates
+      const existingFileNames = new Set(newImages.map((img) => img.name));
 
-      const newUniqueFiles = files.filter((file) => {
-        const fileId = getImageIdentifier(file);
-        return !existingImageMap.has(fileId);
-      });
-
-      const combinedFiles = [...prevSelectedImages];
-      newUniqueFiles.forEach((file) => {
-        if (combinedFiles.length < 5) {
-          combinedFiles.push(file);
+      files.forEach((file) => {
+        if (newImages.length < 5 && !existingFileNames.has(file.name)) {
+          newImages.push(file);
+          existingFileNames.add(file.name); // Track added file
         }
       });
 
-      // Only show alert if attempting to add more than 5 images
-      if (
-        combinedFiles.length === 5 &&
-        files.length + prevSelectedImages.length > 5
-      ) {
+      // If attempting to add more than 5 images, alert the user
+      if (files.length + prevImages.length > 5) {
         alert("Maximum 5 images allowed.");
       }
 
-      return combinedFiles.slice(0, 5);
+      return newImages.slice(0, 5); // Enforce a max of 5 images
     });
 
+    // Reset input to allow re-adding the same file if needed
     e.target.value = "";
   };
 
@@ -201,6 +191,7 @@ export default function ProductForm({ onCancel, refetch }) {
     formData.append("category", data.category);
     formData.append("type", data.type);
 
+    // Handle variants
     if (data.variants && data.variants.length > 0) {
       formData.append("variant", JSON.stringify(data.variants));
       formData.append("defaultType", data.defaultType);
@@ -208,22 +199,9 @@ export default function ProductForm({ onCancel, refetch }) {
       formData.append("defaultType", data.type);
     }
 
-    const uniqueImages = Array.from(
-      new Set(
-        selectedImages.map(
-          (img) => `${img.name}-${img.size}-${img.lastModified}-${img.type}`
-        )
-      )
-    );
-
-    uniqueImages.forEach((imageId, index) => {
-      const image = selectedImages.find(
-        (img) =>
-          `${img.name}-${img.size}-${img.lastModified}-${img.type}` === imageId
-      );
-      if (image) {
-        formData.append("images", image);
-      }
+    // Simply append all selected images
+    selectedImages.forEach((image, index) => {
+      formData.append("images", image);
     });
 
     try {
