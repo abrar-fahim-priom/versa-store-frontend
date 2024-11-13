@@ -27,9 +27,9 @@ export default function ProductForm({ onCancel, refetch }) {
   } = useGetCategoriesQuery();
 
   const [successDialogTimeout, setSuccessDialogTimeout] = useState(null);
+  const [formErrors, setFormErrors] = useState([]);
 
   useEffect(() => {
-    // Clean up the success dialog timeout when the component unmounts
     return () => {
       if (successDialogTimeout) {
         clearTimeout(successDialogTimeout);
@@ -42,15 +42,12 @@ export default function ProductForm({ onCancel, refetch }) {
     { isLoading: isCreating, isError: createError, isSuccess: createSuccess },
   ] = useCreateProductMutation();
 
-  // State for success and error dialogs
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Extract categories from the response
   const categories = data?.categories || [];
-
   const [query, setQuery] = useState("");
   const [variants, setVariants] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -97,35 +94,32 @@ export default function ProductForm({ onCancel, refetch }) {
     const files = Array.from(e.target.files);
 
     setSelectedImages((prevSelectedImages) => {
-      // Create a more comprehensive unique identifier for images
       const getImageIdentifier = (file) => {
         return `${file.name}-${file.size}-${file.lastModified}-${file.type}`;
       };
 
-      // Map of existing images
       const existingImageMap = new Map(
         prevSelectedImages.map((file) => [getImageIdentifier(file), file])
       );
 
-      // Filter new files
       const newUniqueFiles = files.filter((file) => {
         const fileId = getImageIdentifier(file);
         return !existingImageMap.has(fileId);
       });
 
-      // Create new array with unique files
       const combinedFiles = [...prevSelectedImages];
-
-      // Add only new unique files
       newUniqueFiles.forEach((file) => {
         if (combinedFiles.length < 5) {
           combinedFiles.push(file);
         }
       });
 
-      // Alert if files were skipped due to limit
-      if (combinedFiles.length + newUniqueFiles.length > 5) {
-        alert("Only the first 5 images will be kept.");
+      // Only show alert if attempting to add more than 5 images
+      if (
+        combinedFiles.length === 5 &&
+        files.length + prevSelectedImages.length > 5
+      ) {
+        alert("Maximum 5 images allowed.");
       }
 
       return combinedFiles.slice(0, 5);
@@ -156,8 +150,36 @@ export default function ProductForm({ onCancel, refetch }) {
   const [serverErrors, setServerErrors] = useState({});
 
   const onError = (errors) => {
-    console.log("Form validation failed!");
-    console.log("Validation errors:", errors);
+    console.log("Form validation failed:", errors);
+    const errorMessages = [];
+
+    // Collect all validation errors
+    Object.keys(errors).forEach((key) => {
+      if (errors[key]) {
+        if (errors[key].message) {
+          errorMessages.push(`${key}: ${errors[key].message}`);
+        }
+
+        // Handle nested errors in variants
+        if (key === "variants" && errors[key].length > 0) {
+          errors[key].forEach((variantError, index) => {
+            Object.keys(variantError).forEach((field) => {
+              if (variantError[field].message) {
+                errorMessages.push(
+                  `Variant ${index + 1} ${field}: ${
+                    variantError[field].message
+                  }`
+                );
+              }
+            });
+          });
+        }
+      }
+    });
+
+    setFormErrors(errorMessages);
+    setErrorMessage("Please correct the following errors:");
+    setIsErrorDialogOpen(true);
   };
 
   const inputClasses =
@@ -166,8 +188,7 @@ export default function ProductForm({ onCancel, refetch }) {
     "absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500";
 
   const onSubmit = async (data) => {
-    console.log("Raw form data:", data);
-
+    setFormErrors([]); // Clear previous errors
     const formData = new FormData();
 
     // Append basic product information
@@ -180,7 +201,6 @@ export default function ProductForm({ onCancel, refetch }) {
     formData.append("category", data.category);
     formData.append("type", data.type);
 
-    // Handle variants
     if (data.variants && data.variants.length > 0) {
       formData.append("variant", JSON.stringify(data.variants));
       formData.append("defaultType", data.defaultType);
@@ -188,7 +208,6 @@ export default function ProductForm({ onCancel, refetch }) {
       formData.append("defaultType", data.type);
     }
 
-    // Use Set to ensure unique images before appending
     const uniqueImages = Array.from(
       new Set(
         selectedImages.map(
@@ -197,7 +216,6 @@ export default function ProductForm({ onCancel, refetch }) {
       )
     );
 
-    // Append only unique images
     uniqueImages.forEach((imageId, index) => {
       const image = selectedImages.find(
         (img) =>
@@ -210,7 +228,6 @@ export default function ProductForm({ onCancel, refetch }) {
 
     try {
       const response = await createProduct(formData).unwrap();
-      console.log("The response:", response);
 
       if (response?.success) {
         setSuccessMessage("Product successfully added!");
@@ -227,13 +244,18 @@ export default function ProductForm({ onCancel, refetch }) {
       }
     } catch (err) {
       console.error("Failed to create product:", err);
-      console.error("Error details:", JSON.stringify(err, null, 2));
+
       if (err.data && err.data.errors) {
         const errors = {};
+        const errorMessages = [];
+
         err.data.errors.forEach((error) => {
           errors[error.path] = error.msg;
+          errorMessages.push(`${error.path}: ${error.msg}`);
         });
+
         setServerErrors(errors);
+        setFormErrors(errorMessages);
         setErrorMessage("Failed to create product. Please check the errors.");
         setIsErrorDialogOpen(true);
       }
@@ -242,7 +264,6 @@ export default function ProductForm({ onCancel, refetch }) {
 
   return (
     <>
-      {/* Success Dialog */}
       <Transition appear show={isSuccessDialogOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -299,7 +320,6 @@ export default function ProductForm({ onCancel, refetch }) {
         </Dialog>
       </Transition>
 
-      {/* Error Dialog */}
       <Transition appear show={isErrorDialogOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -337,7 +357,16 @@ export default function ProductForm({ onCancel, refetch }) {
                     Error
                   </Dialog.Title>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">{errorMessage}</p>
+                    <p className="text-sm font-medium text-red-600 mb-2">
+                      {errorMessage}
+                    </p>
+                    <ul className="list-disc list-inside text-sm text-gray-500">
+                      {formErrors.map((error, index) => (
+                        <li key={index} className="mb-1">
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
                   <div className="mt-4">
@@ -780,17 +809,22 @@ export default function ProductForm({ onCancel, refetch }) {
           </button>
         </div>
 
-        {createSuccess && (
-          <div className="mt-4 p-4 bg-green-100 text-green-700 rounded">
-            Product created successfully!
-          </div>
-        )}
-
-        {createError && (
-          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
-            Error creating product. Please check the form and try again.
-          </div>
-        )}
+        <div className="mt-6">
+          {(createError || formErrors.length > 0) && (
+            <div className="p-4 mb-4 bg-red-50 border border-red-200 rounded">
+              <h4 className="text-red-800 font-medium mb-2">
+                Please correct the following errors:
+              </h4>
+              <ul className="list-disc list-inside text-red-600">
+                {formErrors.map((error, index) => (
+                  <li key={index} className="mb-1">
+                    {error}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </form>
     </>
   );
