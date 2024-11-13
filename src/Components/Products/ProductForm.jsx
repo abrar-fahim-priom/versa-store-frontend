@@ -99,14 +99,21 @@ export default function ProductForm({ onCancel, refetch }) {
       // Collect the names of already selected images to avoid duplicates
       const existingFileNames = new Set(newImages.map((img) => img.name));
 
-      files.forEach((file) => {
-        if (newImages.length < 5 && !existingFileNames.has(file.name)) {
-          newImages.push(file);
-          existingFileNames.add(file.name); // Track added file
+      files.forEach((file, index) => {
+        // Create a unique name for each new file by appending a timestamp and index
+        const uniqueName = `${Date.now()}-${index}-${file.name}`;
+
+        // Rename file with the unique name to avoid duplication issues
+        const uniqueFile = new File([file], uniqueName, { type: file.type });
+
+        // Add file if it's unique and within the limit of 5 images
+        if (newImages.length < 5 && !existingFileNames.has(uniqueFile.name)) {
+          newImages.push(uniqueFile);
+          existingFileNames.add(uniqueFile.name); // Track added file
         }
       });
 
-      // If attempting to add more than 5 images, alert the user
+      // Alert user if attempting to add more than 5 images
       if (files.length + prevImages.length > 5) {
         alert("Maximum 5 images allowed.");
       }

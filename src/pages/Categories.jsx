@@ -16,7 +16,7 @@ const Categories = () => {
   const [queryParams, setQueryParams] = useState({
     category: categoryId,
     page: 1,
-    limit: 20,
+    limit: 15,
   });
 
   const { data, isLoading, error, isFetching } = useGetProductsQuery(
@@ -41,7 +41,7 @@ const Categories = () => {
     setQueryParams({
       category: categoryId,
       page: 1,
-      limit: 20,
+      limit: 15,
     });
   }, [categoryId]);
 
@@ -146,14 +146,15 @@ const Categories = () => {
               )}
 
               <div className="flex justify-center mt-4">
-                <button
-                  className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                  onClick={() => handlePageChange(queryParams.page - 1)}
-                  disabled={queryParams.page === 1}
-                >
-                  Previous
-                </button>
-                {filteredProducts.length > 0 && (
+                {queryParams.page > 1 && (
+                  <button
+                    className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600"
+                    onClick={() => handlePageChange(queryParams.page - 1)}
+                  >
+                    Previous
+                  </button>
+                )}
+                {filteredProducts.length === queryParams.limit && (
                   <button
                     className="mx-2 px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600"
                     onClick={() => handlePageChange(queryParams.page + 1)}
