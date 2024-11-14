@@ -85,7 +85,10 @@ const RegistrationForm = () => {
         }
       );
 
+      console.log(response);
+
       if (response.data?.success) {
+        console.log("registration successful");
         navigate("/login", { replace: true });
       }
     } catch (error) {
