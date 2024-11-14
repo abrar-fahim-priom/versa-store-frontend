@@ -14,18 +14,36 @@ export const Lens = ({
   const containerRef = useRef(null);
 
   const [localIsHovering, setLocalIsHovering] = useState(false);
-
   const isHovering = hovering !== undefined ? hovering : localIsHovering;
   const setIsHovering = setHovering || setLocalIsHovering;
 
-  // const [isHovering, setIsHovering] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 100, y: 100 });
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     setMousePosition({ x, y });
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 1) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = e.touches[0].clientY - rect.top;
+      setMousePosition({ x, y });
+      setIsHovering(true); // Keeps the lens visible while dragging
+    }
+  };
+
+  const handleTouchStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    setIsHovering(false); // Hide lens when touch ends
   };
 
   return (
@@ -37,6 +55,9 @@ export const Lens = ({
       }}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {children}
       {isStatic ? (
@@ -70,7 +91,7 @@ export const Lens = ({
         </div>
       ) : (
         <AnimatePresence>
-          {isHovering && (
+          {(isHovering || isDragging) && (
             <div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.58 }}
