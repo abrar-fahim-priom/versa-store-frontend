@@ -41,7 +41,7 @@ export default function ContinueWithGoogle({
         const { accessToken, refreshToken } = tokens;
 
         setAuth({ user, accessToken, refreshToken });
-        setEncryptedCookie("_at", accessToken, 3 / 1440); // 3 minutes
+        setEncryptedCookie("_at", accessToken, 1 / 24); // 1 hour
         setEncryptedCookie("_rt", refreshToken, 1); // 1 day
 
         navigate("/");

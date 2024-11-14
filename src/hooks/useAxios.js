@@ -44,7 +44,7 @@ const useAxios = () => {
                 refreshToken: newRefreshToken,
               } = response.data.tokens;
 
-              setEncryptedCookie("_at", newAccessToken, 1 / 1440);
+              setEncryptedCookie("_at", newAccessToken, 1 / 24);
               setEncryptedCookie("_rt", newRefreshToken, 1);
 
               const userInfo = decodeToken(newAccessToken);
