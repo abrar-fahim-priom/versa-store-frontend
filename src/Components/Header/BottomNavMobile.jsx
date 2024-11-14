@@ -46,7 +46,7 @@ const BottomNavMobile = ({ onClickClose }) => {
       <div className="max-w-screen-xl mx-auto">
         <div className="flex justify-around">
           <Darkmode />
-          <UserAccount />
+          <UserAccount onClickClose={onClickClose} />
         </div>
 
         {/* Categories */}
