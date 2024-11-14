@@ -30,7 +30,7 @@ const useAxios = () => {
           try {
             const refreshToken = auth?.refreshToken;
             const response = await axios.post(
-              "http://localhost:8080/api/v1/auth/refresh-token",
+              `${import.meta.env.VITE_SERVER_BASE_URL}/auth/refresh-token`,
               { refreshToken },
               {
                 headers: { "Content-Type": "application/json" },
