@@ -21,7 +21,7 @@ const Tooltip = ({ message, visible }) => {
   if (!visible) return null;
 
   return (
-    <div className="absolute top-12 right-0 w-72 bg-blue-600 text-white text-sm py-3 px-4 rounded-md shadow-lg z-50 transition-all duration-300 ease-in-out">
+    <div className="absolute top-12 right-0 w-72 bg-blue-600 text-white text-sm py-3 px-4 rounded-md shadow-lg z-50 transition-all duration-300 ease-in-out hidden md:block">
       <div className="relative">
         <div className="absolute -top-6 right-3 text-blue-600">
           <svg
