@@ -19,7 +19,6 @@ const axiosBaseQuery = () => async (args) => {
     };
 
     const result = await api(config);
-    console.log(result);
 
     return { data: result.data };
   } catch (axiosError) {
