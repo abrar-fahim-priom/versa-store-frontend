@@ -62,7 +62,7 @@ const SearchDropdown = ({
                 className="w-16 h-16 object-cover rounded-md"
               />
               <div>
-                <h3 className="text-lg dark:text-white font-medium">
+                <h3 className="text-sm dark:text-white font-medium">
                   {product.name}
                 </h3>
                 <p className="text-green-600">{product.price.toFixed(2)} ৳</p>
