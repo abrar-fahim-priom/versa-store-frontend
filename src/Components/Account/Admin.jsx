@@ -215,18 +215,21 @@ export default function Admin() {
                     {/* Products List */}
                     <div className="space-y-4 mt-4">
                       {order.products.map((item) => (
-                        <div key={item._id} className="flex items-center gap-4">
+                        <div
+                          key={item?._id}
+                          className="flex items-center gap-4"
+                        >
                           <img
-                            src={item.product.images?.[0]?.url}
-                            alt={item.product.name}
+                            src={item?.product?.images?.[0]?.url}
+                            alt={item?.product?.name}
                             className="w-20 h-20 object-cover rounded"
                           />
                           <div>
                             <p className="font-medium text-gray-800 dark:text-white">
-                              {item.product.name}
+                              {item?.product?.name}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Quantity: {item.count}
+                              Quantity: {item?.count}
                             </p>
                           </div>
                         </div>
@@ -247,7 +250,7 @@ export default function Admin() {
                               Name:
                             </span>
                             <span className="text-gray-800 dark:text-white">
-                              {order.orderName}
+                              {order?.orderName}
                             </span>
                           </div>
                           <div className="flex">
@@ -255,7 +258,7 @@ export default function Admin() {
                               Phone:
                             </span>
                             <span className="text-gray-800 dark:text-white">
-                              {order.phoneNumber}
+                              {order?.phoneNumber}
                             </span>
                           </div>
                           <div className="flex">
@@ -263,9 +266,9 @@ export default function Admin() {
                               Address:
                             </span>
                             <span className="text-gray-800 dark:text-white">
-                              {order.houseNo}, {order.subDistrict},{" "}
-                              {order.district}, {order.division},{" "}
-                              {order.postCode}
+                              {order?.houseNo}, {order?.subDistrict},{" "}
+                              {order?.district}, {order?.division},{" "}
+                              {order?.postCode}
                             </span>
                           </div>
                         </div>
